@@ -7,17 +7,14 @@ const Index = () => {
     id: 'tool-title',
     title: 'Tool title',
     color: 'blue',
-    summary:
-      'Summary of tool.',
+    summary: 'Summary of tool.',
   }
 
   const title = <Styled.h1>{meta.title}</Styled.h1>
 
   const description = (
     <Box sx={{ maxWidth: '700px', mb: [0, 0, 4] }}>
-      <Styled.p>
-        Description of the tool.
-      </Styled.p>
+      <Styled.p>Description of the tool.</Styled.p>
     </Box>
   )
 
