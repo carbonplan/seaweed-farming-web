@@ -1,27 +1,23 @@
-import { Box, Styled, Link } from 'theme-ui'
-import { default as NextLink } from 'next/link'
-import Tool from '../components/tool'
+import { useState } from 'react'
+import { Layout } from '@carbonplan/components'
+
+import Map from '../components/map'
 
 const Index = () => {
-  const meta = {
-    id: 'tool-title',
-    title: 'Tool title',
-    color: 'blue',
-    summary: 'Summary of tool.',
-  }
-
-  const title = <Styled.h1>{meta.title}</Styled.h1>
-
-  const description = (
-    <Box sx={{ maxWidth: '700px', mb: [0, 0, 4] }}>
-      <Styled.p>Description of the tool.</Styled.p>
-    </Box>
-  )
+  const [map, setMap] = useState(null)
 
   return (
-    <Tool meta={meta} title={title} description={description}>
-      This is a tool.
-    </Tool>
+    <Layout
+      description={'Mapping cost of macroalgae CDR.'}
+      title='macroalgae / research / carbonplan'
+      header={false}
+      dimmer={false}
+      footer={false}
+      metadata={false}
+      guide={'teal'}
+    >
+      <Map onMapReady={setMap} />
+    </Layout>
   )
 }
 
