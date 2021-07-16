@@ -1,22 +1,19 @@
-import { useState } from 'react'
 import { Layout } from '@carbonplan/components'
 
-import Map from '../components/map'
+import Tool from '../components/tool'
 
 const Index = () => {
-  const [map, setMap] = useState(null)
-
   return (
     <Layout
-      description={'Mapping cost of macroalgae CDR.'}
+      description='Mapping cost of macroalgae CDR.'
       title='macroalgae / research / carbonplan'
       header={false}
       dimmer={false}
       footer={false}
       metadata={false}
-      guide={'teal'}
+      guide='teal'
     >
-      <Map onMapReady={setMap} />
+      <Tool />
     </Layout>
   )
 }

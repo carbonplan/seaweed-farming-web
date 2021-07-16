@@ -1,6 +1,7 @@
 import mapboxgl from 'mapbox-gl'
 import { useThemeUI, Box } from 'theme-ui'
 import { useEffect, useState, useRef } from 'react'
+import { rgba } from 'polished'
 
 import style from './style'
 
@@ -17,14 +18,8 @@ const Map = ({ onMapReady }) => {
     const map = new mapboxgl.Map({
       container: container.current,
       style: style(colors),
-      //   center: [-121.9, 43.11],
-      //   zoom: 6.79,
-      //   minZoom: 3,
-      //   maxZoom: 9,
-      //   maxBounds: [
-      //     [-155, 5],
-      //     [-45, 65],
-      //   ],
+      center: [-121.9, 43.11],
+      zoom: 6.79,
     })
 
     map.on('load', () => {
@@ -38,12 +33,38 @@ const Map = ({ onMapReady }) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (!map) return
+    map.setPaintProperty('background', 'background-color', colors.background)
+    map.setPaintProperty('background', 'background-opacity', 1)
+    map.setPaintProperty('lakes', 'fill-color', colors.muted)
+    map.setPaintProperty('lakes', 'fill-opacity', 0.25)
+    map.setPaintProperty('countries', 'line-color', colors.primary)
+    map.setPaintProperty('countries', 'line-opacity', 0.25)
+    map.setPaintProperty('states', 'line-color', colors.primary)
+    map.setPaintProperty('states', 'line-opacity', 0.4)
+    map.setPaintProperty('roads', 'line-color', colors.primary)
+    map.setPaintProperty('roads', 'line-opacity', 0.2)
+  }, [colors, map])
+
+  useEffect(() => {
+    if (!map) return
+    map.setPaintProperty('fire', 'circle-opacity', 1)
+    map.setPaintProperty('fire', 'circle-color', {
+      property: '0-0',
+      stops: [
+        [2.5, rgba(colors.orange, 0)],
+        [10, colors.orange],
+      ],
+    })
+  }, [map])
+
   return (
     <Box
       ref={container}
       sx={{
-        height: '100%',
-        width: '100%',
+        flexBasis: '100%',
+        position: 'relative',
         'canvas.mapboxgl-canvas:focus': {
           outline: 'none',
         },
