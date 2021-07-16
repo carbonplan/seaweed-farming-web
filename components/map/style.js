@@ -97,7 +97,7 @@ const style = (colors) => {
         'source-layer': 'fire',
         layout: { visibility: 'visible' },
         paint: {
-          'circle-opacity': 0,
+          'circle-opacity': 1,
           'circle-color': background,
           'circle-radius': [
             'interpolate',

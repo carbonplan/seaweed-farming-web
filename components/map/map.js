@@ -7,7 +7,7 @@ import style from './style'
 
 mapboxgl.accessToken = ''
 
-const Map = ({ onMapReady }) => {
+const Map = ({ onMapReady, options }) => {
   const {
     theme: { rawColors: colors },
   } = useThemeUI()
@@ -35,6 +35,7 @@ const Map = ({ onMapReady }) => {
 
   useEffect(() => {
     if (!map) return
+    console.log('setting other colors')
     map.setPaintProperty('background', 'background-color', colors.background)
     map.setPaintProperty('background', 'background-opacity', 1)
     map.setPaintProperty('lakes', 'fill-color', colors.muted)
@@ -49,22 +50,21 @@ const Map = ({ onMapReady }) => {
 
   useEffect(() => {
     if (!map) return
-    map.setPaintProperty('fire', 'circle-opacity', 1)
+    console.log('setting fire color')
     map.setPaintProperty('fire', 'circle-color', {
-      property: '0-0',
+      property: '0_0',
       stops: [
         [2.5, rgba(colors.orange, 0)],
         [10, colors.orange],
       ],
     })
-  }, [map])
+  }, [colors, map])
 
   return (
     <Box
       ref={container}
       sx={{
         flexBasis: '100%',
-        position: 'relative',
         'canvas.mapboxgl-canvas:focus': {
           outline: 'none',
         },

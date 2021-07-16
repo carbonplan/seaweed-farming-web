@@ -1,29 +1,35 @@
 import { Box } from 'theme-ui'
-import {
-  Layout,
-  Guide,
-  Row,
-  Column,
-  Buttons,
-  Links,
-} from '@carbonplan/components'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import Map from './map'
+import Options from './options'
 
-const prefix = 'https://images.carbonplan.org'
+const initialOptions = {
+  operatingCost: 5,
+  transportationCost: 5,
+}
 
 const Tool = () => {
   const [map, setMap] = useState(null)
-
+  const [options, setOptions] = useState(initialOptions)
+  const handleOptionChange = useCallback((option, value) => {
+    setOptions({ ...options, [option]: value })
+  })
   return (
     <Box
       sx={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
         width: '100vw',
         height: '100vh',
         display: 'flex',
+        flexDirection: 'column',
       }}
     >
-      <Map onMapReady={setMap} />
+      <Options options={options} onChange={handleOptionChange} />
+      <Map onMapReady={setMap} options={options} />
     </Box>
   )
 }

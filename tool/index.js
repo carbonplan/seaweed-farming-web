@@ -8,7 +8,7 @@ const Index = () => {
       description='Mapping cost of macroalgae CDR.'
       title='macroalgae / research / carbonplan'
       header={false}
-      dimmer={false}
+      dimmer='bottom'
       footer={false}
       metadata={false}
       guide='teal'
