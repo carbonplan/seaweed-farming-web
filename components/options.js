@@ -1,14 +1,5 @@
 import { Box, Container } from 'theme-ui'
-import {
-  Layout,
-  Guide,
-  Row,
-  Column,
-  Buttons,
-  Links,
-  Slider,
-} from '@carbonplan/components'
-import { useState } from 'react'
+import { Row, Column, Slider } from '@carbonplan/components'
 
 const prefix = 'https://images.carbonplan.org'
 
@@ -32,8 +23,8 @@ const Options = ({ options, onChange }) => {
             <Slider
               value={operatingCost}
               min={0}
-              max={10}
-              step={1}
+              max={100}
+              step={10}
               onChange={(e) =>
                 onChange('operatingCost', parseFloat(e.target.value))
               }

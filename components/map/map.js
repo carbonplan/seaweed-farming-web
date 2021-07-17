@@ -7,6 +7,11 @@ import style from './style'
 
 mapboxgl.accessToken = ''
 
+const PROPERTIES = {
+  D2PORT: '0_0',
+  PRODUCTION: '0_1',
+}
+
 const Map = ({ onMapReady, options }) => {
   const {
     theme: { rawColors: colors },
@@ -51,14 +56,51 @@ const Map = ({ onMapReady, options }) => {
   useEffect(() => {
     if (!map) return
     console.log('setting fire color')
-    map.setPaintProperty('fire', 'circle-color', {
-      property: '0_0',
-      stops: [
-        [2.5, rgba(colors.orange, 0)],
-        [10, colors.orange],
+    // v2
+    // interpolating with multiple properties + options
+    map.setPaintProperty('fire', 'circle-color', [
+      'interpolate',
+      ['linear'],
+      [
+        '/',
+        [
+          '+',
+          options.operatingCost,
+          [
+            '*',
+            ['get', PROPERTIES.D2PORT],
+            options.transportationCost,
+            ['get', PROPERTIES.PRODUCTION],
+          ],
+        ],
+        ['get', PROPERTIES.PRODUCTION],
       ],
-    })
-  }, [colors, map])
+      10,
+      rgba(colors.orange, 0),
+      100,
+      colors.orange,
+    ])
+    // v1
+    // using manual interpolation:
+    // map.setPaintProperty('fire', 'circle-color', [
+    //   'interpolate',
+    //   ['linear'],
+    //   ['get', '0_0'],
+    //   2.5,
+    //   rgba(colors.orange, 0),
+    //   10,
+    //   colors.orange,
+    // ])
+    // v0
+    // original:
+    // map.setPaintProperty('fire', 'circle-color', {
+    //   property: '0_0',
+    //   stops: [
+    //     [2.5, rgba(colors.orange, 0)],
+    //     [10, colors.orange],
+    //   ],
+    // })
+  }, [colors, map, options])
 
   return (
     <Box

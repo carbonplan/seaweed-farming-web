@@ -4,7 +4,7 @@ import Map from './map'
 import Options from './options'
 
 const initialOptions = {
-  operatingCost: 5,
+  operatingCost: 50,
   transportationCost: 5,
 }
 
