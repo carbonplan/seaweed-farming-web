@@ -56,23 +56,6 @@ const style = (colors) => {
         },
       },
       {
-        id: 'states',
-        type: 'line',
-        source: 'basemap',
-        'source-layer': 'ne_10m_admin_1_states_provinces',
-        layout: {
-          'line-cap': 'round',
-          'line-join': 'round',
-          visibility: 'visible',
-        },
-        paint: {
-          'line-blur': 0.4,
-          'line-opacity': 0,
-          'line-width': 0.8,
-          'line-color': primary,
-        },
-      },
-      {
         id: 'roads',
         type: 'line',
         source: 'basemap',

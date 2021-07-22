@@ -113,8 +113,7 @@ def build_basemap():
 
     cmds.append(
         'tippecanoe '
-        '-Z0 '
-        '-z2 '
+        '-z5 '
         '-o tmp/countries.mbtiles '
         '--no-feature-limit '
         '--no-tile-size-limit '
@@ -124,25 +123,12 @@ def build_basemap():
     )
 
     cmds.append(
-        'tippecanoe '
-        '-Z3 '
-        '-z5 '
-        '-o tmp/provinces.mbtiles '
-        '--no-feature-limit '
-        '--no-tile-size-limit '
-        '--extend-zooms-if-still-dropping '
-        '--no-tile-compression '
-        'raw/ne_10m_admin_1_states_provinces.geojson '
-    )
-
-    cmds.append(
         'tile-join '
         '-o tmp/basemap.mbtiles '
         '--no-tile-compression '
         '--no-tile-size-limit '
         'tmp/water.mbtiles '
         'tmp/countries.mbtiles '
-        'tmp/provinces.mbtiles '
     )
 
     cmds.append(

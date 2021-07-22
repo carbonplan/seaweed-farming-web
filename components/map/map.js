@@ -61,8 +61,6 @@ const Map = ({ onMapReady, options }) => {
     map.setPaintProperty('lakes', 'fill-opacity', 0.25)
     map.setPaintProperty('countries', 'line-color', colors.primary)
     map.setPaintProperty('countries', 'line-opacity', 0.25)
-    map.setPaintProperty('states', 'line-color', colors.primary)
-    map.setPaintProperty('states', 'line-opacity', 0.4)
     map.setPaintProperty('roads', 'line-color', colors.primary)
     map.setPaintProperty('roads', 'line-opacity', 0.2)
   }, [colors, map])
