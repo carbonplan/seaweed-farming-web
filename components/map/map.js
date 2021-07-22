@@ -84,7 +84,7 @@ const Map = ({ onMapReady, options }) => {
         ],
         ['get', PROPERTIES.PRODUCTION],
       ],
-      0,
+      1,
       colors.green,
       1000,
       rgba(colors.green, 0),

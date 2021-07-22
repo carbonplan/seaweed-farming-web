@@ -22,7 +22,7 @@ const Options = ({ options, onChange }) => {
             Operating cost: {operatingCost}
             <Slider
               value={operatingCost}
-              min={0}
+              min={1}
               max={100}
               step={10}
               onChange={(e) =>
