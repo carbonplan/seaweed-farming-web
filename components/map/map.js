@@ -8,9 +8,20 @@ import style from './style'
 mapboxgl.accessToken = ''
 
 const PROPERTIES = {
-  D2PORT: '0_0',
-  PRODUCTION: '0_1',
+  D2PORT: 'd2p',
+  PRODUCTION: 'Growth2',
 }
+
+// Raw properties
+// Growth2 (example value: 0.0)
+// d_Be (example value: 0.0)
+// d_Bm (example value: 0.0)
+// d_Ns (example value: 0.0)
+// harv (example value: 0.0)
+// elevation (example value: 196.2824)
+// d2p (example value: 777.9373)
+// mask (example value: 0.1426)
+// area (example value: 1070561.2503)
 
 const Map = ({ onMapReady, options }) => {
   const {
@@ -32,6 +43,10 @@ const Map = ({ onMapReady, options }) => {
       onMapReady(map)
     })
 
+    // map.on('move', () => {
+    //   console.log(map.getZoom())
+    // })
+
     return function cleanup() {
       setMap(null)
       map.remove()
@@ -40,7 +55,6 @@ const Map = ({ onMapReady, options }) => {
 
   useEffect(() => {
     if (!map) return
-    console.log('setting other colors')
     map.setPaintProperty('background', 'background-color', colors.background)
     map.setPaintProperty('background', 'background-opacity', 1)
     map.setPaintProperty('lakes', 'fill-color', colors.muted)
@@ -55,10 +69,7 @@ const Map = ({ onMapReady, options }) => {
 
   useEffect(() => {
     if (!map) return
-    console.log('setting fire color')
-    // v2
-    // interpolating with multiple properties + options
-    map.setPaintProperty('fire', 'circle-color', [
+    map.setPaintProperty('macroalgae', 'circle-color', [
       'interpolate',
       ['linear'],
       [
@@ -75,31 +86,11 @@ const Map = ({ onMapReady, options }) => {
         ],
         ['get', PROPERTIES.PRODUCTION],
       ],
-      10,
-      rgba(colors.orange, 0),
-      100,
-      colors.orange,
+      0,
+      colors.green,
+      1000,
+      rgba(colors.green, 0),
     ])
-    // v1
-    // using manual interpolation:
-    // map.setPaintProperty('fire', 'circle-color', [
-    //   'interpolate',
-    //   ['linear'],
-    //   ['get', '0_0'],
-    //   2.5,
-    //   rgba(colors.orange, 0),
-    //   10,
-    //   colors.orange,
-    // ])
-    // v0
-    // original:
-    // map.setPaintProperty('fire', 'circle-color', {
-    //   property: '0_0',
-    //   stops: [
-    //     [2.5, rgba(colors.orange, 0)],
-    //     [10, colors.orange],
-    //   ],
-    // })
   }, [colors, map, options])
 
   return (

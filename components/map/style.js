@@ -12,9 +12,9 @@ const style = (colors) => {
         tiles: [`${config.basemap}/{z}/{x}/{y}.pbf`],
         maxzoom: 5,
       },
-      risks: {
+      macroalgae: {
         type: 'vector',
-        tiles: [`${config.risks}/{z}/{x}/{y}.pbf`],
+        tiles: [`${config.macroalgae}/{z}/{x}/{y}.pbf`],
         maxzoom: 5,
       },
     },
@@ -89,12 +89,11 @@ const style = (colors) => {
           'line-color': primary,
         },
       },
-      // temporarily pull in fire risk layer
       {
-        id: 'fire',
+        id: 'macroalgae',
         type: 'circle',
-        source: 'risks',
-        'source-layer': 'fire',
+        source: 'macroalgae',
+        'source-layer': 'macroalgae',
         layout: { visibility: 'visible' },
         paint: {
           'circle-opacity': 1,
