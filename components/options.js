@@ -24,7 +24,7 @@ const Options = ({ options, onChange }) => {
               value={operatingCost}
               min={1}
               max={100}
-              step={10}
+              step={1}
               onChange={(e) =>
                 onChange('operatingCost', parseFloat(e.target.value))
               }
