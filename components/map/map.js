@@ -1,7 +1,7 @@
 import mapboxgl from 'mapbox-gl'
 import { useThemeUI, Box } from 'theme-ui'
 import { useEffect, useState, useRef } from 'react'
-import { rgba } from 'polished'
+import { mix, rgba } from 'polished'
 
 import style from './style'
 
@@ -59,10 +59,13 @@ const Map = ({ onMapReady, options }) => {
     map.setPaintProperty('background', 'background-opacity', 1)
     map.setPaintProperty('lakes', 'fill-color', colors.muted)
     map.setPaintProperty('lakes', 'fill-opacity', 0.25)
-    map.setPaintProperty('countries', 'line-color', colors.primary)
-    map.setPaintProperty('countries', 'line-opacity', 0.25)
-    map.setPaintProperty('roads', 'line-color', colors.primary)
-    map.setPaintProperty('roads', 'line-opacity', 0.2)
+    map.setPaintProperty('countries-line', 'line-color', colors.primary)
+    map.setPaintProperty('countries-line', 'line-opacity', 0.25)
+    map.setPaintProperty(
+      'countries-fill',
+      'fill-color',
+      mix(0.2, colors.primary, colors.background)
+    )
   }, [colors, map])
 
   useEffect(() => {
