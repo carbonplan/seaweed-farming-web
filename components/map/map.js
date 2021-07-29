@@ -1,8 +1,9 @@
 import mapboxgl from 'mapbox-gl'
 import { useThemeUI, Box } from 'theme-ui'
 import { useEffect, useMemo, useState, useRef } from 'react'
-import { mix, rgba } from 'polished'
+import { mix } from 'polished'
 
+import { useMap } from './context'
 import style from './style'
 
 mapboxgl.accessToken = ''
@@ -24,12 +25,12 @@ const PROPERTIES = {
 // mask (example value: 0.1426)
 // area (example value: 1070561.2503)
 
-const Map = ({ dataRange, onMapReady, options, visibleLayers }) => {
+const Map = ({ dataRange, options, visibleLayers }) => {
   const {
     theme: { rawColors: colors },
   } = useThemeUI()
   const container = useRef(null)
-  const [map, setMap] = useState(null)
+  const mapContext = useMap()
 
   const propertyToMap = useMemo(() => {
     if (visibleLayers.COST) {
@@ -65,39 +66,41 @@ const Map = ({ dataRange, onMapReady, options, visibleLayers }) => {
     })
 
     map.on('load', () => {
-      setMap(map)
-      onMapReady(map)
+      mapContext.setMap(map)
     })
 
     map.on('move', () => {
       console.log('zoom: ', map.getZoom())
       console.log('center: ', map.getCenter())
     })
-
-    return function cleanup() {
-      setMap(null)
-      map.remove()
-    }
   }, [])
 
   useEffect(() => {
-    if (!map) return
-    map.setPaintProperty('background', 'background-color', colors.background)
-    map.setPaintProperty('background', 'background-opacity', 1)
-    map.setPaintProperty('lakes', 'fill-color', colors.muted)
-    map.setPaintProperty('lakes', 'fill-opacity', 0.25)
-    map.setPaintProperty('countries-line', 'line-color', colors.primary)
-    map.setPaintProperty('countries-line', 'line-opacity', 0.25)
-    map.setPaintProperty(
+    if (!mapContext.map) return
+    mapContext.map.setPaintProperty(
+      'background',
+      'background-color',
+      colors.background
+    )
+    mapContext.map.setPaintProperty('background', 'background-opacity', 1)
+    mapContext.map.setPaintProperty('lakes', 'fill-color', colors.muted)
+    mapContext.map.setPaintProperty('lakes', 'fill-opacity', 0.25)
+    mapContext.map.setPaintProperty(
+      'countries-line',
+      'line-color',
+      colors.primary
+    )
+    mapContext.map.setPaintProperty('countries-line', 'line-opacity', 0.25)
+    mapContext.map.setPaintProperty(
       'countries-fill',
       'fill-color',
       mix(0.2, colors.primary, colors.background)
     )
-  }, [colors, map])
+  }, [colors, mapContext.map])
 
   useEffect(() => {
-    if (!map) return
-    map.setPaintProperty('macroalgae', 'circle-color', [
+    if (!mapContext.map) return
+    mapContext.map.setPaintProperty('macroalgae', 'circle-color', [
       'interpolate',
       ['linear'],
       propertyToMap,
@@ -106,7 +109,7 @@ const Map = ({ dataRange, onMapReady, options, visibleLayers }) => {
       dataRange.max,
       colors.teal,
     ])
-  }, [colors, map, propertyToMap, dataRange])
+  }, [colors, mapContext.map, propertyToMap, dataRange])
 
   return (
     <Box
