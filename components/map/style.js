@@ -71,7 +71,7 @@ const style = (colors) => {
         source: 'basemap',
         'source-layer': 'ne_10m_admin_0_countries',
         paint: {
-          'fill-color': primary,
+          'fill-color': background,
           'fill-opacity': 1,
         },
       },

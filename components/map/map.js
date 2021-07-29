@@ -94,7 +94,7 @@ const Map = ({ dataRange, options, visibleLayers }) => {
     mapContext.map.setPaintProperty(
       'countries-fill',
       'fill-color',
-      mix(0.2, colors.primary, colors.background)
+      mix(0.05, colors.primary, colors.background)
     )
   }, [colors, mapContext.map])
 
