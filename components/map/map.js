@@ -24,7 +24,7 @@ const PROPERTIES = {
 // mask (example value: 0.1426)
 // area (example value: 1070561.2503)
 
-const Map = ({ onMapReady, options, visibleLayers }) => {
+const Map = ({ dataRange, onMapReady, options, visibleLayers }) => {
   const {
     theme: { rawColors: colors },
   } = useThemeUI()
@@ -101,12 +101,12 @@ const Map = ({ onMapReady, options, visibleLayers }) => {
       'interpolate',
       ['linear'],
       propertyToMap,
-      0,
+      dataRange.min,
       colors.background,
-      8000,
+      dataRange.max,
       colors.teal,
     ])
-  }, [colors, map, options, propertyToMap])
+  }, [colors, map, propertyToMap, dataRange])
 
   return (
     <Box

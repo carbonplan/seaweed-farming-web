@@ -1,6 +1,6 @@
 import { Box } from 'theme-ui'
 import { useCallback, useState } from 'react'
-import { Column, Filter, Row } from '@carbonplan/components'
+import { Column, Filter, Input, Row, Slider } from '@carbonplan/components'
 
 import Map from './map'
 import Options from './options'
@@ -11,16 +11,19 @@ const initialOptions = {
   transportationCost: 5,
 }
 const initLayers = {
-  COST: true,
-  GROWTH: false,
+  COST: false,
+  GROWTH: true,
   D2PORT: false,
   HARV: false,
 }
+const initRange = { min: 0, max: 4000 }
 
 const Tool = () => {
   const [map, setMap] = useState(null)
   const [options, setOptions] = useState(initialOptions)
   const [visibleLayers, setVisibleLayers] = useState(initLayers)
+  const [dataRange, setDataRange] = useState(initRange)
+
   const handleOptionChange = useCallback((option, value) => {
     setOptions({ ...options, [option]: value })
   })
@@ -47,6 +50,32 @@ const Tool = () => {
               filterLabels={{ layers: 'Layers' }}
               filterList={['layers']}
             />
+            Range minimum: {dataRange.min}
+            <Slider
+              size='sm'
+              value={dataRange.min}
+              min={0}
+              max={1000}
+              onChange={(e) =>
+                setDataRange({
+                  min: Number(e.target.value),
+                  max: dataRange.max,
+                })
+              }
+            />
+            Range maximum: {dataRange.max}
+            <Slider
+              value={dataRange.max}
+              size='sm'
+              min={100}
+              max={99999}
+              onChange={(e) =>
+                setDataRange({
+                  max: Number(e.target.value),
+                  min: dataRange.min,
+                })
+              }
+            />
           </Column>
           <Column start={[1, 7]} width={[6]}>
             <Options options={options} onChange={handleOptionChange} />
@@ -57,6 +86,7 @@ const Tool = () => {
         onMapReady={setMap}
         options={options}
         visibleLayers={visibleLayers}
+        dataRange={dataRange}
       />
     </Box>
   )

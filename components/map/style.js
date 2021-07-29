@@ -62,6 +62,7 @@ const style = (colors) => {
         },
       },
       microalgaeLayer('macroalgae', background),
+      // TODO: figure out why these cannot be painted
       microalgaeLayer('Growth2', background),
       microalgaeLayer('d2p', background),
       {
