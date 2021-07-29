@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl'
 import { useThemeUI, Box } from 'theme-ui'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useMemo, useState, useRef } from 'react'
 import { mix, rgba } from 'polished'
 
 import style from './style'
@@ -9,7 +9,8 @@ mapboxgl.accessToken = ''
 
 const PROPERTIES = {
   D2PORT: 'd2p',
-  PRODUCTION: 'Growth2',
+  GROWTH: 'Growth2',
+  HARV: 'harv',
 }
 
 // Raw properties
@@ -23,19 +24,44 @@ const PROPERTIES = {
 // mask (example value: 0.1426)
 // area (example value: 1070561.2503)
 
-const Map = ({ onMapReady, options }) => {
+const Map = ({ onMapReady, options, visibleLayers }) => {
   const {
     theme: { rawColors: colors },
   } = useThemeUI()
   const container = useRef(null)
   const [map, setMap] = useState(null)
 
+  const propertyToMap = useMemo(() => {
+    if (visibleLayers.COST) {
+      return [
+        '/',
+        [
+          '+',
+          options.operatingCost,
+          [
+            '*',
+            ['get', PROPERTIES.D2PORT],
+            options.transportationCost,
+            ['get', PROPERTIES.GROWTH],
+          ],
+        ],
+        ['get', PROPERTIES.GROWTH],
+      ]
+    } else if (visibleLayers.D2PORT) {
+      return ['get', PROPERTIES.D2PORT]
+    } else if (visibleLayers.GROWTH) {
+      return ['get', PROPERTIES.GROWTH]
+    } else if (visibleLayers.HARV) {
+      return ['get', PROPERTIES.HARV]
+    }
+  }, [visibleLayers, options])
+
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: container.current,
       style: style(colors),
-      center: [-121.9, 43.11],
-      zoom: 6.79,
+      center: [-11.14, 23.07],
+      zoom: 2.02,
     })
 
     map.on('load', () => {
@@ -43,9 +69,10 @@ const Map = ({ onMapReady, options }) => {
       onMapReady(map)
     })
 
-    // map.on('move', () => {
-    //   console.log(map.getZoom())
-    // })
+    map.on('move', () => {
+      console.log('zoom: ', map.getZoom())
+      console.log('center: ', map.getCenter())
+    })
 
     return function cleanup() {
       setMap(null)
@@ -73,26 +100,13 @@ const Map = ({ onMapReady, options }) => {
     map.setPaintProperty('macroalgae', 'circle-color', [
       'interpolate',
       ['linear'],
-      [
-        '/',
-        [
-          '+',
-          options.operatingCost,
-          [
-            '*',
-            ['get', PROPERTIES.D2PORT],
-            options.transportationCost,
-            ['get', PROPERTIES.PRODUCTION],
-          ],
-        ],
-        ['get', PROPERTIES.PRODUCTION],
-      ],
-      1,
-      colors.green,
-      1000,
-      rgba(colors.green, 0),
+      propertyToMap,
+      0,
+      colors.background,
+      8000,
+      colors.teal,
     ])
-  }, [colors, map, options])
+  }, [colors, map, options, propertyToMap])
 
   return (
     <Box
