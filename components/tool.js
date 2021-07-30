@@ -46,10 +46,9 @@ const Tool = () => {
           <Row>
             <Column start={[1]} width={[6]}>
               <Filter
-                filters={{ layers: visibleLayers }}
-                setFilters={{ layers: setVisibleLayers }}
-                filterLabels={{ layers: 'Layers' }}
-                filterList={['layers']}
+                values={visibleLayers}
+                setValues={setVisibleLayers}
+                label='Layer'
               />
               Range minimum: {dataRange.min}
               <Slider
