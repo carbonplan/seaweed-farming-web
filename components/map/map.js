@@ -8,10 +8,10 @@ import style from './style'
 
 mapboxgl.accessToken = ''
 
-const PROPERTIES = {
-  D2PORT: 'd2p',
-  GROWTH: 'Growth2',
-  ELEVATION: 'elevation',
+const PROPERTY_TRANSFORMATIONS = {
+  D2PORT: ['get', 'd2p'],
+  GROWTH: ['get', 'Growth2'],
+  DEPTH: ['*', -1, ['get', 'elevation']],
 }
 
 // Raw properties
@@ -34,26 +34,48 @@ const Map = ({ dataRange, options, visibleLayers }) => {
 
   const propertyToMap = useMemo(() => {
     if (visibleLayers.COST) {
-      return [
-        '/',
+      const depthFactor = [
+        'case',
+        ['>', PROPERTY_TRANSFORMATIONS.DEPTH, options.cheapDepth],
         [
-          '+',
-          options.operatingCost,
+          '*',
+          options.depthCostFactor,
           [
-            '*',
-            ['get', PROPERTIES.D2PORT],
-            options.transportationCost,
-            ['get', PROPERTIES.GROWTH],
+            '-',
+            ['min', PROPERTY_TRANSFORMATIONS.DEPTH, options.priceyDepth],
+            options.cheapDepth,
           ],
         ],
-        ['get', PROPERTIES.GROWTH],
+        1,
       ]
+      const capital = [
+        '*',
+        [
+          '+',
+          options.capitalCost,
+          options.lineCost * 1000000, // todo: once LINEDENSITY is available: ['*', options.linecost, ['get', PROPERTIES.LINEDENSITY]]
+        ],
+        depthFactor,
+      ]
+      const operations = options.operatingCost
+      const harvest = [
+        '+',
+        [
+          '*',
+          PROPERTY_TRANSFORMATIONS.D2PORT,
+          options.transportationCost,
+          PROPERTY_TRANSFORMATIONS.GROWTH,
+        ],
+        options.harvestCost * 4, // once NHARV data is available: ['*', options.harvestCost, ['get', PROPERTIES.NHARV]]
+      ]
+
+      return ['*', ['+', capital, operations, harvest], 0.001]
     } else if (visibleLayers.D2PORT) {
-      return ['get', PROPERTIES.D2PORT]
+      return PROPERTY_TRANSFORMATIONS.D2PORT
     } else if (visibleLayers.GROWTH) {
-      return ['get', PROPERTIES.GROWTH]
+      return PROPERTY_TRANSFORMATIONS.GROWTH
     } else if (visibleLayers.DEPTH) {
-      return ['*', -1, ['get', PROPERTIES.ELEVATION]]
+      return PROPERTY_TRANSFORMATIONS.DEPTH
     }
   }, [visibleLayers, options])
 

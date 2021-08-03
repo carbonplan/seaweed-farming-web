@@ -8,16 +8,23 @@ import Options from './options'
 import Toolbar from './toolbar'
 
 const initialOptions = {
-  operatingCost: 50,
-  transportationCost: 5,
+  operatingCost: 63000,
+  transportationCost: 0.11,
+  capitalCost: 170000,
+  harvestCost: 124000,
+  lineCost: 0.06,
+  depthCostFactor: 2,
+  cheapDepth: 10,
+  priceyDepth: 100,
 }
+
 const initLayers = {
-  COST: false,
-  GROWTH: true,
+  COST: true,
+  GROWTH: false,
   D2PORT: false,
   DEPTH: false,
 }
-const initRange = { min: 0, max: 4000 }
+const initRange = { min: 0, max: 40000 }
 
 const Tool = () => {
   const [options, setOptions] = useState(initialOptions)
