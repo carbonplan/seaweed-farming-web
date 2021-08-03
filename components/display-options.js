@@ -1,45 +1,43 @@
 import { Box } from 'theme-ui'
-import { useState } from 'react'
 import { Group, Slider, Tag } from '@carbonplan/components'
 
-const DisplayOptions = ({
-  dataRange,
-  setDataRange,
-  invertColors,
-  setInvertColors,
-}) => {
-  const [expanded, setExpanded] = useState(false)
+import { useMapContext } from './map'
+
+const DisplayOptions = () => {
+  const { options } = useMapContext()
+  const { colorRange, setColorRange, inverted, setInverted } = options
+
   return (
     <Group spacing='sm'>
-      <Tag value={invertColors} onClick={() => setInvertColors(!invertColors)}>
+      <Tag value={inverted} onClick={() => setInverted(!inverted)}>
         Invert colors
       </Tag>
       <Box>
-        Range minimum: {dataRange.min}
+        Range minimum: {colorRange.min}
         <Slider
           size='sm'
-          value={dataRange.min}
+          value={colorRange.min}
           min={0}
           max={1000}
           onChange={(e) =>
-            setDataRange({
+            setColorRange({
               min: Number(e.target.value),
-              max: dataRange.max,
+              max: colorRange.max,
             })
           }
         />
       </Box>
       <Box>
-        Range maximum: {dataRange.max}
+        Range maximum: {colorRange.max}
         <Slider
-          value={dataRange.max}
+          value={colorRange.max}
           size='sm'
           min={100}
           max={99999}
           onChange={(e) =>
-            setDataRange({
+            setColorRange({
               max: Number(e.target.value),
-              min: dataRange.min,
+              min: colorRange.min,
             })
           }
         />

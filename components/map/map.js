@@ -1,9 +1,9 @@
 import mapboxgl from 'mapbox-gl'
 import { useThemeUI, Box } from 'theme-ui'
-import { useEffect, useMemo, useState, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { mix } from 'polished'
 
-import { useMap } from './context'
+import { useMapContext } from './context'
 import style from './style'
 
 mapboxgl.accessToken = ''
@@ -25,25 +25,31 @@ const PROPERTY_TRANSFORMATIONS = {
 // mask (example value: 0.1426)
 // area (example value: 1070561.2503)
 
-const Map = ({ dataRange, invertColors, options, visibleLayers }) => {
+const Map = () => {
   const {
     theme: { rawColors: colors },
   } = useThemeUI()
   const container = useRef(null)
-  const mapContext = useMap()
+  const mapContext = useMapContext()
+  const {
+    inverted,
+    colorRange: { min, max },
+    layers,
+    parameters,
+  } = mapContext.options
 
   const propertyToMap = useMemo(() => {
-    if (visibleLayers.COST) {
+    if (layers.COST) {
       const depthFactor = [
         'case',
-        ['>', PROPERTY_TRANSFORMATIONS.DEPTH, options.cheapDepth],
+        ['>', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.cheapDepth],
         [
           '*',
-          options.depthCostFactor,
+          parameters.depthCostFactor,
           [
             '-',
-            ['min', PROPERTY_TRANSFORMATIONS.DEPTH, options.priceyDepth],
-            options.cheapDepth,
+            ['min', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.priceyDepth],
+            parameters.cheapDepth,
           ],
         ],
         1,
@@ -52,32 +58,32 @@ const Map = ({ dataRange, invertColors, options, visibleLayers }) => {
         '*',
         [
           '+',
-          options.capitalCost,
-          options.lineCost * 1000000, // todo: once LINEDENSITY is available: ['*', options.linecost, ['get', PROPERTIES.LINEDENSITY]]
+          parameters.capitalCost,
+          parameters.lineCost * 1000000, // todo: once LINEDENSITY is available: ['*', parameters.linecost, ['get', PROPERTIES.LINEDENSITY]]
         ],
         depthFactor,
       ]
-      const operations = options.operatingCost
+      const operations = parameters.operatingCost
       const harvest = [
         '+',
         [
           '*',
           PROPERTY_TRANSFORMATIONS.D2PORT,
-          options.transportationCost,
+          parameters.transportationCost,
           PROPERTY_TRANSFORMATIONS.GROWTH,
         ],
-        options.harvestCost * 4, // once NHARV data is available: ['*', options.harvestCost, ['get', PROPERTIES.NHARV]]
+        parameters.harvestCost * 4, // once NHARV data is available: ['*', parameters.harvestCost, ['get', PROPERTIES.NHARV]]
       ]
 
       return ['*', ['+', capital, operations, harvest], 0.001]
-    } else if (visibleLayers.D2PORT) {
+    } else if (layers.D2PORT) {
       return PROPERTY_TRANSFORMATIONS.D2PORT
-    } else if (visibleLayers.GROWTH) {
+    } else if (layers.GROWTH) {
       return PROPERTY_TRANSFORMATIONS.GROWTH
-    } else if (visibleLayers.DEPTH) {
+    } else if (layers.DEPTH) {
       return PROPERTY_TRANSFORMATIONS.DEPTH
     }
-  }, [visibleLayers, options])
+  }, [layers, parameters])
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -126,12 +132,12 @@ const Map = ({ dataRange, invertColors, options, visibleLayers }) => {
       'interpolate',
       ['linear'],
       propertyToMap,
-      dataRange.min,
-      invertColors ? colors.teal : colors.background,
-      dataRange.max,
-      invertColors ? colors.background : colors.teal,
+      min,
+      inverted ? colors.teal : colors.background,
+      max,
+      inverted ? colors.background : colors.teal,
     ])
-  }, [colors, mapContext.map, propertyToMap, dataRange, invertColors])
+  }, [colors, mapContext.map, propertyToMap, min, max, inverted])
 
   return (
     <Box

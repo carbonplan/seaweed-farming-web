@@ -1,6 +1,17 @@
 import { Row, Column, Slider } from '@carbonplan/components'
+import { useCallback } from 'react'
 
-const Options = ({ options, onChange }) => {
+import { useMapContext } from './map'
+
+const Options = () => {
+  const {
+    options: { parameters, setParameters },
+  } = useMapContext()
+
+  const handleChange = useCallback((option, value) => {
+    setParameters({ ...parameters, [option]: value })
+  })
+
   const {
     capitalCost,
     cheapDepth,
@@ -10,7 +21,7 @@ const Options = ({ options, onChange }) => {
     operatingCost,
     priceyDepth,
     transportationCost,
-  } = options
+  } = parameters
 
   return (
     <>
@@ -23,7 +34,7 @@ const Options = ({ options, onChange }) => {
             max={69000}
             step={1000}
             onChange={(e) =>
-              onChange('operatingCost', parseFloat(e.target.value))
+              handleChange('operatingCost', parseFloat(e.target.value))
             }
           />
         </Column>
@@ -35,7 +46,7 @@ const Options = ({ options, onChange }) => {
             max={0.34}
             step={0.01}
             onChange={(e) =>
-              onChange('transportationCost', parseFloat(e.target.value))
+              handleChange('transportationCost', parseFloat(e.target.value))
             }
           />
         </Column>
@@ -49,7 +60,7 @@ const Options = ({ options, onChange }) => {
             max={969000}
             step={10000}
             onChange={(e) =>
-              onChange('capitalCost', parseFloat(e.target.value))
+              handleChange('capitalCost', parseFloat(e.target.value))
             }
           />
         </Column>
@@ -61,7 +72,7 @@ const Options = ({ options, onChange }) => {
             max={395000}
             step={10000}
             onChange={(e) =>
-              onChange('harvestCost', parseFloat(e.target.value))
+              handleChange('harvestCost', parseFloat(e.target.value))
             }
           />
         </Column>
@@ -74,7 +85,9 @@ const Options = ({ options, onChange }) => {
             min={0.06}
             max={1.45}
             step={0.01}
-            onChange={(e) => onChange('lineCost', parseFloat(e.target.value))}
+            onChange={(e) =>
+              handleChange('lineCost', parseFloat(e.target.value))
+            }
           />
         </Column>
         <Column start={[4]} width={[3]}>
@@ -85,7 +98,7 @@ const Options = ({ options, onChange }) => {
             max={3}
             step={0.25}
             onChange={(e) =>
-              onChange('depthCostFactor', parseFloat(e.target.value))
+              handleChange('depthCostFactor', parseFloat(e.target.value))
             }
           />
         </Column>
@@ -98,7 +111,9 @@ const Options = ({ options, onChange }) => {
             min={10}
             max={50}
             step={5}
-            onChange={(e) => onChange('cheapDepth', parseFloat(e.target.value))}
+            onChange={(e) =>
+              handleChange('cheapDepth', parseFloat(e.target.value))
+            }
           />
         </Column>
         <Column start={[4]} width={[3]}>
@@ -109,7 +124,7 @@ const Options = ({ options, onChange }) => {
             max={300}
             step={25}
             onChange={(e) =>
-              onChange('priceyDepth', parseFloat(e.target.value))
+              handleChange('priceyDepth', parseFloat(e.target.value))
             }
           />
         </Column>
