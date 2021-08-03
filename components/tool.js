@@ -15,7 +15,7 @@ const initLayers = {
   COST: false,
   GROWTH: true,
   D2PORT: false,
-  HARV: false,
+  DEPTH: false,
 }
 const initRange = { min: 0, max: 4000 }
 

@@ -11,7 +11,7 @@ mapboxgl.accessToken = ''
 const PROPERTIES = {
   D2PORT: 'd2p',
   GROWTH: 'Growth2',
-  HARV: 'harv',
+  ELEVATION: 'elevation',
 }
 
 // Raw properties
@@ -52,8 +52,8 @@ const Map = ({ dataRange, options, visibleLayers }) => {
       return ['get', PROPERTIES.D2PORT]
     } else if (visibleLayers.GROWTH) {
       return ['get', PROPERTIES.GROWTH]
-    } else if (visibleLayers.HARV) {
-      return ['get', PROPERTIES.HARV]
+    } else if (visibleLayers.DEPTH) {
+      return ['*', -1, ['get', PROPERTIES.ELEVATION]]
     }
   }, [visibleLayers, options])
 
