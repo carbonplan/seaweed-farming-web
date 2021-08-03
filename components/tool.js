@@ -1,11 +1,12 @@
 import { Box } from 'theme-ui'
 import { useCallback, useState } from 'react'
-import { Column, Filter, Row, Slider } from '@carbonplan/components'
+import { Column, Filter, Row, Slider, Tag } from '@carbonplan/components'
 import { MapProvider } from './map'
 
 import Map from './map'
 import Options from './options'
 import Toolbar from './toolbar'
+import DisplayOptions from './display-options'
 
 const initialOptions = {
   operatingCost: 63000,
@@ -29,6 +30,7 @@ const initRange = { min: 0, max: 40000 }
 const Tool = () => {
   const [options, setOptions] = useState(initialOptions)
   const [visibleLayers, setVisibleLayers] = useState(initLayers)
+  const [invertColors, setInvertColors] = useState(false)
   const [dataRange, setDataRange] = useState(initRange)
 
   const handleOptionChange = useCallback((option, value) => {
@@ -52,37 +54,23 @@ const Tool = () => {
         <Toolbar>
           <Row>
             <Column start={[1]} width={[6]}>
-              <Filter
-                values={visibleLayers}
-                setValues={setVisibleLayers}
-                label='Layer'
-              />
-              Range minimum: {dataRange.min}
-              <Slider
-                size='sm'
-                value={dataRange.min}
-                min={0}
-                max={1000}
-                onChange={(e) =>
-                  setDataRange({
-                    min: Number(e.target.value),
-                    max: dataRange.max,
-                  })
-                }
-              />
-              Range maximum: {dataRange.max}
-              <Slider
-                value={dataRange.max}
-                size='sm'
-                min={100}
-                max={99999}
-                onChange={(e) =>
-                  setDataRange({
-                    max: Number(e.target.value),
-                    min: dataRange.min,
-                  })
-                }
-              />
+              <Row columns={[6]}>
+                <Column start={[1]} width={[3]}>
+                  <Filter
+                    values={visibleLayers}
+                    setValues={setVisibleLayers}
+                    label='Layer'
+                  />
+                </Column>
+                <Column start={[4]} width={[3]}>
+                  <DisplayOptions
+                    dataRange={dataRange}
+                    setDataRange={setDataRange}
+                    invertColors={invertColors}
+                    setInvertColors={setInvertColors}
+                  />
+                </Column>
+              </Row>
             </Column>
             <Column start={[1, 7]} width={[6]}>
               <Options options={options} onChange={handleOptionChange} />
@@ -92,6 +80,7 @@ const Tool = () => {
         <Map
           options={options}
           visibleLayers={visibleLayers}
+          invertColors={invertColors}
           dataRange={dataRange}
         />
       </MapProvider>

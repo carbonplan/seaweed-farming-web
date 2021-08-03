@@ -25,7 +25,7 @@ const PROPERTY_TRANSFORMATIONS = {
 // mask (example value: 0.1426)
 // area (example value: 1070561.2503)
 
-const Map = ({ dataRange, options, visibleLayers }) => {
+const Map = ({ dataRange, invertColors, options, visibleLayers }) => {
   const {
     theme: { rawColors: colors },
   } = useThemeUI()
@@ -127,11 +127,11 @@ const Map = ({ dataRange, options, visibleLayers }) => {
       ['linear'],
       propertyToMap,
       dataRange.min,
-      colors.background,
+      invertColors ? colors.teal : colors.background,
       dataRange.max,
-      colors.teal,
+      invertColors ? colors.background : colors.teal,
     ])
-  }, [colors, mapContext.map, propertyToMap, dataRange])
+  }, [colors, mapContext.map, propertyToMap, dataRange, invertColors])
 
   return (
     <Box
