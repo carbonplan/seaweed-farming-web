@@ -1,5 +1,5 @@
-import { Box } from 'theme-ui'
-import { Column, Filter, Row } from '@carbonplan/components'
+import { Box, Flex } from 'theme-ui'
+import { Column, Filter, Layout, Row } from '@carbonplan/components'
 import { MapProvider, useMapContext } from './map'
 
 import Map from './map'
@@ -17,40 +17,40 @@ const Layers = () => {
 
 const Tool = () => {
   return (
-    <Box
-      sx={{
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <MapProvider>
-        <Toolbar>
-          <Row>
-            <Column start={[1]} width={[6]}>
-              <Row columns={[6]}>
-                <Column start={[1]} width={[3]}>
-                  <Layers />
-                </Column>
-                <Column start={[4]} width={[3]}>
-                  <DisplayOptions />
-                </Column>
-              </Row>
-            </Column>
-            <Column start={[1, 7]} width={[6]}>
-              <Options />
-            </Column>
-          </Row>
-        </Toolbar>
-        <Map />
-      </MapProvider>
-    </Box>
+    <MapProvider>
+      <Flex
+        sx={{
+          position: 'absolute',
+          flexDirection: 'column',
+          height: '100%',
+          width: '100vw',
+          ml: [-3, -4, -5, -6], // todo: avoid rendering actual Container/padding
+        }}
+      >
+        <Box sx={{ flex: '0 1 auto' }}>
+          <Toolbar>
+            <Row>
+              <Column start={[1]} width={[6]}>
+                <Row columns={[6]}>
+                  <Column start={[1]} width={[3]}>
+                    <Layers />
+                  </Column>
+                  <Column start={[4]} width={[3]}>
+                    <DisplayOptions />
+                  </Column>
+                </Row>
+              </Column>
+              <Column start={[1, 7]} width={[6]}>
+                <Options />
+              </Column>
+            </Row>
+          </Toolbar>
+        </Box>
+        <Box sx={{ flex: '1 1 auto' }}>
+          <Map />
+        </Box>
+      </Flex>
+    </MapProvider>
   )
 }
 

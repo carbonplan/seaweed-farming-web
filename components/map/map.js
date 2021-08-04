@@ -143,7 +143,9 @@ const Map = () => {
     <Box
       ref={container}
       sx={{
-        flexBasis: '100%',
+        position: 'relative',
+        width: '100%',
+        height: '100%',
         'canvas.mapboxgl-canvas:focus': {
           outline: 'none',
         },
