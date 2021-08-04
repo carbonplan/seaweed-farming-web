@@ -12,6 +12,7 @@ const Index = () => {
       footer={false}
       metadata={false}
       guide='teal'
+      container={false}
     >
       <Tool />
     </Layout>

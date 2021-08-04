@@ -24,7 +24,6 @@ const Tool = () => {
           flexDirection: 'column',
           height: '100%',
           width: '100vw',
-          ml: [-3, -4, -5, -6], // todo: avoid rendering actual Container/padding
         }}
       >
         <Box sx={{ flex: '0 1 auto' }}>
