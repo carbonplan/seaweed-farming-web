@@ -42,17 +42,18 @@ const Map = () => {
     if (layers.COST) {
       const depthFactor = [
         'case',
-        ['>', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.cheapDepth],
+        ['<=', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.cheapDepth],
+        1,
+
+        ['<=', parameters.priceyDepth, PROPERTY_TRANSFORMATIONS.DEPTH],
+        parameters.depthCostFactor,
+
         [
           '*',
-          parameters.depthCostFactor,
-          [
-            '-',
-            ['min', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.priceyDepth],
-            parameters.cheapDepth,
-          ],
+          parameters.depthCostFactor /
+            (parameters.priceyDepth - parameters.cheapDepth),
+          ['-', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.cheapDepth],
         ],
-        1,
       ]
       const capital = [
         '*',
