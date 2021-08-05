@@ -33,7 +33,7 @@ const Options = () => {
             value={operatingCost}
             range={{
               min: 63000,
-
+              max: 69000,
               step: 1000,
             }}
             name='operatingCost'

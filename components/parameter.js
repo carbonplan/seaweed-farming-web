@@ -68,9 +68,9 @@ const Parameter = ({ name, value, onChange, range }) => {
               <Box
                 as='rect'
                 sx={{ fill: colors.orange, opacity: 1 }}
-                x={pointer}
+                x={String(pointer)}
                 y='0'
-                width={POINTER_WIDTH}
+                width={String(POINTER_WIDTH)}
                 height='10'
               />
             </Box>
