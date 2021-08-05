@@ -40,7 +40,7 @@ const Options = () => {
             onChange={handleChange}
           />
         </Column>
-        <Column start={[4]} width={[3]}>
+        <Column start={[1]} width={[3]}>
           <Parameter
             value={transportationCost}
             range={{ min: 0.11, max: 0.34, step: 0.01 }}
@@ -56,7 +56,7 @@ const Options = () => {
             onChange={handleChange}
           />
         </Column>
-        <Column start={[4]} width={[3]}>
+        <Column start={[1]} width={[3]}>
           <Parameter
             g
             value={harvestCost}
@@ -73,7 +73,7 @@ const Options = () => {
             onChange={handleChange}
           />
         </Column>
-        <Column start={[4]} width={[3]}>
+        <Column start={[1]} width={[3]}>
           <Parameter
             value={depthCostFactor}
             range={{ min: 1, max: 3, step: 0.25 }}
@@ -89,7 +89,7 @@ const Options = () => {
             onChange={handleChange}
           />
         </Column>
-        <Column start={[4]} width={[3]}>
+        <Column start={[1]} width={[3]}>
           <Parameter
             value={priceyDepth}
             range={{ min: 100, max: 300, step: 25 }}
