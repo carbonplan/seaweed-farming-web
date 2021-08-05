@@ -21,25 +21,29 @@ const Tool = () => {
       <Flex
         sx={{
           position: 'absolute',
-          flexDirection: 'column',
+          flexDirection: 'row',
           height: '100%',
           width: '100vw',
         }}
       >
-        <Box sx={{ flex: '0 1 auto' }}>
+        <Box
+          sx={{
+            flex: '0 1 auto',
+          }}
+        >
           <Toolbar>
-            <Row>
-              <Column start={[1]} width={[6]}>
-                <Row columns={[6]}>
+            <Row columns={[3]}>
+              <Column start={[1]} width={[3]}>
+                <Row columns={[3]}>
                   <Column start={[1]} width={[3]}>
                     <Layers />
                   </Column>
-                  <Column start={[4]} width={[3]}>
+                  <Column start={[1]} width={[3]}>
                     <DisplayOptions />
                   </Column>
                 </Row>
               </Column>
-              <Column start={[1, 7]} width={[6]}>
+              <Column start={[1]} width={[3]}>
                 <Options />
               </Column>
             </Row>

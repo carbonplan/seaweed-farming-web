@@ -25,7 +25,7 @@ const Options = () => {
 
   return (
     <>
-      <Row columns={[6]}>
+      <Row columns={[3]}>
         <Column start={[1]} width={[3]}>
           Operating cost: {operatingCost}
           <Slider
@@ -38,7 +38,7 @@ const Options = () => {
             }
           />
         </Column>
-        <Column start={[4]} width={[3]}>
+        <Column start={[1]} width={[3]}>
           Transportation cost: {transportationCost}
           <Slider
             value={transportationCost}
@@ -50,8 +50,6 @@ const Options = () => {
             }
           />
         </Column>
-      </Row>
-      <Row columns={[6]}>
         <Column start={[1]} width={[3]}>
           Capital cost: {capitalCost}
           <Slider
@@ -64,7 +62,7 @@ const Options = () => {
             }
           />
         </Column>
-        <Column start={[4]} width={[3]}>
+        <Column start={[1]} width={[3]}>
           Harvest cost: {harvestCost}
           <Slider
             value={harvestCost}
@@ -76,8 +74,6 @@ const Options = () => {
             }
           />
         </Column>
-      </Row>
-      <Row columns={[6]}>
         <Column start={[1]} width={[3]}>
           Line cost: {lineCost}
           <Slider
@@ -90,7 +86,7 @@ const Options = () => {
             }
           />
         </Column>
-        <Column start={[4]} width={[3]}>
+        <Column start={[1]} width={[3]}>
           Depth cost factor: {depthCostFactor}
           <Slider
             value={depthCostFactor}
@@ -102,8 +98,6 @@ const Options = () => {
             }
           />
         </Column>
-      </Row>
-      <Row columns={[6]}>
         <Column start={[1]} width={[3]}>
           Cheap depth: {cheapDepth}
           <Slider
@@ -116,7 +110,7 @@ const Options = () => {
             }
           />
         </Column>
-        <Column start={[4]} width={[3]}>
+        <Column start={[1]} width={[3]}>
           Pricey depth: {priceyDepth}
           <Slider
             value={priceyDepth}
