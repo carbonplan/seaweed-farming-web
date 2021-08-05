@@ -75,7 +75,11 @@ const Map = () => {
         parameters.harvestCost * 4, // once NHARV data is available: ['*', parameters.harvestCost, ['get', PROPERTIES.NHARV]]
       ]
 
-      return ['*', ['+', capital, operations, harvest], 0.001]
+      return [
+        '/',
+        ['+', capital, operations, harvest],
+        PROPERTY_TRANSFORMATIONS.GROWTH,
+      ]
     } else if (layers.D2PORT) {
       return PROPERTY_TRANSFORMATIONS.D2PORT
     } else if (layers.GROWTH) {
