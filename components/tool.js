@@ -1,5 +1,5 @@
 import { Flex } from 'theme-ui'
-import { Filter } from '@carbonplan/components'
+import { Filter, Group } from '@carbonplan/components'
 import { MapProvider, useMapContext } from './map'
 
 import Map from './map'
@@ -29,9 +29,11 @@ const Tool = () => {
         <Map />
       </Flex>
       <Toolbar>
-        <Layers />
-        <DisplayOptions />
-        <Options />
+        <Group spacing='lg'>
+          <Layers />
+          <DisplayOptions />
+          <Options />
+        </Group>
       </Toolbar>
     </MapProvider>
   )
