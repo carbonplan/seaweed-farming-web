@@ -1,18 +1,13 @@
 import mapboxgl from 'mapbox-gl'
 import { useThemeUI, Box } from 'theme-ui'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { mix } from 'polished'
 
 import { useMapContext } from './context'
+import { useColorGradient, usePropertyExpression } from './hooks'
 import style from './style'
 
 mapboxgl.accessToken = ''
-
-const PROPERTY_TRANSFORMATIONS = {
-  D2PORT: ['get', 'd2p'],
-  GROWTH: ['get', 'Growth2'],
-  DEPTH: ['*', -1, ['get', 'elevation']],
-}
 
 // Raw properties
 // Growth2 (example value: 0.0)
@@ -29,66 +24,12 @@ const Map = () => {
   const {
     theme: { rawColors: colors },
   } = useThemeUI()
+
   const container = useRef(null)
   const mapContext = useMapContext()
-  const {
-    inverted,
-    colorRange: { min, max },
-    layers,
-    parameters,
-  } = mapContext.options
 
-  const propertyToMap = useMemo(() => {
-    if (layers.COST) {
-      const depthFactor = [
-        'case',
-        ['<=', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.cheapDepth],
-        1,
-
-        ['<=', parameters.priceyDepth, PROPERTY_TRANSFORMATIONS.DEPTH],
-        parameters.depthCostFactor,
-
-        [
-          '*',
-          parameters.depthCostFactor /
-            (parameters.priceyDepth - parameters.cheapDepth),
-          ['-', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.cheapDepth],
-        ],
-      ]
-      const capital = [
-        '*',
-        [
-          '+',
-          parameters.capitalCost,
-          parameters.lineCost * 1000000, // todo: once LINEDENSITY is available: ['*', parameters.linecost, ['get', PROPERTIES.LINEDENSITY]]
-        ],
-        depthFactor,
-      ]
-      const operations = parameters.operatingCost
-      const harvest = [
-        '+',
-        [
-          '*',
-          PROPERTY_TRANSFORMATIONS.D2PORT,
-          parameters.transportationCost,
-          PROPERTY_TRANSFORMATIONS.GROWTH,
-        ],
-        parameters.harvestCost * 4, // once NHARV data is available: ['*', parameters.harvestCost, ['get', PROPERTIES.NHARV]]
-      ]
-
-      return [
-        '/',
-        ['+', capital, operations, harvest],
-        PROPERTY_TRANSFORMATIONS.GROWTH,
-      ]
-    } else if (layers.D2PORT) {
-      return PROPERTY_TRANSFORMATIONS.D2PORT
-    } else if (layers.GROWTH) {
-      return PROPERTY_TRANSFORMATIONS.GROWTH
-    } else if (layers.DEPTH) {
-      return PROPERTY_TRANSFORMATIONS.DEPTH
-    }
-  }, [layers, parameters])
+  const colorGradient = useColorGradient()
+  const propertyToMap = usePropertyExpression()
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -134,15 +75,12 @@ const Map = () => {
   useEffect(() => {
     if (!mapContext.map) return
     mapContext.map.setPaintProperty('macroalgae', 'circle-color', [
-      'interpolate',
+      'interpolate-hcl',
       ['linear'],
       propertyToMap,
-      min,
-      inverted ? colors.teal : colors.background,
-      max,
-      inverted ? colors.background : colors.teal,
+      ...colorGradient,
     ])
-  }, [colors, mapContext.map, propertyToMap, min, max, inverted])
+  }, [colors, mapContext.map, propertyToMap, colorGradient])
 
   return (
     <Box
