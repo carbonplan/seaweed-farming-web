@@ -17,7 +17,7 @@ const initialLayers = {
   D2PORT: false,
   DEPTH: false,
 }
-const initialColorRange = { min: 0, max: 40000 }
+const initialColorRange = { min: 0, max: 5000 }
 
 const MapContext = createContext({
   map: null,

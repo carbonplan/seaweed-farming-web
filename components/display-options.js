@@ -1,7 +1,7 @@
-import { Box } from 'theme-ui'
-import { Group, Slider, Tag } from '@carbonplan/components'
+import { Group, Tag } from '@carbonplan/components'
 
 import { useMapContext } from './map'
+import Parameter from './parameter'
 
 const DisplayOptions = () => {
   const { options } = useMapContext()
@@ -12,36 +12,35 @@ const DisplayOptions = () => {
       <Tag value={inverted} onClick={() => setInverted(!inverted)}>
         Invert colors
       </Tag>
-      <Box>
-        Range minimum: {colorRange.min}
-        <Slider
-          size='sm'
-          value={colorRange.min}
-          min={0}
-          max={1000}
-          onChange={(e) =>
-            setColorRange({
-              min: Number(e.target.value),
-              max: colorRange.max,
-            })
-          }
-        />
-      </Box>
-      <Box>
-        Range maximum: {colorRange.max}
-        <Slider
-          value={colorRange.max}
-          size='sm'
-          min={100}
-          max={99999}
-          onChange={(e) =>
-            setColorRange({
-              max: Number(e.target.value),
-              min: colorRange.min,
-            })
-          }
-        />
-      </Box>
+      <Parameter
+        value={colorRange.min}
+        range={{
+          min: 0,
+          max: 1000,
+        }}
+        name='Range minimum'
+        onChange={(_, value) =>
+          setColorRange({
+            min: value,
+            max: colorRange.max,
+          })
+        }
+      />
+
+      <Parameter
+        value={colorRange.max}
+        range={{
+          min: 1000,
+          max: 10000,
+        }}
+        name='Range maximum'
+        onChange={(_, value) =>
+          setColorRange({
+            min: colorRange.min,
+            max: value,
+          })
+        }
+      />
     </Group>
   )
 }
