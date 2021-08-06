@@ -1,23 +1,42 @@
-import { Box, Container } from 'theme-ui'
+import { Box, Container, useThemeUI } from 'theme-ui'
+import { Column, Row } from '@carbonplan/components'
+import { rgba } from 'polished'
 
 const Toolbar = ({ children }) => {
+  const {
+    theme: { rawColors: colors },
+  } = useThemeUI()
+
   return (
     <Box
       sx={{
-        py: [4],
-        borderStyle: 'solid',
-        borderWidth: '0px',
-        borderRightWidth: '1px',
-        borderColor: 'muted',
-        maxWidth: [
-          0,
-          'calc(3 * 100vw / 8 + 18px)',
-          'calc(3 * 100vw / 12 + 24px)',
-          'calc(3 * 100vw / 12 + 36px)',
-        ],
+        maxWidth: '1920px',
+        margin: 'auto',
+        overflow: 'hidden',
       }}
     >
-      <Container>{children}</Container>
+      <Box
+        sx={{
+          py: [4],
+          backgroundColor: rgba(colors.background, 0.75),
+          borderWidth: '0px',
+          position: 'relative',
+          maxWidth: [
+            0,
+            'calc(3 * 100vw / 8 + 18px)',
+            'calc(3 * 100vw / 12 + 24px)',
+            'min(calc(3 * 100vw / 12 + 36px), 516px)',
+          ],
+        }}
+      >
+        <Container>
+          <Row columns={[3]}>
+            <Column start={[1]} width={[3]}>
+              {children}
+            </Column>
+          </Row>
+        </Container>
+      </Box>
     </Box>
   )
 }

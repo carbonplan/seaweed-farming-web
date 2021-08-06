@@ -7,7 +7,6 @@ const Index = () => {
     <Layout
       description='Mapping cost of macroalgae CDR.'
       title='macroalgae / research / carbonplan'
-      header={false}
       dimmer='bottom'
       footer={false}
       metadata={false}

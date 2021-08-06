@@ -1,5 +1,5 @@
-import { Box, Flex } from 'theme-ui'
-import { Column, Filter, Layout, Row } from '@carbonplan/components'
+import { Flex } from 'theme-ui'
+import { Filter } from '@carbonplan/components'
 import { MapProvider, useMapContext } from './map'
 
 import Map from './map'
@@ -22,37 +22,17 @@ const Tool = () => {
         sx={{
           position: 'absolute',
           flexDirection: 'row',
-          height: '100%',
+          height: 'calc(100vh - 56px)',
           width: '100vw',
         }}
       >
-        <Box
-          sx={{
-            flex: '0 1 auto',
-          }}
-        >
-          <Toolbar>
-            <Row columns={[3]}>
-              <Column start={[1]} width={[3]}>
-                <Row columns={[3]}>
-                  <Column start={[1]} width={[3]}>
-                    <Layers />
-                  </Column>
-                  <Column start={[1]} width={[3]}>
-                    <DisplayOptions />
-                  </Column>
-                </Row>
-              </Column>
-              <Column start={[1]} width={[3]}>
-                <Options />
-              </Column>
-            </Row>
-          </Toolbar>
-        </Box>
-        <Box sx={{ flex: '1 1 auto' }}>
-          <Map />
-        </Box>
+        <Map />
       </Flex>
+      <Toolbar>
+        <Layers />
+        <DisplayOptions />
+        <Options />
+      </Toolbar>
     </MapProvider>
   )
 }
