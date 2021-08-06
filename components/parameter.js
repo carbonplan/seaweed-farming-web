@@ -5,11 +5,14 @@ import { scaleLinear } from 'd3-scale'
 
 const POINTER_WIDTH = 4
 
+const formatValue = (value) =>
+  Number(value).toLocaleString('en-US', { maximumFractionDigits: 2 })
+
 const Parameter = ({ name, value, onChange, range }) => {
   const {
     theme: { rawColors: colors },
   } = useThemeUI()
-  const [internalValue, setInternalValue] = useState(() => value)
+  const [renderedValue, setRenderedValue] = useState(() => formatValue(value))
 
   const x = useMemo(() => {
     return scaleLinear()
@@ -17,11 +20,25 @@ const Parameter = ({ name, value, onChange, range }) => {
       .range([0, 100 - POINTER_WIDTH])
   }, [range.min, range.max])
 
+  const handleInternalUpdate = useCallback((e) => {
+    const normalizedValue = e.target.value.replace(/[^\.\d,]/g, '')
+
+    setRenderedValue(normalizedValue)
+  })
+
   const handleUpdate = useCallback(() => {
-    if (internalValue !== value) {
-      onChange(name, Number(internalValue))
+    const parsedValue = Number(renderedValue.replace(/,/g, ''))
+    const validatedValue = Math.min(Math.max(parsedValue, range.min), range.max)
+    const formattedValue = formatValue(validatedValue)
+
+    if (value !== validatedValue) {
+      onChange(name, validatedValue)
     }
-  }, [internalValue])
+
+    if (renderedValue !== formattedValue) {
+      setRenderedValue(formattedValue)
+    }
+  }, [renderedValue, value, range.min, range.max])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -37,8 +54,8 @@ const Parameter = ({ name, value, onChange, range }) => {
         <Column start={[1]} width={[1]}>
           <form onSubmit={handleSubmit}>
             <Input
-              value={internalValue}
-              onChange={(e) => setInternalValue(e.target.value)}
+              value={renderedValue}
+              onChange={handleInternalUpdate}
               onBlur={handleUpdate}
             />
           </form>
