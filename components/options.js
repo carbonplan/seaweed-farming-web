@@ -1,6 +1,7 @@
 import { Row, Column, Slider } from '@carbonplan/components'
 import { useCallback } from 'react'
 
+import Parameter from './parameter'
 import { useMapContext } from './map'
 
 const Options = () => {
@@ -27,99 +28,71 @@ const Options = () => {
     <>
       <Row columns={[3]}>
         <Column start={[1]} width={[3]}>
-          Operating cost: {operatingCost}
-          <Slider
+          <Parameter
             value={operatingCost}
-            min={63000}
-            max={69000}
-            step={1000}
-            onChange={(e) =>
-              handleChange('operatingCost', parseFloat(e.target.value))
-            }
+            range={{
+              min: 63000,
+              max: 69000,
+            }}
+            name='operatingCost'
+            onChange={handleChange}
           />
         </Column>
         <Column start={[1]} width={[3]}>
-          Transportation cost: {transportationCost}
-          <Slider
+          <Parameter
             value={transportationCost}
-            min={0.11}
-            max={0.34}
-            step={0.01}
-            onChange={(e) =>
-              handleChange('transportationCost', parseFloat(e.target.value))
-            }
+            range={{ min: 0.11, max: 0.34 }}
+            name='transportationCost'
+            onChange={handleChange}
           />
         </Column>
         <Column start={[1]} width={[3]}>
-          Capital cost: {capitalCost}
-          <Slider
+          <Parameter
             value={capitalCost}
-            min={170000}
-            max={969000}
-            step={10000}
-            onChange={(e) =>
-              handleChange('capitalCost', parseFloat(e.target.value))
-            }
+            range={{ min: 170000, max: 969000 }}
+            name='capitalCost'
+            onChange={handleChange}
           />
         </Column>
         <Column start={[1]} width={[3]}>
-          Harvest cost: {harvestCost}
-          <Slider
+          <Parameter
+            g
             value={harvestCost}
-            min={124000}
-            max={395000}
-            step={10000}
-            onChange={(e) =>
-              handleChange('harvestCost', parseFloat(e.target.value))
-            }
+            range={{ min: 124000, max: 395000 }}
+            name='harvestCost'
+            onChange={handleChange}
           />
         </Column>
         <Column start={[1]} width={[3]}>
-          Line cost: {lineCost}
-          <Slider
+          <Parameter
             value={lineCost}
-            min={0.06}
-            max={1.45}
-            step={0.01}
-            onChange={(e) =>
-              handleChange('lineCost', parseFloat(e.target.value))
-            }
+            range={{ min: 0.06, max: 1.45 }}
+            name='lineCost'
+            onChange={handleChange}
           />
         </Column>
         <Column start={[1]} width={[3]}>
-          Depth cost factor: {depthCostFactor}
-          <Slider
+          <Parameter
             value={depthCostFactor}
-            min={1}
-            max={3}
-            step={0.25}
-            onChange={(e) =>
-              handleChange('depthCostFactor', parseFloat(e.target.value))
-            }
+            range={{ min: 1, max: 3 }}
+            name='depthCostFactor'
+            onChange={handleChange}
           />
         </Column>
         <Column start={[1]} width={[3]}>
-          Cheap depth: {cheapDepth}
-          <Slider
+          <Parameter
             value={cheapDepth}
-            min={10}
-            max={50}
-            step={5}
-            onChange={(e) =>
-              handleChange('cheapDepth', parseFloat(e.target.value))
-            }
+            range={{ min: 10, max: 50 }}
+            name='cheapDepth'
+            onChange={handleChange}
           />
         </Column>
         <Column start={[1]} width={[3]}>
-          Pricey depth: {priceyDepth}
-          <Slider
+          <Parameter
             value={priceyDepth}
-            min={100}
-            max={300}
-            step={25}
-            onChange={(e) =>
-              handleChange('priceyDepth', parseFloat(e.target.value))
-            }
+            range={{ min: 100, max: 300 }}
+            name='priceyDepth'
+            onChange={handleChange}
           />
         </Column>
       </Row>
