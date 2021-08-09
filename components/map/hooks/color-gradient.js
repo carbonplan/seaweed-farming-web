@@ -15,15 +15,9 @@ const useColorGradient = () => {
   } = useMapContext()
 
   return useMemo(() => {
-    let colorSteps = [
-      colors.orange,
-      colors.yellow,
-      colors.green,
-      colors.teal,
-      colors.blue,
-    ]
+    let colorSteps = [colors.blue, colors.teal, colors.green, colors.yellow]
     colorSteps = colorSteps.map((color, idx) =>
-      setLightness(0.7 - idx * 0.1, color)
+      setLightness(0.4 + idx * 0.1, color)
     )
     if (inverted) colorSteps.reverse()
 
