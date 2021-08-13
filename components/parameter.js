@@ -1,24 +1,13 @@
-import { useCallback, useMemo, useState } from 'react'
-import { Row, Column, Input, Slider } from '@carbonplan/components'
-import { Box, useThemeUI } from 'theme-ui'
-import { scaleLinear } from 'd3-scale'
+import { useCallback, useState } from 'react'
+import { Row, Column, Input } from '@carbonplan/components'
 
-const POINTER_WIDTH = 4
+import Slider from './slider'
 
 const formatValue = (value) =>
   Number(value).toLocaleString('en-US', { maximumFractionDigits: 2 })
 
 const Parameter = ({ name, value, onChange, range }) => {
-  const {
-    theme: { rawColors: colors },
-  } = useThemeUI()
   const [renderedValue, setRenderedValue] = useState(() => formatValue(value))
-
-  const x = useMemo(() => {
-    return scaleLinear()
-      .domain([range.min, range.max])
-      .range([0, 100 - POINTER_WIDTH])
-  }, [range.min, range.max])
 
   const handleInternalUpdate = useCallback((e) => {
     const normalizedValue = e.target.value.replace(/[^\.\d,]/g, '')
@@ -26,26 +15,35 @@ const Parameter = ({ name, value, onChange, range }) => {
     setRenderedValue(normalizedValue)
   })
 
-  const handleUpdate = useCallback(() => {
-    const parsedValue = Number(renderedValue.replace(/,/g, ''))
-    const validatedValue = Math.min(Math.max(parsedValue, range.min), range.max)
-    const formattedValue = formatValue(validatedValue)
+  const handleUpdate = useCallback(
+    (v) => {
+      const updatedValue = String(v)
+      const parsedValue = Number(updatedValue.replace(/,/g, ''))
+      const validatedValue = Math.min(
+        Math.max(parsedValue, range.min),
+        range.max
+      )
+      const formattedValue = formatValue(validatedValue)
 
-    if (value !== validatedValue) {
-      onChange(name, validatedValue)
-    }
+      if (value !== validatedValue) {
+        onChange(name, validatedValue)
+      }
 
-    if (renderedValue !== formattedValue) {
-      setRenderedValue(formattedValue)
-    }
-  }, [renderedValue, value, range.min, range.max])
+      if (renderedValue !== formattedValue) {
+        setRenderedValue(formattedValue)
+      }
+    },
+    [renderedValue, value, range.min, range.max]
+  )
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    handleUpdate()
+    handleUpdate(renderedValue)
   }
 
-  const pointer = x(value)
+  const handleBlur = useCallback((e) => {
+    handleUpdate(e.target.value)
+  })
 
   return (
     <>
@@ -56,42 +54,19 @@ const Parameter = ({ name, value, onChange, range }) => {
             <Input
               value={renderedValue}
               onChange={handleInternalUpdate}
-              onBlur={handleUpdate}
+              onBlur={handleBlur}
             />
           </form>
         </Column>
         <Column start={[2]} width={[2]}>
-          <Box
-            sx={{
-              width: '100%',
-              position: 'relative',
-            }}
-          >
-            <Box
-              as='svg'
-              height='100%'
-              viewBox='0 0 100 10'
-              width='100%'
-              preserveAspectRatio='none'
-            >
-              <Box
-                as='rect'
-                sx={{ fill: colors.orange, opacity: 0.2 }}
-                x='0'
-                y='0'
-                width='100'
-                height='10'
-              />
-              <Box
-                as='rect'
-                sx={{ fill: colors.orange, opacity: 1 }}
-                x={String(pointer)}
-                y='0'
-                width={String(POINTER_WIDTH)}
-                height='10'
-              />
-            </Box>
-          </Box>
+          <Slider
+            color='orange'
+            value={value}
+            onChange={handleBlur}
+            min={range.min}
+            max={range.max}
+            step={range.step}
+          />
         </Column>
       </Row>
     </>
