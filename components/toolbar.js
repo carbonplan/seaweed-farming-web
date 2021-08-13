@@ -1,5 +1,6 @@
+import { useCallback } from 'react'
 import { Box, Container, useThemeUI } from 'theme-ui'
-import { Column, Row } from '@carbonplan/components'
+import { Column, Row, getScrollbarWidth } from '@carbonplan/components'
 import { rgba } from 'polished'
 
 const Toolbar = ({ children }) => {
@@ -21,6 +22,8 @@ const Toolbar = ({ children }) => {
           backgroundColor: rgba(colors.background, 0.75),
           borderWidth: '0px',
           position: 'relative',
+          maxHeight: 'calc(100vh - 56px)',
+          overflow: 'scroll',
           maxWidth: [
             0,
             'calc(3 * 100vw / 8 + 18px)',
