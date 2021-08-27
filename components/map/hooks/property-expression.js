@@ -17,23 +17,26 @@ const usePropertyExpression = () => {
       const depthFactor = [
         'case',
         ['<=', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.cheapDepth],
-        0,
+        1,
 
         ['<=', parameters.priceyDepth, PROPERTY_TRANSFORMATIONS.DEPTH],
         parameters.depthCostFactor,
 
         [
           '*',
-          parameters.depthCostFactor / parameters.priceyDepth,
-          PROPERTY_TRANSFORMATIONS.DEPTH,
+          parameters.depthCostFactor /
+            (parameters.priceyDepth - parameters.cheapDepth),
+          ['-', PROPERTY_TRANSFORMATIONS.DEPTH, parameters.cheapDepth],
         ],
       ]
       const capital = [
-        '+',
-        parameters.capitalCost,
-        parameters.lineCost * 1000000, // todo: once LINEDENSITY is available: ['*', parameters.linecost, ['get', PROPERTIES.LINEDENSITY]]
-        ['*', depthFactor, parameters.capitalCost],
-        // ['*', waveFactor, parameters.capitalCost], todo: add wave factor once wave height data becomes available
+        '*',
+        [
+          '+',
+          parameters.capitalCost,
+          parameters.lineCost * 1000000, // todo: once LINEDENSITY is available: ['*', parameters.linecost, ['get', PROPERTIES.LINEDENSITY]]
+        ],
+        depthFactor,
       ]
       const operations = parameters.operatingCost
       const harvest = [
