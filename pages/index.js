@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useColorMode, Box, Container } from 'theme-ui'
 import {
   Dimmer,
@@ -29,6 +29,16 @@ const sx = {
   },
 }
 
+const CLIM_MAP = {
+  costLayer: [0, 5000],
+  valueLayer: [0, 1],
+  depthLayer: [0, 1000],
+  growthLayer: [0, 5000],
+  harvestLayer: [0, 5],
+  waveHeightLayer: [0, 1],
+  lineDensityLayer: [0, 800000],
+}
+
 const Index = () => {
   const [display, setDisplay] = useState(true)
   const [opacity, setOpacity] = useState(1)
@@ -39,6 +49,12 @@ const Index = () => {
   const [mode] = useColorMode()
 
   const [layerUniforms, setLayerUniforms] = useState(INITIAL_UNIFORMS)
+
+  const handleUniformChange = useCallback((res) => {
+    setLayerUniforms(res)
+    const updatedUniform = Object.keys(res).find((key) => res[key])
+    setClim(CLIM_MAP[updatedUniform])
+  })
 
   const [capex, setCapex] = useState(170630)
   const [lineCost, setLineCost] = useState(0.06)
@@ -139,7 +155,7 @@ const Index = () => {
                       This is an interactive web tool for mapping the potential
                       of carbon removal with macroalgae.
                     </Box>
-                    <LayerSwitcher setUniforms={setLayerUniforms} />
+                    <LayerSwitcher setUniforms={handleUniformChange} />
 
                     <Box>
                       <Box sx={sx.heading}>Capital Costs</Box>
@@ -332,6 +348,12 @@ const Index = () => {
 
               if (lineDensityLayer == 1.0) {
                 value = lineDensity;
+              }
+
+              if (value == nan) {
+                gl_FragColor = vec4(empty, empty, empty, opacity);
+                gl_FragColor.rgb *= gl_FragColor.a;
+                return;
               }
 
               // transform for display
