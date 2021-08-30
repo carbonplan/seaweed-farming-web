@@ -11,8 +11,16 @@ const initCostInputs = {
   depth: true,
   growth: true,
   harvest: true,
-  waveHeight: true,
-  lineDensity: true,
+  'wave height': true,
+  'line density': true,
+}
+
+const filterToValue = {
+  depth: 'depth',
+  growth: 'growth',
+  harvest: 'harvest',
+  'wave height': 'waveHeight',
+  'line density': 'lineDensity',
 }
 
 const initValueOutputs = {}
@@ -39,7 +47,7 @@ const LayerSwitcher = ({ setLayer, sx }) => {
   const handleInputChange = useCallback((res) => {
     setInputs(res)
     const selected = Object.keys(res).find((key) => res[key])
-    setLayer(selected)
+    setLayer(filterToValue[selected])
   })
 
   return (
