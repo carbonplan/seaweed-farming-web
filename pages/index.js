@@ -32,7 +32,7 @@ const sx = {
 const CLIM_MAP = {
   costLayer: [0, 5000],
   valueLayer: [0, 1],
-  depthLayer: [0, 1000],
+  depthLayer: [0, 10000],
   growthLayer: [0, 5000],
   harvestLayer: [0, 5],
   waveHeightLayer: [0, 1],
@@ -269,17 +269,7 @@ const Index = () => {
               target: 'cost',
               ...layerUniforms,
             }}
-            variables={[
-              'Growth2',
-              'd_Be',
-              'd_Bm',
-              'd_Ns',
-              'harv',
-              'elevation',
-              'd2p',
-              'mask',
-              'area',
-            ]}
+            variables={['Growth2', 'elevation', 'd2p', 'wave_height']}
             source={
               'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid/{z}/all_variables'
             }
