@@ -133,57 +133,62 @@ const Index = () => {
                     opacity: expanded ? 1 : 0,
                   }}
                 >
-                  <Box sx={{ mb: [4, 4, 4, 5], ...sx.description }}>
-                    This is an interactive web tool for mapping the potential of
-                    carbon removal with macroalgae.
-                  </Box>
-                  <Box sx={sx.heading}>Capital Costs</Box>
-                  <Parameter
-                    min={170630}
-                    max={969626}
-                    step={10}
-                    value={capex}
-                    setValue={setCapex}
-                    label={'Capex'}
-                  />
-                  <Parameter
-                    min={0.06}
-                    max={1.45}
-                    step={0.01}
-                    value={lineCost}
-                    setValue={setLineCost}
-                    label={'Line cost'}
-                  />
-                  <Box sx={{ mt: [4, 4, 4, 5], ...sx.heading }}>
-                    Operating costs
-                  </Box>
-                  <Parameter
-                    min={63004}
-                    max={69316}
-                    step={100}
-                    value={opex}
-                    setValue={setOpex}
-                    label={'Opex'}
-                  />
-                  <Parameter
-                    min={37706}
-                    max={119579}
-                    step={10}
-                    value={labor}
-                    setValue={setLabor}
-                    label={'Labor'}
-                  />
-                  <Box sx={{ mt: [4, 4, 4, 5], ...sx.heading }}>
-                    Harvest costs
-                  </Box>
-                  <Parameter
-                    min={124485}
-                    max={394780}
-                    step={100}
-                    value={harvestCost}
-                    setValue={setHarvestCost}
-                    label={'Harvest costs'}
-                  />
+                  <Group>
+                    <Box sx={sx.description}>
+                      This is an interactive web tool for mapping the potential
+                      of carbon removal with macroalgae.
+                    </Box>
+
+                    <Box>
+                      <Box sx={sx.heading}>Capital Costs</Box>
+                      <Parameter
+                        min={170630}
+                        max={969626}
+                        step={10}
+                        value={capex}
+                        setValue={setCapex}
+                        label={'Capex'}
+                      />
+                      <Parameter
+                        min={0.06}
+                        max={1.45}
+                        step={0.01}
+                        value={lineCost}
+                        setValue={setLineCost}
+                        label={'Line cost'}
+                      />
+                    </Box>
+                    <Box>
+                      <Box sx={sx.heading}>Operating costs</Box>
+                      <Parameter
+                        min={63004}
+                        max={69316}
+                        step={100}
+                        value={opex}
+                        setValue={setOpex}
+                        label={'Opex'}
+                      />
+                      <Parameter
+                        min={37706}
+                        max={119579}
+                        step={10}
+                        value={labor}
+                        setValue={setLabor}
+                        label={'Labor'}
+                      />
+                    </Box>
+                    <Box>
+                      <Box sx={sx.heading}>Harvest costs</Box>
+                      <Parameter
+                        min={124485}
+                        max={394780}
+                        step={100}
+                        value={harvestCost}
+                        setValue={setHarvestCost}
+                        label={'Harvest costs'}
+                      />
+                    </Box>
+                  </Group>
                 </Box>
               </Box>
             </Box>
