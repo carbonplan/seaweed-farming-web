@@ -51,9 +51,9 @@ const Index = () => {
   const [layerUniforms, setLayerUniforms] = useState(INITIAL_UNIFORMS)
 
   const handleUniformChange = useCallback((res) => {
-    setLayerUniforms(res)
     const updatedUniform = Object.keys(res).find((key) => res[key])
     setClim(CLIM_MAP[updatedUniform])
+    setLayerUniforms(res)
   })
 
   const [capex, setCapex] = useState(170630)
