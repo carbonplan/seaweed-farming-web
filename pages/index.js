@@ -14,6 +14,7 @@ import {
 } from '@carbonplan/components'
 import { Canvas, Raster } from '@carbonplan/maps'
 import { useColormap } from '@carbonplan/colormaps'
+import Parameter from '../components/parameter'
 import Basemap from '../components/basemap'
 import style from '../components/style'
 
@@ -24,39 +25,9 @@ const sx = {
     textTransform: 'uppercase',
     fontSize: [2, 2, 2, 3],
   },
-  parameter: {
-    fontFamily: 'faux',
-    letterSpacing: 'smallcaps',
-    fontSize: [2, 2, 2, 3],
-  },
   description: {
     fontSize: [1, 1, 1, 2],
   },
-}
-
-const Parameter = ({ label, min, max, step, value, setValue, onChange }) => {
-  return (
-    <Box sx={{ mt: [2], mb: [2] }}>
-      <Box sx={sx.parameter}>{label}</Box>
-      <Row columns={3}>
-        <Column start={1} width={2}>
-          <Box sx={{ height: ['3px'] }} />
-          <Slider
-            min={min}
-            max={max}
-            step={step}
-            value={value}
-            onChange={
-              onChange ? onChange : (e) => setValue(parseFloat(e.target.value))
-            }
-          />
-        </Column>
-        <Column start={3} width={1}>
-          <Badge>{value}</Badge>
-        </Column>
-      </Row>
-    </Box>
-  )
 }
 
 const Index = () => {
