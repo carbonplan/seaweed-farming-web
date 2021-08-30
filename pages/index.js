@@ -270,6 +270,13 @@ const Index = () => {
             frag={`
               float value;
 
+              // constants for forthcoming layers
+              float lineDensity = 714286.0;
+              float nharv = 2.0;
+
+              // invert depth
+              float depth = -1.0 * elevation;
+
               if (costLayer == 1.0) {
                 // return null color if null value or low growth
                 if ((Growth2 == nan) || (Growth2 < 0.2)) {
@@ -283,13 +290,6 @@ const Index = () => {
                 float priceyDepth = 150.0;
                 float insurance = 35000.0;
                 float license = 1409.0;
-
-                // constants for forthcoming layers
-                float lineDensity = 714286.0;
-                float nharv = 2.0;
-
-                // invert depth
-                float depth = -1.0 * elevation;
 
                 // calculate depth premium
                 float depthPremium;
@@ -314,14 +314,24 @@ const Index = () => {
               }
 
               if (depthLayer == 1.0) {
-                // TODO(kata): combine depth definitions
-                // invert depth
-                float depth = -1.0 * elevation;
                 value = depth;
               }
 
               if (growthLayer == 1.0) {
                 value = Growth2;
+              }
+
+              if (harvestLayer == 1.0) {
+                value = nharv;
+              }
+
+              if (waveHeightLayer == 1.0) {
+                // TODO: return value from forthcoming layer
+                value = nan;
+              }
+
+              if (lineDensityLayer == 1.0) {
+                value = lineDensity;
               }
 
               // transform for display
