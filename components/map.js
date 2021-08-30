@@ -1,8 +1,43 @@
+import { useMemo } from 'react'
+import { useColorMode } from 'theme-ui'
 import { Canvas, Raster } from '@carbonplan/maps'
+import { useColormap } from '@carbonplan/colormaps'
+
 import Basemap from '../components/basemap'
 import style from '../components/style'
+import { useParameters } from './parameters'
 
-const Map = ({ clim, colormap, uniforms }) => {
+const CLIM_MAP = {
+  cost: [0, 5000],
+  value: [0, 1],
+  depth: [0, 10000],
+  growth: [0, 5000],
+  harvest: [0, 5],
+  waveHeight: [0, 5],
+  lineDensity: [0, 1000000],
+}
+
+const emptyUniforms = {
+  costLayer: 0,
+  valueLayer: 0,
+  depthLayer: 0,
+  growthLayer: 0,
+  harvestLayer: 0,
+  waveHeightLayer: 0,
+  lineDensityLayer: 0,
+}
+
+const Map = ({ layer }) => {
+  const colormap = useColormap('cool')
+  const [mode] = useColorMode()
+  const parameters = useParameters()
+
+  const clim = CLIM_MAP[layer]
+  const layerUniforms = useMemo(
+    () => ({ ...emptyUniforms, [`${layer}Layer`]: 1 }),
+    [layer]
+  )
+
   return (
     <Canvas
       style={style}
@@ -22,7 +57,11 @@ const Map = ({ clim, colormap, uniforms }) => {
         display={true}
         opacity={1}
         mode={'texture'}
-        uniforms={uniforms}
+        uniforms={{
+          ...layerUniforms,
+          ...parameters,
+          empty: mode == 'dark' ? 0.25 : 0.75,
+        }}
         variables={['Growth2', 'elevation', 'd2p', 'wave_height']}
         source={
           'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid/{z}/all_variables'
@@ -48,12 +87,8 @@ const Map = ({ clim, colormap, uniforms }) => {
                 // parameters
                 float cheapDepth = 50.0;
                 float priceyDepth = 150.0;
-                float depthFactor = 3.0;
                 float lowWaveDamage = 1.0;
                 float highWaveDamage = 2.0;
-                float waveFactor = 2.0;
-                float insurance = 35000.0;
-                float license = 1409.0;
 
                 // calculate depth premium
                 float depthPremium;

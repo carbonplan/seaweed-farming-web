@@ -17,45 +17,29 @@ const initCostInputs = {
 
 const initValueOutputs = {}
 
-const emptyUniforms = {
-  costLayer: 0,
-  valueLayer: 0,
-  depthLayer: 0,
-  growthLayer: 0,
-  harvestLayer: 0,
-  waveHeightLayer: 0,
-  lineDensityLayer: 0,
-}
-
-export const INITIAL_UNIFORMS = {
-  ...emptyUniforms,
-  costLayer: 1,
-}
-
-const LayerSwitcher = ({ setUniforms, sx }) => {
+const LayerSwitcher = ({ setLayer, sx }) => {
   const { heading: sxHeading, description: sxDescription, ...sxProps } = sx
   const [outputs, setOutputs] = useState(initOutputs)
   const [inputs, setInputs] = useState(initCostInputs)
 
   const handleOutputChange = useCallback((res) => {
-    let uniform
+    let layer
     setOutputs(res)
     if (res.cost) {
-      uniform = 'costLayer'
+      layer = 'cost'
       setInputs(initCostInputs)
     } else {
-      uniform = 'valueLayer'
+      layer = 'value'
       setInputs(initValueOutputs)
     }
 
-    setUniforms({ ...emptyUniforms, [uniform]: 1 })
+    setLayer(layer)
   })
 
   const handleInputChange = useCallback((res) => {
     setInputs(res)
     const selected = Object.keys(res).find((key) => res[key])
-    const uniform = `${selected}Layer`
-    setUniforms({ ...emptyUniforms, [uniform]: 1 })
+    setLayer(selected)
   })
 
   return (
