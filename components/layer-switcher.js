@@ -1,5 +1,6 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Filter, Group } from '@carbonplan/components'
+import { Box } from 'theme-ui'
 
 const initOutputs = {
   cost: true,
@@ -31,7 +32,8 @@ export const INITIAL_UNIFORMS = {
   costLayer: 1,
 }
 
-const LayerSwitcher = ({ setUniforms }) => {
+const LayerSwitcher = ({ setUniforms, sx }) => {
+  const { heading: sxHeading, description: sxDescription, ...sxProps } = sx
   const [outputs, setOutputs] = useState(initOutputs)
   const [inputs, setInputs] = useState(initCostInputs)
 
@@ -57,9 +59,15 @@ const LayerSwitcher = ({ setUniforms }) => {
   })
 
   return (
-    <Group>
-      <Filter values={outputs} setValues={handleOutputChange} label='Outputs' />
-      <Filter values={inputs} setValues={handleInputChange} label='Inputs' />
+    <Group sx={sxProps}>
+      <Box>
+        <Box sx={sxHeading}>Outputs</Box>
+        <Filter values={outputs} setValues={handleOutputChange} />
+      </Box>
+      <Box>
+        <Box sx={sxHeading}>Inputs</Box>
+        <Filter values={inputs} setValues={handleInputChange} />
+      </Box>
     </Group>
   )
 }
