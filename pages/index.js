@@ -35,8 +35,8 @@ const CLIM_MAP = {
   depthLayer: [0, 10000],
   growthLayer: [0, 5000],
   harvestLayer: [0, 5],
-  waveHeightLayer: [0, 1],
-  lineDensityLayer: [0, 800000],
+  waveHeightLayer: [0, 5],
+  lineDensityLayer: [0, 1000000],
 }
 
 const Index = () => {
@@ -294,6 +294,10 @@ const Index = () => {
                 // parameters
                 float cheapDepth = 50.0;
                 float priceyDepth = 150.0;
+                float depthFactor = 3.0;
+                float lowWaveDamage = 1;
+                float highWaveDamage = 2;
+                float waveFactor = 2.0;
                 float insurance = 35000.0;
                 float license = 1409.0;
 
@@ -303,14 +307,26 @@ const Index = () => {
                   depthPremium = 0.0;
                 }
                 if ((depth > cheapDepth) && (depth < priceyDepth)) {
-                  depthPremium = (depth / priceyDepth) * 3.0;
+                  depthPremium = (depth / priceyDepth) * depthFactor;
                 }
                 if (depth > priceyDepth) {
-                  depthPremium = 3.0;
+                  depthPremium = depthFactor;
+                }
+
+                // calculate wave premium
+                float wavePremium;
+                if (wave_height <= lowWaveDamage) {
+                  wavePremium = 0.0;
+                }
+                if ((wave_height > lowWaveDamage) && (wave_height < highWaveDamage)) {
+                  wavePremium = (wave_height / highWaveDamage) * waveFactor;
+                }
+                if (wave_height > highWaveDamage) {
+                  wavePremium = waveFactor;
                 }
 
                 // calculate primary terms
-                float capital = capex + depthPremium * capex + lineCost * lineDensity;
+                float capital = capex + depthPremium * capex + wavePremium * capex + lineCost * lineDensity;
                 float operations = opex + labor + insurance + license;
                 float harvest = harvestCost * nharv;
 
@@ -332,8 +348,7 @@ const Index = () => {
               }
 
               if (waveHeightLayer == 1.0) {
-                // TODO: return value from forthcoming layer
-                value = nan;
+                value = wave_height;
               }
 
               if (lineDensityLayer == 1.0) {
