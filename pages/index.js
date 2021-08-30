@@ -1,11 +1,9 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useColorMode, Box, Container } from 'theme-ui'
 import {
-  Slider,
-  Badge,
   Dimmer,
-  Toggle,
-  Select,
+  Filter,
+  Group,
   Meta,
   Row,
   Column,
@@ -17,6 +15,7 @@ import { useColormap } from '@carbonplan/colormaps'
 import Parameter from '../components/parameter'
 import Basemap from '../components/basemap'
 import style from '../components/style'
+import LayerSwitcher, { INITIAL_UNIFORMS } from '../components/layer-switcher'
 
 const sx = {
   heading: {
@@ -38,6 +37,8 @@ const Index = () => {
   const [expanded, setExpanded] = useState(false)
   const colormap = useColormap(colormapName)
   const [mode] = useColorMode()
+
+  const [layerUniforms, setLayerUniforms] = useState(INITIAL_UNIFORMS)
 
   const [capex, setCapex] = useState(170630)
   const [lineCost, setLineCost] = useState(0.06)
@@ -138,6 +139,7 @@ const Index = () => {
                       This is an interactive web tool for mapping the potential
                       of carbon removal with macroalgae.
                     </Box>
+                    <LayerSwitcher setUniforms={setLayerUniforms} />
 
                     <Box>
                       <Box sx={sx.heading}>Capital Costs</Box>
@@ -249,6 +251,7 @@ const Index = () => {
               harvestCost: harvestCost,
               empty: mode == 'dark' ? 0.25 : 0.75,
               target: 'cost',
+              ...layerUniforms,
             }}
             variables={[
               'Growth2',
@@ -265,48 +268,64 @@ const Index = () => {
               'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid/{z}/all_variables'
             }
             frag={`
-              // return null color if null value or low growth
-              if ((Growth2 == nan) || (Growth2 < 0.2)) {
-                gl_FragColor = vec4(empty, empty, empty, opacity);
-                gl_FragColor.rgb *= gl_FragColor.a;
-                return;
+              float value;
+
+              if (costLayer == 1.0) {
+                // return null color if null value or low growth
+                if ((Growth2 == nan) || (Growth2 < 0.2)) {
+                  gl_FragColor = vec4(empty, empty, empty, opacity);
+                  gl_FragColor.rgb *= gl_FragColor.a;
+                  return;
+                }
+  
+                // parameters
+                float cheapDepth = 50.0;
+                float priceyDepth = 150.0;
+                float insurance = 35000.0;
+                float license = 1409.0;
+
+                // constants for forthcoming layers
+                float lineDensity = 714286.0;
+                float nharv = 2.0;
+
+                // invert depth
+                float depth = -1.0 * elevation;
+
+                // calculate depth premium
+                float depthPremium;
+                if (depth <= cheapDepth) {
+                  depthPremium = 0.0;
+                }
+                if ((depth > cheapDepth) && (depth < priceyDepth)) {
+                  depthPremium = (depth / priceyDepth) * 3.0;
+                }
+                if (depth > priceyDepth) {
+                  depthPremium = 3.0;
+                }
+
+                // calculate primary terms
+                float capital = capex + depthPremium * capex + lineCost * lineDensity;
+                float operations = opex + labor + insurance + license;
+                float harvest = harvestCost * nharv;
+
+                // combine terms
+                float cost = (capital + operations + harvest) / Growth2;
+                value = cost;
               }
 
-              // parameters
-              float cheapDepth = 50.0;
-              float priceyDepth = 150.0;
-              float insurance = 35000.0;
-              float license = 1409.0;
-
-              // constants for forthcoming layers
-              float lineDensity = 714286.0;
-              float nharv = 2.0;
-
-              // invert depth
-              float depth = -1.0 * elevation;
-
-              // calculate depth premium
-              float depthPremium;
-              if (depth <= cheapDepth) {
-                depthPremium = 0.0;
-              }
-              if ((depth > cheapDepth) && (depth < priceyDepth)) {
-                depthPremium = (depth / priceyDepth) * 3.0;
-              }
-              if (depth > priceyDepth) {
-                depthPremium = 3.0;
+              if (depthLayer == 1.0) {
+                // TODO(kata): combine depth definitions
+                // invert depth
+                float depth = -1.0 * elevation;
+                value = depth;
               }
 
-              // calculate primary terms
-              float capital = capex + depthPremium * capex + lineCost * lineDensity;
-              float operations = opex + labor + insurance + license;
-              float harvest = harvestCost * nharv;
-
-              // combine terms
-              float cost = (capital + operations + harvest) / Growth2;
+              if (growthLayer == 1.0) {
+                value = Growth2;
+              }
 
               // transform for display
-              float rescaled = (cost - clim.x)/(clim.y - clim.x);
+              float rescaled = (value - clim.x)/(clim.y - clim.x);
               vec4 c = texture2D(colormap, vec2(rescaled, 1.0));
               gl_FragColor = vec4(c.x, c.y, c.z, opacity);
               gl_FragColor.rgb *= gl_FragColor.a;
