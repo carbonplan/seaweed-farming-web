@@ -295,8 +295,8 @@ const Index = () => {
                 float cheapDepth = 50.0;
                 float priceyDepth = 150.0;
                 float depthFactor = 3.0;
-                float lowWaveDamage = 1;
-                float highWaveDamage = 2;
+                float lowWaveDamage = 1.0;
+                float highWaveDamage = 2.0;
                 float waveFactor = 2.0;
                 float insurance = 35000.0;
                 float license = 1409.0;
