@@ -23,7 +23,7 @@
   "homepage": "https://github.com/carbonplan/article-template#readme",
   "dependencies": {
     "@carbonplan/colormaps": "^1.0.0",
-    "@carbonplan/components": "^9.2.0",
+    "@carbonplan/components": "^10.0.0",
     "@carbonplan/maps": "^1.0.0-alpha.1",
     "@carbonplan/theme": "^7.0.0",
     "@mdx-js/loader": "^1.6.22",
