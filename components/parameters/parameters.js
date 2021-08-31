@@ -167,50 +167,50 @@ const Parameters = ({ applicableParameters, sx }) => {
         >
           More parameters
         </Box>
-        <AnimateHeight
-          duration={150}
-          height={expandedParameters ? 'auto' : 0}
-          easing={'linear'}
-        >
-          {expandedParameters && (
-            <Box mt={[3]}>
-              <Parameter
-                min={0}
-                max={3}
-                step={0.1}
-                value={depthFactor}
-                setValue={setDepthFactor}
-                label={'Depth factor'}
-              />
-              <Parameter
-                min={0}
-                max={2}
-                step={0.1}
-                value={waveFactor}
-                setValue={setWaveFactor}
-                label={'Wave factor'}
-              />
-              <Parameter
-                min={35000}
-                max={105000}
-                step={1000}
-                value={insurance}
-                setValue={setInsurance}
-                label={'Insurance'}
-              />
-              <Parameter
-                min={1409}
-                max={1637}
-                step={1}
-                value={license}
-                setValue={setLicense}
-                label={'License'}
-              />
-            </Box>
-          )}
-        </AnimateHeight>
-        <Divider my={[3]} />
       </Box>
+      <AnimateHeight
+        duration={150}
+        height={expandedParameters ? 'auto' : 0}
+        easing={'linear'}
+      >
+        {expandedParameters && (
+          <Box mt={[3]}>
+            <Parameter
+              min={0}
+              max={3}
+              step={0.1}
+              value={depthFactor}
+              setValue={setDepthFactor}
+              label={'Depth factor'}
+            />
+            <Parameter
+              min={0}
+              max={2}
+              step={0.1}
+              value={waveFactor}
+              setValue={setWaveFactor}
+              label={'Wave factor'}
+            />
+            <Parameter
+              min={35000}
+              max={105000}
+              step={1000}
+              value={insurance}
+              setValue={setInsurance}
+              label={'Insurance'}
+            />
+            <Parameter
+              min={1409}
+              max={1637}
+              step={1}
+              value={license}
+              setValue={setLicense}
+              label={'License'}
+            />
+          </Box>
+        )}
+      </AnimateHeight>
+      <Divider my={[3]} />
     </Box>
   )
 }
