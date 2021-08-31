@@ -1,6 +1,7 @@
-import { createContext, useCallback, useContext, useState } from 'react'
-import { Box } from 'theme-ui'
-import { Expander } from '@carbonplan/components'
+import { createContext, useContext, useState } from 'react'
+import { Box, Divider } from 'theme-ui'
+import AnimateHeight from 'react-animate-height'
+import { Expander, FadeIn } from '@carbonplan/components'
 import Parameter from './parameter'
 
 const ParameterContext = createContext(null)
@@ -142,6 +143,7 @@ const Parameters = ({ applicableParameters, sx }) => {
         setValue={setHarvestCost}
         label={'Harvest costs'}
       />
+      <Divider mt={[3]} mb={[2]} />
       <Box
         sx={{
           mt: [1, 1, 1, 2],
@@ -165,43 +167,50 @@ const Parameters = ({ applicableParameters, sx }) => {
         >
           More parameters
         </Box>
+        <AnimateHeight
+          duration={150}
+          height={expandedParameters ? 'auto' : 0}
+          easing={'linear'}
+        >
+          {expandedParameters && (
+            <Box mt={[3]}>
+              <Parameter
+                min={0}
+                max={3}
+                step={0.1}
+                value={depthFactor}
+                setValue={setDepthFactor}
+                label={'Depth factor'}
+              />
+              <Parameter
+                min={0}
+                max={2}
+                step={0.1}
+                value={waveFactor}
+                setValue={setWaveFactor}
+                label={'Wave factor'}
+              />
+              <Parameter
+                min={35000}
+                max={105000}
+                step={1000}
+                value={insurance}
+                setValue={setInsurance}
+                label={'Insurance'}
+              />
+              <Parameter
+                min={1409}
+                max={1637}
+                step={1}
+                value={license}
+                setValue={setLicense}
+                label={'License'}
+              />
+            </Box>
+          )}
+        </AnimateHeight>
+        <Divider my={[3]} />
       </Box>
-      {expandedParameters && (
-        <Box>
-          <Parameter
-            min={0}
-            max={3}
-            step={0.1}
-            value={depthFactor}
-            setValue={setDepthFactor}
-            label={'Depth factor'}
-          />
-          <Parameter
-            min={0}
-            max={2}
-            step={0.1}
-            value={waveFactor}
-            setValue={setWaveFactor}
-            label={'Wave factor'}
-          />
-          <Parameter
-            min={35000}
-            max={105000}
-            step={1000}
-            value={insurance}
-            setValue={setInsurance}
-            label={'Insurance'}
-          />
-          <Parameter
-            min={1409}
-            max={1637}
-            step={1}
-            value={license}
-            setValue={setLicense}
-            label={'License'}
-          />
-        </Box>
-      )}
     </Box>
   )
 }
