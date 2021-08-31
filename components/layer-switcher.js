@@ -45,6 +45,7 @@ const LayerSwitcher = ({ setLayer, sx }) => {
   })
 
   const handleInputChange = useCallback((res) => {
+    setOutputs({ cost: false, value: false })
     setInputs(res)
     const selected = Object.keys(res).find((key) => res[key])
     setLayer(filterToValue[selected])
