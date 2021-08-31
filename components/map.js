@@ -15,6 +15,7 @@ const CLIM_MAP = {
   harvest: [0, 5],
   waveHeight: [0, 5],
   lineDensity: [0, 1000000],
+  d2p: [0, 5000],
 }
 
 const emptyUniforms = {
@@ -25,6 +26,7 @@ const emptyUniforms = {
   harvestLayer: 0,
   waveHeightLayer: 0,
   lineDensityLayer: 0,
+  d2pLayer: 0,
 }
 
 const Map = ({ layer }) => {
@@ -142,6 +144,10 @@ const Map = ({ layer }) => {
 
               if (lineDensityLayer == 1.0) {
                 value = lineDensity;
+              }
+
+              if (d2pLayer == 1.0) {
+                value = d2p;
               }
 
               if (value == nan) {

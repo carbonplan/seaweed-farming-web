@@ -21,9 +21,12 @@ const filterToValue = {
   harvest: 'harvest',
   'wave height': 'waveHeight',
   'line density': 'lineDensity',
+  'distance to port': 'd2p',
 }
 
-const initValueOutputs = {}
+const initValueOutputs = {
+  'distance to port': true,
+}
 
 const LayerSwitcher = ({ setLayer, sx }) => {
   const { heading: sxHeading, description: sxDescription, ...sxProps } = sx
