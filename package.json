@@ -25,7 +25,7 @@
     "@carbonplan/colormaps": "^1.0.0",
     "@carbonplan/components": "^9.2.0",
     "@carbonplan/maps": "^1.0.0-alpha.1",
-    "@carbonplan/theme": "^6.0.1",
+    "@carbonplan/theme": "^7.0.0",
     "@mdx-js/loader": "^1.6.22",
     "@next/mdx": "^10.0.9",
     "@theme-ui/color": "^0.10.0",
