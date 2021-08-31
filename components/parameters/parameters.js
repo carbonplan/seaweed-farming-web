@@ -142,12 +142,30 @@ const Parameters = ({ applicableParameters, sx }) => {
         setValue={setHarvestCost}
         label={'Harvest costs'}
       />
-      <Expander
-        value={expandedParameters}
+      <Box
+        sx={{
+          mt: [1, 1, 1, 2],
+          cursor: 'pointer',
+          '@media (hover: hover) and (pointer: fine)': {
+            '&:hover > #expander': { stroke: 'primary' },
+            '&:hover > #label': { color: 'primary' },
+          },
+        }}
         onClick={() => setExpandedParameters(!expandedParameters)}
-        sx={{ position: 'relative', top: ['2px'] }}
-      />{' '}
-      More parameters
+      >
+        <Expander
+          value={expandedParameters}
+          id='expander'
+          sx={{ position: 'relative', top: ['2px'], left: ['-4px'] }}
+        />{' '}
+        <Box
+          as='span'
+          id='label'
+          sx={{ color: 'secondary', transition: 'color 0.15s' }}
+        >
+          More parameters
+        </Box>
+      </Box>
       {expandedParameters && (
         <Box>
           <Parameter
