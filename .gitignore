@@ -2,5 +2,3 @@
 .next/
 node_modules/
 .env*.local
-tiles/processed/
-tiles/raw/
