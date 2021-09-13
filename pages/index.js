@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react'
 import { Box, Container } from 'theme-ui'
-import { Dimmer, Group, Meta, Guide, Header } from '@carbonplan/components'
+import { Group, Meta, Guide, Header } from '@carbonplan/components'
 import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
 import LayerSwitcher from '../components/layer-switcher'
 import Parameters, { ParameterProvider } from '../components/parameters'
+import { RegionDataDisplay } from '../components/region'
 
 const sx = {
   heading: {
@@ -36,6 +37,7 @@ const parameterMapping = {
 
 const Index = () => {
   const [layer, setLayer] = useState('cost')
+
   const applicableParameters = parameterMapping[layer] || []
 
   return (
@@ -60,6 +62,8 @@ const Index = () => {
               <LayerSwitcher setLayer={setLayer} sx={sx} />
 
               <Parameters applicableParameters={applicableParameters} sx={sx} />
+
+              <RegionDataDisplay />
             </Group>
           </ControlPanel>
         </Container>
@@ -73,15 +77,6 @@ const Index = () => {
           }}
         >
           <Map layer={layer} />
-          <Dimmer
-            sx={{
-              display: ['none', 'none', 'initial', 'initial'],
-              position: 'absolute',
-              color: 'primary',
-              right: [13],
-              bottom: [17, 17, 15, 15],
-            }}
-          />
         </Box>
       </ParameterProvider>
     </>

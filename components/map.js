@@ -1,7 +1,9 @@
-import { useMemo } from 'react'
-import { useColorMode } from 'theme-ui'
-import { Canvas, Raster } from '@carbonplan/maps'
+import { useMemo, useState } from 'react'
+import { Box, useColorMode, useThemeUI } from 'theme-ui'
+import { Canvas, Raster, RegionPicker } from '@carbonplan/maps'
+import { RegionControls, useRegionData } from './region'
 import { useColormap } from '@carbonplan/colormaps'
+import { Dimmer } from '@carbonplan/components'
 
 import Basemap from '../components/basemap'
 import style from '../components/style'
@@ -30,9 +32,12 @@ const emptyUniforms = {
 }
 
 const Map = ({ layer }) => {
+  const { theme } = useThemeUI()
   const colormap = useColormap('cool')
   const [mode] = useColorMode()
   const parameters = useParameters()
+  const { setRegionData } = useRegionData()
+  const [showRegionPicker, setShowRegionPicker] = useState(false)
 
   const clim = CLIM_MAP[layer]
   const layerUniforms = useMemo(
@@ -50,6 +55,16 @@ const Map = ({ layer }) => {
       extensions={['OES_texture_float', 'OES_element_index_uint']}
     >
       <Basemap inverted />
+      {showRegionPicker && (
+        <RegionPicker
+          color={theme.colors.primary}
+          backgroundColor={theme.colors.background}
+          fontFamily={theme.fonts.monospace}
+          // initialRadius={initialRadius}
+          // minRadius={minRadius}
+          // maxRadius={maxRadius}
+        />
+      )}
       <Raster
         maxZoom={5}
         size={128}
@@ -64,6 +79,7 @@ const Map = ({ layer }) => {
           ...parameters,
           empty: mode == 'dark' ? 0.25 : 0.75,
         }}
+        setRegionData={setRegionData}
         variables={['Growth2', 'elevation', 'd2p', 'wave_height']}
         source={
           'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid/{z}/all_variables'
@@ -163,6 +179,24 @@ const Map = ({ layer }) => {
               gl_FragColor.rgb *= gl_FragColor.a;
               `}
       />
+      <Box
+        sx={{
+          position: 'absolute',
+          right: [13],
+          bottom: [17, 17, 15, 15],
+        }}
+      >
+        <RegionControls
+          showRegionPicker={showRegionPicker}
+          setShowRegionPicker={setShowRegionPicker}
+        />
+        <Dimmer
+          sx={{
+            display: ['none', 'none', 'initial', 'initial'],
+            color: 'primary',
+          }}
+        />
+      </Box>
     </Canvas>
   )
 }

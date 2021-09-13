@@ -1,9 +1,35 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Box } from 'theme-ui'
 import { Row, Column } from '@carbonplan/components'
 
+import { useRegionData } from './region'
+
 const ControlPanel = ({ children, title }) => {
   const [expanded, setExpanded] = useState(false)
+  const { regionData } = useRegionData()
+
+  const handleToggleExpanded = useCallback(() => {
+    // Always allow opening of panel
+    if (!expanded) {
+      setExpanded(true)
+    } else {
+      // Otherwise, when expanded=true...
+      if (regionData) {
+        // do nothing when there is active regionData.
+        return
+      } else {
+        // allow panel to be closed otherwise.
+        setExpanded(false)
+      }
+    }
+  }, [expanded, regionData])
+
+  useEffect(() => {
+    // Automatically expand panel when regionData is activated
+    if (!expanded && regionData) {
+      setExpanded(true)
+    }
+  }, [regionData])
 
   return (
     <Row>
@@ -25,7 +51,7 @@ const ControlPanel = ({ children, title }) => {
         >
           <Box
             as='button'
-            onClick={() => setExpanded((prev) => !prev)}
+            onClick={handleToggleExpanded}
             sx={{
               fontFamily: 'inherit',
               fontSize: '100%',
