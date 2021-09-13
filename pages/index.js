@@ -63,7 +63,7 @@ const Index = () => {
 
               <Parameters applicableParameters={applicableParameters} sx={sx} />
 
-              <RegionDataDisplay />
+              <RegionDataDisplay sx={sx} />
             </Group>
           </ControlPanel>
         </Container>
