@@ -3,16 +3,8 @@ import { useCallback } from 'react'
 import { useRegionContext } from './context'
 
 export const RegionPickerButton = ({ sx, color }) => {
-  const {
-    setRegionData,
-    showRegionPicker,
-    setShowRegionPicker,
-  } = useRegionContext()
+  const { showRegionPicker, setShowRegionPicker } = useRegionContext()
   const handleToggle = useCallback(() => {
-    if (showRegionPicker) {
-      setRegionData(null)
-    }
-
     setShowRegionPicker(!showRegionPicker)
   }, [showRegionPicker])
 

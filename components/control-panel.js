@@ -6,7 +6,7 @@ import { useRegionContext } from './region'
 
 const ControlPanel = ({ children, title }) => {
   const [expanded, setExpanded] = useState(false)
-  const { regionData } = useRegionContext()
+  const { showRegionPicker, setShowRegionPicker } = useRegionContext()
 
   const handleToggleExpanded = useCallback(() => {
     // Always allow opening of panel
@@ -14,22 +14,21 @@ const ControlPanel = ({ children, title }) => {
       setExpanded(true)
     } else {
       // Otherwise, when expanded=true...
-      if (regionData) {
-        // do nothing when there is active regionData.
-        return
-      } else {
-        // allow panel to be closed otherwise.
-        setExpanded(false)
+      if (showRegionPicker) {
+        // also hide region picker when active.
+        setShowRegionPicker(false)
       }
+      // allow panel to be closed otherwise.
+      setExpanded(false)
     }
-  }, [expanded, regionData])
+  }, [expanded, showRegionPicker])
 
   useEffect(() => {
-    // Automatically expand panel when regionData is activated
-    if (!expanded && regionData) {
+    // Automatically expand panel when region picker is activated
+    if (!expanded && showRegionPicker) {
       setExpanded(true)
     }
-  }, [regionData])
+  }, [showRegionPicker])
 
   return (
     <Row>

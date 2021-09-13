@@ -131,11 +131,11 @@ const AverageDisplay = ({ value, label, units }) => {
 }
 
 export const RegionDataDisplay = ({ sx }) => {
-  const { regionData } = useRegionContext()
+  const { showRegionPicker, regionData } = useRegionContext()
   const parameters = useParameters()
 
   let children
-  if (!regionData) {
+  if (!showRegionPicker) {
     children = (
       <Box
         as='span'
@@ -151,7 +151,7 @@ export const RegionDataDisplay = ({ sx }) => {
         <RegionPickerButton color='secondary' />
       </Box>
     )
-  } else if (regionData.loading) {
+  } else if (!regionData || regionData.loading) {
     children = 'loading...'
   } else {
     const cost = averageData(valuesToCost(regionData.value, parameters))
