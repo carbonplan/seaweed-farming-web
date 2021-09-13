@@ -4,7 +4,7 @@ import { Group, Badge, Row, Column } from '@carbonplan/components'
 import { useRegionData } from './context'
 import { useParameters } from '../parameters'
 
-const NAN = -999
+const NAN = -9999
 
 const averageData = (data) => {
   if (data.length === 0) {
