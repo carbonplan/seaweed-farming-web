@@ -4,7 +4,7 @@ import { Group, Meta, Guide, Header } from '@carbonplan/components'
 import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
 import LayerSwitcher from '../components/layer-switcher'
-import Parameters, { ParameterProvider } from '../components/parameters'
+import Parameters from '../components/parameters'
 import { RegionDataDisplay, useRegionData } from '../components/region'
 import ControlPanelDivider from '../components/control-panel-divider'
 
@@ -52,41 +52,39 @@ const Index = () => {
           <Header dimmer={'none'} />
         </Container>
       </Box>
-      <ParameterProvider>
-        <Container>
-          <ControlPanel title='Mapping macroalgae'>
-            <Group>
-              <Box sx={sx.description}>
-                This is an interactive web tool for mapping the potential of
-                carbon removal with macroalgae.
-              </Box>
+      <Container>
+        <ControlPanel title='Mapping macroalgae'>
+          <Group>
+            <Box sx={sx.description}>
+              This is an interactive web tool for mapping the potential of
+              carbon removal with macroalgae.
+            </Box>
 
-              <ControlPanelDivider />
+            <ControlPanelDivider />
 
-              <LayerSwitcher setLayer={setLayer} sx={sx} />
+            <LayerSwitcher setLayer={setLayer} sx={sx} />
 
-              <ControlPanelDivider />
+            <ControlPanelDivider />
 
-              <Parameters applicableParameters={applicableParameters} sx={sx} />
+            <Parameters applicableParameters={applicableParameters} sx={sx} />
 
-              {regionData && <ControlPanelDivider />}
+            {regionData && <ControlPanelDivider />}
 
-              <RegionDataDisplay sx={sx} />
-            </Group>
-          </ControlPanel>
-        </Container>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            width: '100%',
-            left: 0,
-          }}
-        >
-          <Map layer={layer} />
-        </Box>
-      </ParameterProvider>
+            <RegionDataDisplay sx={sx} />
+          </Group>
+        </ControlPanel>
+      </Container>
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          width: '100%',
+          left: 0,
+        }}
+      >
+        <Map layer={layer} />
+      </Box>
     </>
   )
 }
