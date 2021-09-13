@@ -5,7 +5,7 @@ import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
 import LayerSwitcher from '../components/layer-switcher'
 import Parameters from '../components/parameters'
-import { RegionDataDisplay, useRegionData } from '../components/region'
+import { RegionDataDisplay } from '../components/region'
 import ControlPanelDivider from '../components/control-panel-divider'
 
 const sx = {
@@ -38,7 +38,6 @@ const parameterMapping = {
 
 const Index = () => {
   const [layer, setLayer] = useState('cost')
-  const { regionData } = useRegionData()
   const applicableParameters = parameterMapping[layer] || []
 
   return (
@@ -52,28 +51,6 @@ const Index = () => {
           <Header dimmer={'none'} />
         </Container>
       </Box>
-      <Container>
-        <ControlPanel title='Mapping macroalgae'>
-          <Group>
-            <Box sx={sx.description}>
-              This is an interactive web tool for mapping the potential of
-              carbon removal with macroalgae.
-            </Box>
-
-            <ControlPanelDivider />
-
-            <LayerSwitcher setLayer={setLayer} sx={sx} />
-
-            <ControlPanelDivider />
-
-            <Parameters applicableParameters={applicableParameters} sx={sx} />
-
-            {regionData && <ControlPanelDivider />}
-
-            <RegionDataDisplay sx={sx} />
-          </Group>
-        </ControlPanel>
-      </Container>
       <Box
         sx={{
           position: 'absolute',
@@ -83,7 +60,33 @@ const Index = () => {
           left: 0,
         }}
       >
-        <Map layer={layer} />
+        <Map layer={layer}>
+          <Container>
+            <ControlPanel title='Mapping macroalgae'>
+              <Group>
+                <Box sx={sx.description}>
+                  This is an interactive web tool for mapping the potential of
+                  carbon removal with macroalgae.
+                </Box>
+
+                <ControlPanelDivider />
+
+                <LayerSwitcher setLayer={setLayer} sx={sx} />
+
+                <ControlPanelDivider />
+
+                <Parameters
+                  applicableParameters={applicableParameters}
+                  sx={sx}
+                />
+
+                <ControlPanelDivider />
+
+                <RegionDataDisplay sx={sx} />
+              </Group>
+            </ControlPanel>
+          </Container>
+        </Map>
       </Box>
     </>
   )

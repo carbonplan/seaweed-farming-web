@@ -2,11 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { Box } from 'theme-ui'
 import { Row, Column } from '@carbonplan/components'
 
-import { useRegionData } from './region'
+import { useRegionContext } from './region'
 
 const ControlPanel = ({ children, title }) => {
   const [expanded, setExpanded] = useState(false)
-  const { regionData } = useRegionData()
+  const { regionData } = useRegionContext()
 
   const handleToggleExpanded = useCallback(() => {
     // Always allow opening of panel

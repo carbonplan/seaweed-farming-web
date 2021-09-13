@@ -1,27 +1,37 @@
 import { createContext, useContext, useState } from 'react'
 
-const RegionDataContext = createContext(null)
+const RegionContext = createContext(null)
 
-export const RegionDataProvider = ({ children }) => {
+export const RegionProvider = ({ children }) => {
   const [regionData, setRegionData] = useState(null)
+  const [showRegionPicker, setShowRegionPicker] = useState(false)
 
   return (
-    <RegionDataContext.Provider
+    <RegionContext.Provider
       value={{
         regionData,
         setRegionData,
+        showRegionPicker,
+        setShowRegionPicker,
       }}
     >
       {children}
-    </RegionDataContext.Provider>
+    </RegionContext.Provider>
   )
 }
 
-export const useRegionData = () => {
-  const { regionData, setRegionData } = useContext(RegionDataContext)
+export const useRegionContext = () => {
+  const {
+    regionData,
+    setRegionData,
+    showRegionPicker,
+    setShowRegionPicker,
+  } = useContext(RegionContext)
 
   return {
     regionData,
     setRegionData,
+    showRegionPicker,
+    setShowRegionPicker,
   }
 }

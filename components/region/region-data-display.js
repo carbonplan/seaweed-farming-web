@@ -1,8 +1,10 @@
 import { Box } from 'theme-ui'
 import { Group, Badge, Row, Column } from '@carbonplan/components'
 
-import { useRegionData } from './context'
+import { RecenterButton } from './recenter-button'
+import { useRegionContext } from './context'
 import { useParameters } from '../parameters'
+import RegionPickerButton from './region-picker-button'
 
 const NAN = -9999
 
@@ -129,21 +131,48 @@ const AverageDisplay = ({ value, label, units }) => {
 }
 
 export const RegionDataDisplay = ({ sx }) => {
-  const { regionData } = useRegionData()
+  const { regionData } = useRegionContext()
   const parameters = useParameters()
 
+  let children
   if (!regionData) {
-    return null
+    children = (
+      <Box
+        as='span'
+        sx={{
+          fontFamily: 'faux',
+          letterSpacing: 'faux',
+          color: 'secondary',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <Box sx={{ mb: [1] }}>Open inspector</Box>
+        <RegionPickerButton color='secondary' />
+      </Box>
+    )
   } else if (regionData.loading) {
-    return 'loading...'
+    children = 'loading...'
   } else {
     const cost = averageData(valuesToCost(regionData.value, parameters))
     const elevation = averageData(regionData.value.elevation)
     const Growth2 = averageData(regionData.value.Growth2) || 0
 
-    return (
+    children = (
       <>
-        <Box sx={sx.heading}>Inspector</Box>
+        <Box
+          as='span'
+          sx={{
+            fontFamily: 'faux',
+            letterSpacing: 'faux',
+            color: 'secondary',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Box sx={{ mb: [1] }}>Recenter map</Box>
+          <RecenterButton color='secondary' />
+        </Box>
         <Group>
           <AverageDisplay label='Cost' units='$ / ton DW' value={cost} />
           <AverageDisplay label='Depth' units='m' value={-1 * elevation} />
@@ -152,6 +181,13 @@ export const RegionDataDisplay = ({ sx }) => {
       </>
     )
   }
+
+  return (
+    <>
+      <Box sx={sx.heading}>Inspector</Box>
+      {children}
+    </>
+  )
 }
 
 export default RegionDataDisplay

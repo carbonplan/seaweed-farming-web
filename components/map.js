@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Box, useColorMode, useThemeUI } from 'theme-ui'
 import { Canvas, Raster, RegionPicker } from '@carbonplan/maps'
-import { RegionControls, useRegionData } from './region'
+import { RegionControls, useRegionContext } from './region'
 import { useColormap } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
@@ -31,13 +31,12 @@ const emptyUniforms = {
   d2pLayer: 0,
 }
 
-const Map = ({ layer }) => {
+const Map = ({ children, layer }) => {
   const { theme } = useThemeUI()
   const colormap = useColormap('cool')
   const [mode] = useColorMode()
   const parameters = useParameters()
-  const { setRegionData } = useRegionData()
-  const [showRegionPicker, setShowRegionPicker] = useState(false)
+  const { setRegionData, showRegionPicker } = useRegionContext()
 
   const clim = CLIM_MAP[layer]
   const layerUniforms = useMemo(
@@ -186,10 +185,7 @@ const Map = ({ layer }) => {
           bottom: [17, 17, 15, 15],
         }}
       >
-        <RegionControls
-          showRegionPicker={showRegionPicker}
-          setShowRegionPicker={setShowRegionPicker}
-        />
+        <RegionControls />
         <Dimmer
           sx={{
             display: ['none', 'none', 'initial', 'initial'],
@@ -197,6 +193,7 @@ const Map = ({ layer }) => {
           }}
         />
       </Box>
+      {children}
     </Canvas>
   )
 }
