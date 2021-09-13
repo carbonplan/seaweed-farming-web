@@ -2,6 +2,8 @@ import { useCallback, useState } from 'react'
 import { Filter, Group } from '@carbonplan/components'
 import { Box } from 'theme-ui'
 
+import ControlPanelDivider from './control-panel-divider'
+
 const initOutputs = {
   cost: true,
   value: false,
@@ -60,6 +62,7 @@ const LayerSwitcher = ({ setLayer, sx }) => {
         <Box sx={sxHeading}>Outputs</Box>
         <Filter values={outputs} setValues={handleOutputChange} />
       </Box>
+      <ControlPanelDivider />
       <Box>
         <Box sx={sxHeading}>Inputs</Box>
         <Filter values={inputs} setValues={handleInputChange} />

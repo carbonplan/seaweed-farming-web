@@ -1,11 +1,12 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { Box, Container } from 'theme-ui'
 import { Group, Meta, Guide, Header } from '@carbonplan/components'
 import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
 import LayerSwitcher from '../components/layer-switcher'
 import Parameters, { ParameterProvider } from '../components/parameters'
-import { RegionDataDisplay } from '../components/region'
+import { RegionDataDisplay, useRegionData } from '../components/region'
+import ControlPanelDivider from '../components/control-panel-divider'
 
 const sx = {
   heading: {
@@ -37,7 +38,7 @@ const parameterMapping = {
 
 const Index = () => {
   const [layer, setLayer] = useState('cost')
-
+  const { regionData } = useRegionData()
   const applicableParameters = parameterMapping[layer] || []
 
   return (
@@ -59,9 +60,16 @@ const Index = () => {
                 This is an interactive web tool for mapping the potential of
                 carbon removal with macroalgae.
               </Box>
+
+              <ControlPanelDivider />
+
               <LayerSwitcher setLayer={setLayer} sx={sx} />
 
+              <ControlPanelDivider />
+
               <Parameters applicableParameters={applicableParameters} sx={sx} />
+
+              {regionData && <ControlPanelDivider />}
 
               <RegionDataDisplay sx={sx} />
             </Group>

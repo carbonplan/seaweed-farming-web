@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react'
-import { Box, Divider } from 'theme-ui'
+import { Box } from 'theme-ui'
 import AnimateHeight from 'react-animate-height'
 import { Expander, FadeIn } from '@carbonplan/components'
 import Parameter from './parameter'
@@ -143,7 +143,6 @@ const Parameters = ({ applicableParameters, sx }) => {
         setValue={setHarvestCost}
         label={'Harvest costs'}
       />
-      <Divider mt={[3]} mb={[2]} />
       <Box
         sx={{
           mt: [1, 1, 1, 2],
@@ -210,7 +209,6 @@ const Parameters = ({ applicableParameters, sx }) => {
           </Box>
         )}
       </AnimateHeight>
-      <Divider my={[3]} />
     </Box>
   )
 }
