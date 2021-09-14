@@ -1,5 +1,6 @@
 import { Box } from 'theme-ui'
-import { Group, Badge, Row, Column } from '@carbonplan/components'
+import { Group, Badge, Row, Column, Expander } from '@carbonplan/components'
+import AnimateHeight from 'react-animate-height'
 
 import { RecenterButton } from './recenter-button'
 import { useRegionContext } from './context'
@@ -131,61 +132,87 @@ const AverageDisplay = ({ value, label, units }) => {
 }
 
 export const RegionDataDisplay = ({ sx }) => {
-  const { showRegionPicker, regionData } = useRegionContext()
+  const {
+    showRegionPicker,
+    setShowRegionPicker,
+    regionData,
+  } = useRegionContext()
   const parameters = useParameters()
 
-  let children
-  if (!showRegionPicker) {
-    children = (
-      <Box
-        as='span'
-        sx={{
-          fontFamily: 'faux',
-          letterSpacing: 'faux',
-          color: 'secondary',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <Box sx={{ mb: [1] }}>Open inspector</Box>
-        <RegionPickerButton color='secondary' />
-      </Box>
-    )
-  } else if (!regionData || regionData.loading) {
-    children = 'loading...'
-  } else {
-    const cost = averageData(valuesToCost(regionData.value, parameters))
-    const elevation = averageData(regionData.value.elevation)
-    const Growth2 = averageData(regionData.value.Growth2) || 0
+  let content
+  if (showRegionPicker) {
+    if (!regionData || regionData.loading) {
+      content = 'loading...'
+    } else {
+      const cost = averageData(valuesToCost(regionData.value, parameters))
+      const elevation = averageData(regionData.value.elevation)
+      const Growth2 = averageData(regionData.value.Growth2) || 0
 
-    children = (
-      <>
-        <Box
-          as='span'
-          sx={{
-            fontFamily: 'faux',
-            letterSpacing: 'faux',
-            color: 'secondary',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Box sx={{ mb: [1] }}>Recenter map</Box>
-          <RecenterButton color='secondary' />
-        </Box>
-        <Group>
-          <AverageDisplay label='Cost' units='$ / ton DW' value={cost} />
-          <AverageDisplay label='Depth' units='m' value={-1 * elevation} />
-          <AverageDisplay label='Growth' units='tons DW/km²' value={Growth2} />
-        </Group>
-      </>
-    )
+      content = (
+        <>
+          <Box
+            as='span'
+            sx={{
+              fontFamily: 'faux',
+              letterSpacing: 'faux',
+              color: 'secondary',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Box sx={{ mb: [1] }}>Recenter map</Box>
+            <RecenterButton color='secondary' />
+          </Box>
+          <Group>
+            <AverageDisplay label='Cost' units='$ / ton DW' value={cost} />
+            <AverageDisplay label='Depth' units='m' value={-1 * elevation} />
+            <AverageDisplay
+              label='Growth'
+              units='tons DW/km²'
+              value={Growth2}
+            />
+          </Group>
+        </>
+      )
+    }
   }
 
   return (
     <>
-      <Box sx={sx.heading}>Inspector</Box>
-      {children}
+      <Box
+        sx={{
+          ...sx.heading,
+          display: 'flex',
+          justifyContent: 'space-between',
+          cursor: 'pointer',
+          '@media (hover: hover) and (pointer: fine)': {
+            '&:hover > #expander': { stroke: 'secondary' },
+            '&:hover > #label': { color: 'secondary' },
+          },
+        }}
+        onClick={() => setShowRegionPicker(!showRegionPicker)}
+      >
+        <Box
+          as='span'
+          id='label'
+          sx={{ color: 'primary', transition: 'color 0.15s' }}
+        >
+          Region data
+        </Box>
+        <Expander
+          value={showRegionPicker}
+          id='expander'
+          sx={{ position: 'relative' }}
+        />
+      </Box>
+
+      <AnimateHeight
+        duration={150}
+        height={showRegionPicker && regionData ? 'auto' : 0}
+        easing={'linear'}
+      >
+        {content || null}
+      </AnimateHeight>
     </>
   )
 }
