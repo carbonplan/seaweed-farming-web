@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Box, useColorMode, useThemeUI } from 'theme-ui'
 import { Canvas, Raster, RegionPicker } from '@carbonplan/maps'
-import { RegionControls, useRegionContext } from './region'
+import { useRegionContext } from './region'
 import { useColormap } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
@@ -185,7 +185,6 @@ const Map = ({ children, layer }) => {
           bottom: [17, 17, 15, 15],
         }}
       >
-        <RegionControls />
         <Dimmer
           sx={{
             display: ['none', 'none', 'initial', 'initial'],
