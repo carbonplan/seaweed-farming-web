@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Box, useColorMode, useThemeUI } from 'theme-ui'
-import { Canvas, Raster, RegionPicker } from '@carbonplan/maps'
+import { Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
 import { useColormap } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
@@ -31,7 +31,7 @@ const emptyUniforms = {
   d2pLayer: 0,
 }
 
-const Map = ({ children, layer }) => {
+const Viewer = ({ children, layer }) => {
   const { theme } = useThemeUI()
   const colormap = useColormap('cool')
   const [mode] = useColorMode()
@@ -45,14 +45,7 @@ const Map = ({ children, layer }) => {
   )
 
   return (
-    <Canvas
-      style={style}
-      zoom={2}
-      minZoom={2}
-      center={[0, 0]}
-      debug={false}
-      extensions={['OES_texture_float', 'OES_element_index_uint']}
-    >
+    <Map zoom={2} minZoom={2} center={[0, 0]} debug={false}>
       <Basemap inverted />
       {showRegionPicker && (
         <RegionPicker
@@ -79,9 +72,10 @@ const Map = ({ children, layer }) => {
           empty: mode == 'dark' ? 0.25 : 0.75,
         }}
         setRegionData={setRegionData}
-        variables={['Growth2', 'elevation', 'd2p', 'wave_height']}
+        variable={['Growth2', 'elevation', 'd2p', 'wave_height']}
+        selector={{ variable: ['Growth2', 'elevation', 'd2p', 'wave_height'] }}
         source={
-          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid/{z}/all_variables'
+          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid'
         }
         frag={`
               float value;
@@ -95,7 +89,7 @@ const Map = ({ children, layer }) => {
 
               if (costLayer == 1.0) {
                 // return null color if null value or low growth
-                if ((Growth2 == nan) || (Growth2 < 0.2)) {
+                if ((Growth2 == fillValue) || (Growth2 < 0.2)) {
                   gl_FragColor = vec4(empty, empty, empty, opacity);
                   gl_FragColor.rgb *= gl_FragColor.a;
                   return;
@@ -165,7 +159,7 @@ const Map = ({ children, layer }) => {
                 value = d2p;
               }
 
-              if (value == nan) {
+              if (value == fillValue) {
                 gl_FragColor = vec4(empty, empty, empty, opacity);
                 gl_FragColor.rgb *= gl_FragColor.a;
                 return;
@@ -193,8 +187,8 @@ const Map = ({ children, layer }) => {
         />
       </Box>
       {children}
-    </Canvas>
+    </Map>
   )
 }
 
-export default Map
+export default Viewer
