@@ -21,6 +21,11 @@ const sx = {
   },
 }
 
+const initTarget = {
+  sinking: true,
+  products: false,
+}
+
 const parameterMapping = {
   cost: [
     'capex',
@@ -38,6 +43,8 @@ const parameterMapping = {
 
 const Index = () => {
   const [layer, setLayer] = useState('cost')
+  const [target, setTarget] = useState(initTarget)
+
   const applicableParameters = parameterMapping[layer] || []
 
   return (
@@ -60,7 +67,7 @@ const Index = () => {
           left: 0,
         }}
       >
-        <Map layer={layer}>
+        <Map layer={layer} target={target}>
           <Container>
             <ControlPanel title='Mapping macroalgae'>
               <Group>
@@ -71,7 +78,12 @@ const Index = () => {
 
                 <ControlPanelDivider />
 
-                <LayerSwitcher setLayer={setLayer} sx={sx} />
+                <LayerSwitcher
+                  setLayer={setLayer}
+                  setTarget={setTarget}
+                  target={target}
+                  sx={sx}
+                />
 
                 <ControlPanelDivider />
 

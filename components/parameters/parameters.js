@@ -102,7 +102,7 @@ const Parameters = ({ applicableParameters, sx }) => {
 
   return (
     <Box sx={sxProps}>
-      <Box sx={sxHeading}>Parameters</Box>
+      <Box sx={sxHeading}>Economic inputs</Box>
       <Parameter
         min={170630}
         max={969626}
