@@ -5,9 +5,8 @@ import AnimateHeight from 'react-animate-height'
 import { RecenterButton } from './recenter-button'
 import { useRegionContext } from './context'
 import { useParameters } from '../parameters'
-import RegionPickerButton from './region-picker-button'
 
-const NAN = -9999
+const NAN = 9.969209968386869e36
 
 const averageData = (data) => {
   if (data.length === 0) {
@@ -30,21 +29,21 @@ const valuesToCost = (values, parameters) => {
     opex,
     waveFactor,
   } = parameters
-  return values.Growth2.map((_, i) => {
-    const Growth2 = values.Growth2[i]
+  return values.harv_preferred.map((_, i) => {
+    const harv_preferred = values.harv_preferred[i]
     const elevation = values.elevation[i]
     const d2p = values.d2p[i]
+    const nharv = values.nharv_preferred[i]
     const wave_height = values.wave_height[i]
 
     // constants for forthcoming layers
     const lineDensity = 714286.0
-    const nharv = 2.0
 
     // invert depth
     const depth = -1.0 * elevation
 
     // map to null if we have low or null value for growth
-    if (Growth2 === NAN || Growth2 < 0.2) {
+    if (harv_preferred === NAN || harv_preferred < 0.2) {
       return NAN
     }
 
@@ -88,7 +87,7 @@ const valuesToCost = (values, parameters) => {
     const harvest = harvestCost * nharv
 
     // combine terms
-    return (capital + operations + harvest) / Growth2
+    return (capital + operations + harvest) / harv_preferred
   })
 }
 
@@ -144,9 +143,12 @@ export const RegionDataDisplay = ({ sx }) => {
     if (!regionData || regionData.loading) {
       content = 'loading...'
     } else {
-      const cost = averageData(valuesToCost(regionData.value, parameters))
-      const elevation = averageData(regionData.value.elevation)
-      const Growth2 = averageData(regionData.value.Growth2) || 0
+      const cost = averageData(
+        valuesToCost(regionData.value.all_variables, parameters)
+      )
+      const elevation = averageData(regionData.value.all_variables.elevation)
+      const harv_preferred =
+        averageData(regionData.value.all_variables.harv_preferred) || 0
 
       content = (
         <>
@@ -169,7 +171,7 @@ export const RegionDataDisplay = ({ sx }) => {
             <AverageDisplay
               label='Growth'
               units='tons DW/km²'
-              value={Growth2}
+              value={harv_preferred}
             />
           </Group>
         </>

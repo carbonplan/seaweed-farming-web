@@ -1,12 +1,10 @@
 import { useMemo } from 'react'
 import { Box, useColorMode, useThemeUI } from 'theme-ui'
-import { Map, Raster, RegionPicker } from '@carbonplan/maps'
+import { Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
 import { useColormap } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
-import Basemap from '../components/basemap'
-import style from '../components/style'
 import { useParameters } from './parameters'
 
 const CLIM_MAP = {
@@ -46,7 +44,13 @@ const Viewer = ({ children, layer }) => {
 
   return (
     <Map zoom={2} minZoom={2} center={[0, 0]} debug={false}>
-      <Basemap inverted />
+      <Line
+        color={theme.rawColors.primary}
+        source={
+          'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
+        }
+        variable={'land'}
+      />
       {showRegionPicker && (
         <RegionPicker
           color={theme.colors.primary}
@@ -72,24 +76,32 @@ const Viewer = ({ children, layer }) => {
           empty: mode == 'dark' ? 0.25 : 0.75,
         }}
         setRegionData={setRegionData}
-        variable={['Growth2', 'elevation', 'd2p', 'wave_height']}
-        selector={{ variable: ['Growth2', 'elevation', 'd2p', 'wave_height'] }}
+        variable={'all_variables'}
+        selector={{
+          variable: [
+            'harv_preferred',
+            'nharv_preferred',
+            'elevation',
+            'd2p',
+            'wave_height',
+          ],
+        }}
+        fillValue={9.969209968386869e36}
         source={
-          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid'
+          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.3'
         }
         frag={`
               float value;
 
               // constants for forthcoming layers
               float lineDensity = 714286.0;
-              float nharv = 2.0;
 
               // invert depth
               float depth = -1.0 * elevation;
 
               if (costLayer == 1.0) {
                 // return null color if null value or low growth
-                if ((Growth2 == fillValue) || (Growth2 < 0.2)) {
+                if ((harv_preferred == fillValue) || (harv_preferred < 0.2)) {
                   gl_FragColor = vec4(empty, empty, empty, opacity);
                   gl_FragColor.rgb *= gl_FragColor.a;
                   return;
@@ -128,10 +140,10 @@ const Viewer = ({ children, layer }) => {
                 // calculate primary terms
                 float capital = capex + depthPremium * capex + wavePremium * capex + lineCost * lineDensity;
                 float operations = opex + labor + insurance + license;
-                float harvest = harvestCost * nharv;
+                float harvest = harvestCost * nharv_preferred;
 
                 // combine terms
-                float cost = (capital + operations + harvest) / Growth2;
+                float cost = (capital + operations + harvest) / harv_preferred;
                 value = cost;
               }
 
@@ -140,11 +152,11 @@ const Viewer = ({ children, layer }) => {
               }
 
               if (growthLayer == 1.0) {
-                value = Growth2;
+                value = harv_preferred;
               }
 
               if (harvestLayer == 1.0) {
-                value = nharv;
+                value = nharv_preferred;
               }
 
               if (waveHeightLayer == 1.0) {
