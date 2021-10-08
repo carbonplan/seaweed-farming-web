@@ -2,3 +2,4 @@
 .next/
 node_modules/
 .env*.local
+*/.ipynb_checkpoints/
