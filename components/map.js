@@ -6,41 +6,34 @@ import { useColormap } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
 import { useParameters } from './parameters'
+import { useLayers } from './layers'
 
 const CLIM_MAP = {
   cost: [0, 5000],
   benefit: [0, 1],
   depth: [0, 10000],
   growth: [0, 5000],
-  harvest: [0, 5],
+  nharv: [0, 5],
   waveHeight: [0, 5],
   lineDensity: [0, 1000000],
   d2p: [0, 5000],
 }
 
-const emptyUniforms = {
-  costLayer: 0,
-  benefitLayer: 0,
-  depthLayer: 0,
-  growthLayer: 0,
-  harvestLayer: 0,
-  waveHeightLayer: 0,
-  lineDensityLayer: 0,
-  d2pLayer: 0,
-}
-
-const Viewer = ({ children, layer, target }) => {
+const Viewer = ({ children }) => {
   const { theme } = useThemeUI()
   const colormap = useColormap('cool')
   const [mode] = useColorMode()
   const parameters = useParameters()
+  const {
+    uniforms: layerUniforms,
+    speciesDefinition,
+    layer,
+    target,
+  } = useLayers()
+
   const { setRegionData, showRegionPicker } = useRegionContext()
 
   const clim = CLIM_MAP[layer]
-  const layerUniforms = useMemo(
-    () => ({ ...emptyUniforms, [`${layer}Layer`]: 1 }),
-    [layer]
-  )
 
   return (
     <Map zoom={2} minZoom={2} center={[0, 0]} debug={false}>
@@ -82,6 +75,16 @@ const Viewer = ({ children, layer, target }) => {
           variable: [
             'harv_preferred',
             'nharv_preferred',
+            'harv_sargassum',
+            'nharv_sargassum',
+            'harv_eucheuma',
+            'nharv_eucheuma',
+            'harv_macrocystis',
+            'nharv_macrocystis',
+            'harv_porphyra',
+            'nharv_porphyra',
+            'harv_saccharina',
+            'nharv_saccharina',
             'elevation',
             'd2p',
             'wave_height',
@@ -92,6 +95,7 @@ const Viewer = ({ children, layer, target }) => {
           'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.3'
         }
         frag={`
+              ${speciesDefinition}
               float value;
 
               // constants for forthcoming layers
@@ -102,7 +106,7 @@ const Viewer = ({ children, layer, target }) => {
 
               if (costLayer == 1.0) {
                 // return null color if null value or low growth
-                if ((harv_preferred == fillValue) || (harv_preferred < 0.2)) {
+                if ((growth == fillValue) || (growth < 0.2)) {
                   gl_FragColor = vec4(empty, empty, empty, opacity);
                   gl_FragColor.rgb *= gl_FragColor.a;
                   return;
@@ -141,10 +145,10 @@ const Viewer = ({ children, layer, target }) => {
                 // calculate primary terms
                 float capital = capex + depthPremium * capex + wavePremium * capex + lineCost * lineDensity;
                 float operations = opex + labor + insurance + license;
-                float harvest = harvestCost * nharv_preferred;
+                float harvest = harvestCost * nharv;
 
                 // combine terms
-                float cost = (capital + operations + harvest) / harv_preferred;
+                float cost = (capital + operations + harvest) / growth;
                 value = cost;
               }
 
@@ -153,11 +157,11 @@ const Viewer = ({ children, layer, target }) => {
               }
 
               if (growthLayer == 1.0) {
-                value = harv_preferred;
+                value = growth;
               }
 
-              if (harvestLayer == 1.0) {
-                value = nharv_preferred;
+              if (nharvLayer == 1.0) {
+                value = nharv;
               }
 
               if (waveHeightLayer == 1.0) {

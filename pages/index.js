@@ -1,10 +1,8 @@
-import { useState } from 'react'
 import { Box, Container } from 'theme-ui'
 import { Group, Meta, Guide, Header } from '@carbonplan/components'
 import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
-import LayerSwitcher from '../components/layer-switcher'
-import Parameters from '../components/parameters'
+import { LayerSwitcher } from '../components/layers'
 import { RegionDataDisplay } from '../components/region'
 import ControlPanelDivider from '../components/control-panel-divider'
 
@@ -21,32 +19,7 @@ const sx = {
   },
 }
 
-const initTarget = {
-  sinking: true,
-  products: false,
-}
-
-const parameterMapping = {
-  cost: [
-    'capex',
-    'capex',
-    'lineCost',
-    'opex',
-    'labor',
-    'harvestCost',
-    'depthFactor',
-    'waveFactor',
-    'insurance',
-    'license',
-  ],
-}
-
 const Index = () => {
-  const [layer, setLayer] = useState('cost')
-  const [target, setTarget] = useState(initTarget)
-
-  const applicableParameters = parameterMapping[layer] || []
-
   return (
     <>
       <Meta />
@@ -67,7 +40,7 @@ const Index = () => {
           left: 0,
         }}
       >
-        <Map layer={layer} target={target}>
+        <Map>
           <Container>
             <ControlPanel title='Mapping macroalgae'>
               <Group>
@@ -78,19 +51,7 @@ const Index = () => {
 
                 <ControlPanelDivider />
 
-                <LayerSwitcher
-                  setLayer={setLayer}
-                  setTarget={setTarget}
-                  target={target}
-                  sx={sx}
-                />
-
-                <ControlPanelDivider />
-
-                <Parameters
-                  applicableParameters={applicableParameters}
-                  sx={sx}
-                />
+                <LayerSwitcher sx={sx} />
 
                 <ControlPanelDivider />
 
