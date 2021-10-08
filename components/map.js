@@ -9,7 +9,7 @@ import { useParameters } from './parameters'
 
 const CLIM_MAP = {
   cost: [0, 5000],
-  value: [0, 1],
+  benefit: [0, 1],
   depth: [0, 10000],
   growth: [0, 5000],
   harvest: [0, 5],
@@ -20,7 +20,7 @@ const CLIM_MAP = {
 
 const emptyUniforms = {
   costLayer: 0,
-  valueLayer: 0,
+  benefitLayer: 0,
   depthLayer: 0,
   growthLayer: 0,
   harvestLayer: 0,
@@ -29,7 +29,7 @@ const emptyUniforms = {
   d2pLayer: 0,
 }
 
-const Viewer = ({ children, layer }) => {
+const Viewer = ({ children, layer, target }) => {
   const { theme } = useThemeUI()
   const colormap = useColormap('cool')
   const [mode] = useColorMode()
@@ -73,6 +73,7 @@ const Viewer = ({ children, layer }) => {
         uniforms={{
           ...layerUniforms,
           ...parameters,
+          target,
           empty: mode == 'dark' ? 0.25 : 0.75,
         }}
         setRegionData={setRegionData}
