@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Filter, Group, Toggle } from '@carbonplan/components'
 import { Box, Flex } from 'theme-ui'
 
@@ -32,26 +32,34 @@ const initValueOutputs = {
   'distance to port': true,
 }
 
-const parameterMapping = {
-  cost: [
-    'capex',
-    'capex',
-    'lineCost',
-    'opex',
-    'labor',
-    'harvestCost',
-    'depthFactor',
-    'waveFactor',
-    'insurance',
-    'license',
-  ],
+const PARAMETERS = {
+  cost: {
+    base: [
+      'capex',
+      'lineCost',
+      'opex',
+      'labor',
+      'harvestCost',
+      'depthFactor',
+      'waveFactor',
+      'insurance',
+      'license',
+      'transportCost',
+    ],
+    products: ['conversionCost', 'productValue'],
+    sinking: ['sinkingValue'],
+  },
+  benefit: {
+    base: ['transportEmissions'],
+    products: ['conversionEmissions', 'avoidedEmissions'],
+    sinking: ['sequestrationRate', 'removalRate'],
+  },
 }
 
 const LayerSwitcher = ({ sx }) => {
   const { heading: sxHeading, description: sxDescription, ...sxProps } = sx
   const [outputs, setOutputs] = useState(initOutputs)
   const [inputs, setInputs] = useState(initCostInputs)
-  const [parameters, setParameters] = useState(parameterMapping.cost)
   const {
     species,
     setSpecies,
@@ -59,6 +67,7 @@ const LayerSwitcher = ({ sx }) => {
     setGrowthModel,
     mask,
     setMask,
+    layer,
     setLayer,
     setTarget,
     target,
@@ -75,7 +84,6 @@ const LayerSwitcher = ({ sx }) => {
       setInputs(initValueOutputs)
     }
 
-    setParameters(parameterMapping[layer] || [])
     setLayer(layer)
   })
 
@@ -85,6 +93,17 @@ const LayerSwitcher = ({ sx }) => {
     const selected = Object.keys(res).find((key) => res[key])
     setLayer(filterToValue[selected])
   })
+
+  const applicableParameters = useMemo(() => {
+    const layerParameters = PARAMETERS[layer]
+
+    if (layerParameters) {
+      const targetKey = Object.keys(target).find((k) => target[k])
+      return [...PARAMETERS[layer].base, ...PARAMETERS[layer][targetKey]]
+    } else {
+      return []
+    }
+  }, [layer, target])
 
   return (
     <Group sx={sxProps}>
@@ -126,7 +145,7 @@ const LayerSwitcher = ({ sx }) => {
         <Filter values={inputs} setValues={handleInputChange} />
       </Box>
 
-      <Parameters sx={sx} applicableParameters={parameters} />
+      <Parameters sx={sx} applicableParameters={applicableParameters} />
     </Group>
   )
 }
