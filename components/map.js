@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { Box, useColorMode, useThemeUI } from 'theme-ui'
 import { Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
@@ -10,7 +9,7 @@ import { useLayers } from './layers'
 
 const CLIM_MAP = {
   cost: [0, 5000],
-  benefit: [0, 1],
+  benefit: [0, 5000],
   depth: [0, 10000],
   growth: [0, 5000],
   nharv: [0, 5],
@@ -19,17 +18,50 @@ const CLIM_MAP = {
   d2p: [0, 5000],
 }
 
+const speciesDefinition = `
+float growth;
+float nharv;
+
+if (preferred == 1.0) {
+    growth = harv_preferred;
+    nharv = nharv_preferred;
+}
+if (sargassum == 1.0) {
+    growth = harv_sargassum;
+    nharv = nharv_sargassum;
+}
+if (eucheuma == 1.0) {
+    growth = harv_eucheuma;
+    nharv = nharv_eucheuma;
+}
+if (macrocystis == 1.0) {
+    growth = harv_macrocystis;
+    nharv = nharv_macrocystis;
+}
+if (porphyra == 1.0) {
+    growth = harv_porphyra;
+    nharv = nharv_porphyra;
+}
+if (saccharina == 1.0) {
+    growth = harv_saccharina;
+    nharv = nharv_saccharina;
+}
+`
+
+const lowGrowthFilter = `
+// return null color if null value or low growth
+if ((growth == fillValue) || (growth < 0.2)) {
+  gl_FragColor = vec4(empty, empty, empty, opacity);
+  gl_FragColor.rgb *= gl_FragColor.a;
+  return;
+}
+`
 const Viewer = ({ children }) => {
   const { theme } = useThemeUI()
   const colormap = useColormap('cool')
   const [mode] = useColorMode()
   const parameters = useParameters()
-  const {
-    uniforms: layerUniforms,
-    speciesDefinition,
-    layer,
-    target,
-  } = useLayers()
+  const { uniforms: layerUniforms, layer, target } = useLayers()
 
   const { setRegionData, showRegionPicker } = useRegionContext()
 
@@ -98,19 +130,19 @@ const Viewer = ({ children }) => {
               ${speciesDefinition}
               float value;
 
-              // constants for forthcoming layers
-              float lineDensity = 714286.0;
-
               // invert depth
               float depth = -1.0 * elevation;
 
+              // constants for forthcoming layers
+              float lineDensity = 714286.0;
+              float d2sink = depth * 0.5;
+              float fseq = 0.6;
+              float carbon_fraction = 0.248;
+              float carbon_to_co2 = 3.67;
+
+
               if (costLayer == 1.0) {
-                // return null color if null value or low growth
-                if ((growth == fillValue) || (growth < 0.2)) {
-                  gl_FragColor = vec4(empty, empty, empty, opacity);
-                  gl_FragColor.rgb *= gl_FragColor.a;
-                  return;
-                }
+                ${lowGrowthFilter}
   
                 // parameters
                 float cheapDepth = 50.0;
@@ -148,8 +180,27 @@ const Viewer = ({ children }) => {
                 float harvest = harvestCost * nharv;
 
                 // combine terms
-                float cost = (capital + operations + harvest) / growth;
-                value = cost;
+                float growthCost = (capital + operations + harvest) / growth;
+
+                if (productsTarget == 1.0) {
+                  // calculate product value
+                  value = growth * (productValue - transportCost * d2p - conversionCost) - growthCost;
+                } else {
+                  // calculate sinking value
+                  value = growth * (sinkingValue - transportCost * d2sink) - growthCost;
+                }
+              }
+
+              if (benefitLayer == 1.0) {
+                ${lowGrowthFilter}
+
+                if (productsTarget == 1.0) {
+                  // calculate climate benefit of products
+                  value = growth * (avoidedEmissions - transportEmissions * d2p - conversionEmissions);
+                } else {
+                  // calculate climate benefit of sinking
+                  value = growth * (carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink);
+                }
               }
 
               if (depthLayer == 1.0) {

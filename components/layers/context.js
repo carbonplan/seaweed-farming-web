@@ -84,43 +84,11 @@ export const useLayers = () => {
   const uniforms = {
     ...layerUniforms,
     ...speciesUniforms,
+    productsTarget: target.products ? 1 : 0,
+    sinkingTarget: target.sinking ? 1 : 0,
     mask: mask ? 1 : 0,
     target,
   }
 
-  const speciesDefinition = `
-  float growth;
-  float nharv;
-
-  if (preferred == 1.0) {
-      growth = harv_preferred;
-      nharv = nharv_preferred;
-  }
-  if (preferred == 1.0) {
-      growth = harv_preferred;
-      nharv = nharv_preferred;
-  }
-  if (sargassum == 1.0) {
-      growth = harv_sargassum;
-      nharv = nharv_sargassum;
-  }
-  if (eucheuma == 1.0) {
-      growth = harv_eucheuma;
-      nharv = nharv_eucheuma;
-  }
-  if (macrocystis == 1.0) {
-      growth = harv_macrocystis;
-      nharv = nharv_macrocystis;
-  }
-  if (porphyra == 1.0) {
-      growth = harv_porphyra;
-      nharv = nharv_porphyra;
-  }
-  if (saccharina == 1.0) {
-      growth = harv_saccharina;
-      nharv = nharv_saccharina;
-  }
-  `
-
-  return { layer, target, uniforms, speciesDefinition }
+  return { layer, target, uniforms }
 }
