@@ -22,7 +22,7 @@ const initSeaweedSpecies = {
 const LayersContext = createContext(null)
 
 export const LayersProvider = ({ children }) => {
-  const [layer, setLayer] = useState('cost')
+  const [layer, setLayer] = useState('benefit')
   const [target, setTarget] = useState(initTarget)
   const [species, setSpecies] = useState(initSeaweedSpecies)
   const [growthModel, setGrowthModel] = useState(initGrowthModel)

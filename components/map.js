@@ -8,8 +8,8 @@ import { useParameters } from './parameters'
 import { useLayers, LAYER_UNIFORMS } from './layers'
 
 const CLIM_MAP = {
-  cost: [0, 5000],
-  benefit: [0, 5000],
+  cost: [0, 75000],
+  benefit: [0, 4000],
   depth: [0, 10000],
   growth: [0, 5000],
   nharv: [0, 5],
@@ -48,25 +48,6 @@ if (porphyra == 1.0) {
 //     growth = harv_saccharina;
 //     nharv = nharv_saccharina;
 // }
-`
-
-const filterPoints = `
-bool lowGrowth = growth == fillValue || growth < 0.2;
-// bool masked = includeMask == 0.0 && mask == 1.0;
-
-if (lowGrowth) {
-  gl_FragColor = vec4(empty, empty, empty, opacity);
-  gl_FragColor.rgb *= gl_FragColor.a;
-  return;
-}
-`
-
-const filterSinkPoints = `
-if (d2sink == fillValue) {
-  gl_FragColor = vec4(empty, empty, empty, opacity);
-  gl_FragColor.rgb *= gl_FragColor.a;
-  return;
-}
 `
 
 const defaultLayers = LAYER_UNIFORMS.filter(
@@ -169,8 +150,6 @@ const Viewer = ({ children }) => {
               ${defaultLayers}
 
               if (costLayer == 1.0) {
-                ${filterPoints}
-  
                 // parameters
                 float cheapDepth = 50.0;
                 float priceyDepth = 150.0;
@@ -213,24 +192,31 @@ const Viewer = ({ children }) => {
                   // calculate product value
                   value = growth * (productValue - transportCost * d2p - conversionCost) - growthCost;
                 } else {
-                  ${filterSinkPoints}
-
                   // calculate sinking value
                   value = growth * (sinkingValue - transportCost * d2sink) - growthCost;
                 }
               }
 
               if (benefitLayer == 1.0) {
-                ${filterPoints}
-
                 if (productsTarget == 1.0) {
                   // calculate climate benefit of products
                   value = growth * (avoidedEmissions - transportEmissions * d2p - conversionEmissions);
                 } else {
-                  ${filterSinkPoints}
-
                   // calculate climate benefit of sinking
                   value = growth * (carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink);
+                }
+              }
+
+              if (costLayer == 1.0 || benefitLayer == 1.0) {
+                // filter points
+                bool lowGrowth = growth == fillValue || growth < 0.2;
+                bool lowSink = sinkingTarget == 1.0 && d2sink == fillValue;
+                // bool masked = includeMask == 0.0 && mask == 1.0;
+
+                if (lowGrowth || lowSink) {
+                  gl_FragColor = vec4(empty, empty, empty, opacity);
+                  gl_FragColor.rgb *= gl_FragColor.a;
+                  return;
                 }
               }
 

@@ -219,16 +219,16 @@ export const RegionDataDisplay = ({ sx }) => {
     if (!regionData || regionData.loading) {
       content = 'loading...'
     } else {
-      const cost = averageData(
-        valuesToCost(
+      const benefit = averageData(
+        valuesToBenefit(
           regionData.value.all_variables,
           target,
           species,
           parameters
         )
       )
-      const benefit = averageData(
-        valuesToBenefit(
+      const cost = averageData(
+        valuesToCost(
           regionData.value.all_variables,
           target,
           species,
@@ -255,12 +255,12 @@ export const RegionDataDisplay = ({ sx }) => {
             <RecenterButton color='secondary' />
           </Box>
           <Group>
-            <AverageDisplay label='Net cost' units='$ / ton DW' value={cost} />
             <AverageDisplay
               label='Climate benefit'
               units='tons CO₂e'
               value={benefit}
             />
+            <AverageDisplay label='Net value' units='$ / ton DW' value={cost} />
             <AverageDisplay label='Depth' units='m' value={-1 * elevation} />
             <AverageDisplay label='Growth' units='tons DW/km²' value={growth} />
           </Group>
