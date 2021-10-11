@@ -48,9 +48,11 @@ if (saccharina == 1.0) {
 }
 `
 
-const lowGrowthFilter = `
-// return null color if null value or low growth
-if ((growth == fillValue) || (growth < 0.2)) {
+const filterPoints = `
+bool lowGrowth = growth == fillValue || growth < 0.2;
+// bool masked = includeMask == 0.0 && mask == 1.0;
+
+if (lowGrowth) {
   gl_FragColor = vec4(empty, empty, empty, opacity);
   gl_FragColor.rgb *= gl_FragColor.a;
   return;
@@ -120,6 +122,7 @@ const Viewer = ({ children }) => {
             'elevation',
             'd2p',
             'wave_height',
+            // 'mask',
           ],
         }}
         fillValue={9.969209968386869e36}
@@ -142,7 +145,7 @@ const Viewer = ({ children }) => {
 
 
               if (costLayer == 1.0) {
-                ${lowGrowthFilter}
+                ${filterPoints}
   
                 // parameters
                 float cheapDepth = 50.0;
@@ -192,7 +195,7 @@ const Viewer = ({ children }) => {
               }
 
               if (benefitLayer == 1.0) {
-                ${lowGrowthFilter}
+                ${filterPoints}
 
                 if (productsTarget == 1.0) {
                   // calculate climate benefit of products

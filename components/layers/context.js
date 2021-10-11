@@ -86,7 +86,7 @@ export const useLayers = () => {
     ...speciesUniforms,
     productsTarget: target.products ? 1 : 0,
     sinkingTarget: target.sinking ? 1 : 0,
-    mask: mask ? 1 : 0,
+    includeMask: mask ? 1 : 0,
     target,
   }
 
