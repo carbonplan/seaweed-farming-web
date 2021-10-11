@@ -60,6 +60,15 @@ if (lowGrowth) {
   return;
 }
 `
+
+const filterSinkPoints = `
+if (d2sink == fillValue) {
+  gl_FragColor = vec4(empty, empty, empty, opacity);
+  gl_FragColor.rgb *= gl_FragColor.a;
+  return;
+}
+`
+
 const Viewer = ({ children }) => {
   const { theme } = useThemeUI()
   const colormap = useColormap('cool')
@@ -191,6 +200,8 @@ const Viewer = ({ children }) => {
                   // calculate product value
                   value = growth * (productValue - transportCost * d2p - conversionCost) - growthCost;
                 } else {
+                  ${filterSinkPoints}
+
                   // calculate sinking value
                   value = growth * (sinkingValue - transportCost * d2sink) - growthCost;
                 }
@@ -203,6 +214,8 @@ const Viewer = ({ children }) => {
                   // calculate climate benefit of products
                   value = growth * (avoidedEmissions - transportEmissions * d2p - conversionEmissions);
                 } else {
+                  ${filterSinkPoints}
+
                   // calculate climate benefit of sinking
                   value = growth * (carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink);
                 }

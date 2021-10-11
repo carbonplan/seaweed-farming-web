@@ -105,6 +105,11 @@ const valuesToCost = (values, target, species, parameters) => {
         growthCost
       )
     } else {
+      // map to null null value for d2sink
+      if (d2sink === NAN) {
+        return NAN
+      }
+
       // calculate sinking value
       return growth * (sinkingValue - transportCost * d2sink) - growthCost
     }
@@ -142,6 +147,11 @@ const valuesToBenefit = (values, target, species, parameters) => {
         (avoidedEmissions - transportEmissions * d2p - conversionEmissions)
       )
     } else {
+      // map to null null value for d2sink
+      if (d2sink === NAN) {
+        return NAN
+      }
+
       // calculate climate benefit of sinking
       return (
         growth *
