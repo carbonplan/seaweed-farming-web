@@ -23,7 +23,7 @@ const filterToValue = {
   depth: 'depth',
   growth: 'growth',
   harvests: 'nharv',
-  'wave height': 'waveHeight',
+  'wave height': 'wave_height',
   'line density': 'lineDensity',
   'distance to port': 'd2p',
   'distance to sink': 'd2sink',

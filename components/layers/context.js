@@ -53,24 +53,28 @@ export const useRawUniformValues = () => {
   return value
 }
 
-const emptyLayers = {
-  costLayer: 0,
-  benefitLayer: 0,
-  depthLayer: 0,
-  growthLayer: 0,
-  nharvLayer: 0,
-  waveHeightLayer: 0,
-  lineDensityLayer: 0,
-  d2pLayer: 0,
-  d2sinkLayer: 0,
-  fseqLayer: 0,
-}
+export const LAYER_UNIFORMS = [
+  'costLayer',
+  'benefitLayer',
+  'depthLayer',
+  'growthLayer',
+  'nharvLayer',
+  'wave_heightLayer',
+  'lineDensityLayer',
+  'd2pLayer',
+  'd2sinkLayer',
+  'fseqLayer',
+]
 
 export const useLayers = () => {
   const { layer, target, species, growthModel, mask } = useRawUniformValues()
 
   const layerUniforms = useMemo(
-    () => ({ ...emptyLayers, [`${layer}Layer`]: 1 }),
+    () =>
+      LAYER_UNIFORMS.reduce((uniforms, uniformName) => {
+        uniforms[uniformName] = uniformName === `${layer}Layer` ? 1 : 0
+        return uniforms
+      }, {}),
     [layer]
   )
 

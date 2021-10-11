@@ -5,7 +5,7 @@ import { useColormap } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
 import { useParameters } from './parameters'
-import { useLayers } from './layers'
+import { useLayers, LAYER_UNIFORMS } from './layers'
 
 const CLIM_MAP = {
   cost: [0, 5000],
@@ -13,7 +13,7 @@ const CLIM_MAP = {
   depth: [0, 10000],
   growth: [0, 5000],
   nharv: [0, 5],
-  waveHeight: [0, 5],
+  wave_height: [0, 5],
   lineDensity: [0, 1000000],
   d2p: [0, 5000],
   d2sink: [0, 5000],
@@ -68,6 +68,18 @@ if (d2sink == fillValue) {
   return;
 }
 `
+
+const defaultLayers = LAYER_UNIFORMS.filter(
+  (u) => !['costLayer', 'benefitLayer'].includes(u)
+)
+  .map(
+    (uniformName) => `
+  if (${uniformName} == 1.0) {
+    value = ${uniformName.replace('Layer', '')};
+  }
+`
+  )
+  .join('')
 
 const Viewer = ({ children }) => {
   const { theme } = useThemeUI()
@@ -154,6 +166,7 @@ const Viewer = ({ children }) => {
               float carbon_fraction = 0.248;
               float carbon_to_co2 = 3.67;
 
+              ${defaultLayers}
 
               if (costLayer == 1.0) {
                 ${filterPoints}
@@ -219,38 +232,6 @@ const Viewer = ({ children }) => {
                   // calculate climate benefit of sinking
                   value = growth * (carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink);
                 }
-              }
-
-              if (depthLayer == 1.0) {
-                value = depth;
-              }
-
-              if (growthLayer == 1.0) {
-                value = growth;
-              }
-
-              if (nharvLayer == 1.0) {
-                value = nharv;
-              }
-
-              if (waveHeightLayer == 1.0) {
-                value = wave_height;
-              }
-
-              if (lineDensityLayer == 1.0) {
-                value = lineDensity;
-              }
-
-              if (d2pLayer == 1.0) {
-                value = d2p;
-              }
-
-              if (d2sinkLayer == 1.0) {
-                value = d2sink;
-              }
-
-              if (fseqLayer == 1.0) {
-                value = fseq;
               }
 
               if (value == fillValue) {
