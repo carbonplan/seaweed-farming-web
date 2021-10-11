@@ -16,6 +16,8 @@ const CLIM_MAP = {
   waveHeight: [0, 5],
   lineDensity: [0, 1000000],
   d2p: [0, 5000],
+  d2sink: [0, 5000],
+  fseq: [0, 1],
 }
 
 const speciesDefinition = `
@@ -42,10 +44,10 @@ if (porphyra == 1.0) {
     growth = harv_porphyra;
     nharv = nharv_porphyra;
 }
-if (saccharina == 1.0) {
-    growth = harv_saccharina;
-    nharv = nharv_saccharina;
-}
+// if (saccharina == 1.0) {
+//     growth = harv_saccharina;
+//     nharv = nharv_saccharina;
+// }
 `
 
 const filterPoints = `
@@ -117,17 +119,19 @@ const Viewer = ({ children }) => {
             'nharv_macrocystis',
             'harv_porphyra',
             'nharv_porphyra',
-            'harv_saccharina',
-            'nharv_saccharina',
+            // 'harv_saccharina',
+            // 'nharv_saccharina',
             'elevation',
             'd2p',
             'wave_height',
+            'fseq',
+            'd2sink',
             // 'mask',
           ],
         }}
         fillValue={9.969209968386869e36}
         source={
-          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.3'
+          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.4'
         }
         frag={`
               ${speciesDefinition}
@@ -138,8 +142,6 @@ const Viewer = ({ children }) => {
 
               // constants for forthcoming layers
               float lineDensity = 714286.0;
-              float d2sink = depth * 0.5;
-              float fseq = 0.6;
               float carbon_fraction = 0.248;
               float carbon_to_co2 = 3.67;
 
@@ -228,6 +230,14 @@ const Viewer = ({ children }) => {
 
               if (d2pLayer == 1.0) {
                 value = d2p;
+              }
+
+              if (d2sinkLayer == 1.0) {
+                value = d2sink;
+              }
+
+              if (fseqLayer == 1.0) {
+                value = fseq;
               }
 
               if (value == fillValue) {

@@ -62,6 +62,8 @@ const emptyLayers = {
   waveHeightLayer: 0,
   lineDensityLayer: 0,
   d2pLayer: 0,
+  d2sinkLayer: 0,
+  fseqLayer: 0,
 }
 
 export const useLayers = () => {

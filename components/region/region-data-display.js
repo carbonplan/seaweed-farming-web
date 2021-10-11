@@ -43,10 +43,10 @@ const valuesToCost = (values, target, species, parameters) => {
     const d2p = values.d2p[i]
     const nharv = values[nharvVariable][i]
     const wave_height = values.wave_height[i]
+    const d2sink = values.d2sink[i]
 
     // constants for forthcoming layers
     const lineDensity = 714286.0
-    const d2sink = -1.0 * elevation * 0.5
 
     // invert depth
     const depth = -1.0 * elevation
@@ -123,12 +123,11 @@ const valuesToBenefit = (values, target, species, parameters) => {
 
   return values.harv_preferred.map((_, i) => {
     const growth = values[growthVariable][i]
-    const elevation = values.elevation[i]
     const d2p = values.d2p[i]
+    const fseq = values.fseq[i]
+    const d2sink = values.d2sink[i]
 
     // constants for forthcoming layers
-    const d2sink = -1.0 * elevation * 0.5
-    const fseq = 0.6
     const carbon_fraction = 0.248
     const carbon_to_co2 = 3.67
 
@@ -210,7 +209,6 @@ export const RegionDataDisplay = ({ sx }) => {
     if (!regionData || regionData.loading) {
       content = 'loading...'
     } else {
-      console.log({ target })
       const cost = averageData(
         valuesToCost(
           regionData.value.all_variables,

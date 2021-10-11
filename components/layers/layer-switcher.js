@@ -26,11 +26,15 @@ const filterToValue = {
   'wave height': 'waveHeight',
   'line density': 'lineDensity',
   'distance to port': 'd2p',
+  'distance to sink': 'd2sink',
+  'fraction sequestered': 'fseq',
 }
 
 const initBenefitInputs = {
   growth: true,
   'distance to port': true,
+  'distance to sink': true,
+  'fraction sequestered': true,
 }
 
 const PARAMETERS = {
