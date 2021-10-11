@@ -12,9 +12,9 @@ const initOutputs = {
 }
 
 const initCostInputs = {
-  depth: true,
   growth: true,
   harvests: true,
+  depth: true,
   'wave height': true,
   'line density': true,
 }
@@ -28,7 +28,8 @@ const filterToValue = {
   'distance to port': 'd2p',
 }
 
-const initValueOutputs = {
+const initBenefitInputs = {
+  growth: true,
   'distance to port': true,
 }
 
@@ -81,7 +82,7 @@ const LayerSwitcher = ({ sx }) => {
       setInputs(initCostInputs)
     } else {
       layer = 'benefit'
-      setInputs(initValueOutputs)
+      setInputs(initBenefitInputs)
     }
 
     setLayer(layer)
@@ -105,6 +106,10 @@ const LayerSwitcher = ({ sx }) => {
     }
   }, [layer, target])
 
+  const showGrowthControls = ['cost', 'benefit', 'growth', 'harvests'].includes(
+    layer
+  )
+
   return (
     <Group sx={sxProps}>
       <Box>
@@ -121,31 +126,37 @@ const LayerSwitcher = ({ sx }) => {
 
       <ControlPanelDivider />
 
-      <Group>
-        <Box>
-          <Box sx={sxHeading}>Growth model</Box>
-          <Filter values={growthModel} setValues={setGrowthModel} />
-        </Box>
-        <Box>
-          <Box sx={sxHeading}>Seaweed species</Box>
-          <Filter values={species} setValues={setSpecies} />
-        </Box>
-        <Box>
-          <Flex sx={{ justifyContent: 'space-between' }}>
-            <Box sx={sxHeading}>Include sensitive areas</Box>
-            <Toggle value={mask} onClick={() => setMask(!mask)} />
-          </Flex>
-        </Box>
-      </Group>
-
-      <ControlPanelDivider />
-
       <Box>
         <Box sx={sxHeading}>Biophysical inputs</Box>
         <Filter values={inputs} setValues={handleInputChange} />
       </Box>
 
-      <Parameters sx={sx} applicableParameters={applicableParameters} />
+      {showGrowthControls && <ControlPanelDivider />}
+
+      {showGrowthControls && (
+        <Group>
+          <Box>
+            <Box sx={sxHeading}>Growth model</Box>
+            <Filter values={growthModel} setValues={setGrowthModel} />
+          </Box>
+          <Box>
+            <Box sx={sxHeading}>Seaweed species</Box>
+            <Filter values={species} setValues={setSpecies} />
+          </Box>
+          <Box>
+            <Flex sx={{ justifyContent: 'space-between' }}>
+              <Box sx={sxHeading}>Include sensitive areas</Box>
+              <Toggle value={mask} onClick={() => setMask(!mask)} />
+            </Flex>
+          </Box>
+        </Group>
+      )}
+
+      {applicableParameters.length > 0 && <ControlPanelDivider />}
+
+      {applicableParameters.length > 0 && (
+        <Parameters sx={sx} applicableParameters={applicableParameters} />
+      )}
     </Group>
   )
 }
