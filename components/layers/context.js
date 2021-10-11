@@ -81,14 +81,23 @@ export const useLayers = () => {
     [species]
   )
 
+  const targetValue = useMemo(
+    () => Object.keys(target).find((k) => target[k]),
+    [target]
+  )
+
+  const speciesValue = useMemo(
+    () => Object.keys(species).find((k) => species[k]),
+    [species]
+  )
+
   const uniforms = {
     ...layerUniforms,
     ...speciesUniforms,
     productsTarget: target.products ? 1 : 0,
     sinkingTarget: target.sinking ? 1 : 0,
     includeMask: mask ? 1 : 0,
-    target,
   }
 
-  return { layer, target, uniforms }
+  return { layer, uniforms, target: targetValue, species: speciesValue }
 }

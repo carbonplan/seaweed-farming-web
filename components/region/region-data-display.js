@@ -5,6 +5,7 @@ import AnimateHeight from 'react-animate-height'
 import { RecenterButton } from './recenter-button'
 import { useRegionContext } from './context'
 import { useParameters } from '../parameters'
+import { useLayers } from '../layers'
 
 const NAN = 9.969209968386869e36
 
@@ -17,7 +18,7 @@ const averageData = (data) => {
   return filteredData.reduce((a, d) => a + d, 0) / filteredData.length
 }
 
-const valuesToCost = (values, parameters) => {
+const valuesToCost = (values, target, species, parameters) => {
   const {
     capex,
     depthFactor,
@@ -28,22 +29,30 @@ const valuesToCost = (values, parameters) => {
     lineCost,
     opex,
     waveFactor,
+    productValue,
+    transportCost,
+    conversionCost,
+    sinkingValue,
   } = parameters
+  const growthVariable = `harv_${species}`
+  const nharvVariable = `nharv_${species}`
+
   return values.harv_preferred.map((_, i) => {
-    const harv_preferred = values.harv_preferred[i]
+    const growth = values[growthVariable][i]
     const elevation = values.elevation[i]
     const d2p = values.d2p[i]
-    const nharv = values.nharv_preferred[i]
+    const nharv = values[nharvVariable][i]
     const wave_height = values.wave_height[i]
 
     // constants for forthcoming layers
     const lineDensity = 714286.0
+    const d2sink = -1.0 * elevation * 0.5
 
     // invert depth
     const depth = -1.0 * elevation
 
     // map to null if we have low or null value for growth
-    if (harv_preferred === NAN || harv_preferred < 0.2) {
+    if (growth === NAN || growth < 0.2) {
       return NAN
     }
 
@@ -87,7 +96,64 @@ const valuesToCost = (values, parameters) => {
     const harvest = harvestCost * nharv
 
     // combine terms
-    return (capital + operations + harvest) / harv_preferred
+    const growthCost = (capital + operations + harvest) / growth
+
+    if (target === 'products') {
+      // calculate product value
+      return (
+        growth * (productValue - transportCost * d2p - conversionCost) -
+        growthCost
+      )
+    } else {
+      // calculate sinking value
+      return growth * (sinkingValue - transportCost * d2sink) - growthCost
+    }
+  })
+}
+
+const valuesToBenefit = (values, target, species, parameters) => {
+  const {
+    avoidedEmissions,
+    transportEmissions,
+    conversionEmissions,
+    sequestrationRate,
+    removalRate,
+  } = parameters
+  const growthVariable = `harv_${species}`
+
+  return values.harv_preferred.map((_, i) => {
+    const growth = values[growthVariable][i]
+    const elevation = values.elevation[i]
+    const d2p = values.d2p[i]
+
+    // constants for forthcoming layers
+    const d2sink = -1.0 * elevation * 0.5
+    const fseq = 0.6
+    const carbon_fraction = 0.248
+    const carbon_to_co2 = 3.67
+
+    // map to null if we have low or null value for growth
+    if (growth === NAN || growth < 0.2) {
+      return NAN
+    }
+    if (target === 'products') {
+      // calculate climate benefit of products
+      return (
+        growth *
+        (avoidedEmissions - transportEmissions * d2p - conversionEmissions)
+      )
+    } else {
+      // calculate climate benefit of sinking
+      return (
+        growth *
+        (carbon_fraction *
+          carbon_to_co2 *
+          fseq *
+          sequestrationRate *
+          removalRate -
+          transportEmissions * d2sink)
+      )
+    }
   })
 }
 
@@ -137,18 +203,33 @@ export const RegionDataDisplay = ({ sx }) => {
     regionData,
   } = useRegionContext()
   const parameters = useParameters()
+  const { target, species } = useLayers()
 
   let content
   if (showRegionPicker) {
     if (!regionData || regionData.loading) {
       content = 'loading...'
     } else {
+      console.log({ target })
       const cost = averageData(
-        valuesToCost(regionData.value.all_variables, parameters)
+        valuesToCost(
+          regionData.value.all_variables,
+          target,
+          species,
+          parameters
+        )
+      )
+      const benefit = averageData(
+        valuesToBenefit(
+          regionData.value.all_variables,
+          target,
+          species,
+          parameters
+        )
       )
       const elevation = averageData(regionData.value.all_variables.elevation)
-      const harv_preferred =
-        averageData(regionData.value.all_variables.harv_preferred) || 0
+      const growth =
+        averageData(regionData.value.all_variables[`harv_${species}`]) || 0
 
       content = (
         <>
@@ -166,13 +247,14 @@ export const RegionDataDisplay = ({ sx }) => {
             <RecenterButton color='secondary' />
           </Box>
           <Group>
-            <AverageDisplay label='Cost' units='$ / ton DW' value={cost} />
-            <AverageDisplay label='Depth' units='m' value={-1 * elevation} />
+            <AverageDisplay label='Net cost' units='$ / ton DW' value={cost} />
             <AverageDisplay
-              label='Growth'
-              units='tons DW/km²'
-              value={harv_preferred}
+              label='Climate benefit'
+              units='tons CO₂e'
+              value={benefit}
             />
+            <AverageDisplay label='Depth' units='m' value={-1 * elevation} />
+            <AverageDisplay label='Growth' units='tons DW/km²' value={growth} />
           </Group>
         </>
       )
