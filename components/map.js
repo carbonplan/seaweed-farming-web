@@ -9,7 +9,7 @@ import { useLayers, LAYER_UNIFORMS } from './layers'
 
 const CLIM_MAP = {
   cost: [0, 750],
-  benefit: [0, 4000],
+  benefit: [0, 500],
   depth: [0, 10000],
   growth: [0, 5000],
   nharv: [0, 5],
@@ -200,12 +200,14 @@ const Viewer = ({ children }) => {
               }
 
               if (benefitLayer == 1.0) {
+                float growthEmissions = growth * nharv * d2p * harvestTransportEmissions + setupEmissions * 2.0 * d2p;
+
                 if (productsTarget == 1.0) {
                   // calculate climate benefit of products
-                  value = growth * (avoidedEmissions - transportEmissions * d2p - conversionEmissions);
+                  value = growth * (avoidedEmissions - transportEmissions * d2p - conversionEmissions) - growthEmissions;
                 } else {
                   // calculate climate benefit of sinking
-                  value = growth * (carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink);
+                  value = growth * (carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink) - growthEmissions;
                 }
               }
 

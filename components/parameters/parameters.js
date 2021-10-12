@@ -25,6 +25,10 @@ export const ParameterProvider = ({ children }) => {
   const [sinkingValue, setSinkingValue] = useState(0)
 
   const [transportEmissions, setTransportEmissions] = useState(0.00003)
+  const [setupEmissions, setSetupEmissions] = useState(5)
+  const [harvestTransportEmissions, setHarvestTransportEmissions] = useState(
+    0.01
+  )
 
   const [conversionEmissions, setConversionEmissions] = useState(0.005)
   const [avoidedEmissions, setAvoidedEmissions] = useState(0.5)
@@ -66,6 +70,10 @@ export const ParameterProvider = ({ children }) => {
         setConversionEmissions,
         avoidedEmissions,
         setAvoidedEmissions,
+        setupEmissions,
+        setSetupEmissions,
+        harvestTransportEmissions,
+        setHarvestTransportEmissions,
         sequestrationRate,
         setSequestrationRate,
         removalRate,
@@ -95,6 +103,8 @@ export const useParameters = () => {
     transportEmissions,
     conversionEmissions,
     avoidedEmissions,
+    setupEmissions,
+    harvestTransportEmissions,
     sequestrationRate,
     removalRate,
   } = useContext(ParameterContext)
@@ -118,6 +128,8 @@ export const useParameters = () => {
     avoidedEmissions,
     sequestrationRate,
     removalRate,
+    setupEmissions,
+    harvestTransportEmissions,
   }
 }
 
@@ -158,6 +170,10 @@ const Parameters = ({ applicableParameters, sx }) => {
     setConversionEmissions,
     avoidedEmissions,
     setAvoidedEmissions,
+    setupEmissions,
+    setSetupEmissions,
+    harvestTransportEmissions,
+    setHarvestTransportEmissions,
     sequestrationRate,
     setSequestrationRate,
     removalRate,
@@ -210,6 +226,34 @@ const Parameters = ({ applicableParameters, sx }) => {
           value={avoidedEmissions}
           setValue={setAvoidedEmissions}
           label={'Avoided emissions'}
+        />
+      </ParameterWrapper>
+
+      <ParameterWrapper
+        applicableParameters={applicableParameters}
+        id='setupEmissions'
+      >
+        <Parameter
+          min={1}
+          max={10}
+          step={0.1}
+          value={setupEmissions}
+          setValue={setSetupEmissions}
+          label={'Setup emissions'}
+        />
+      </ParameterWrapper>
+
+      <ParameterWrapper
+        applicableParameters={applicableParameters}
+        id='harvestTransportEmissions'
+      >
+        <Parameter
+          min={0.01}
+          max={1}
+          step={0.01}
+          value={harvestTransportEmissions}
+          setValue={setHarvestTransportEmissions}
+          label={'Harvest transport emissions'}
         />
       </ParameterWrapper>
 

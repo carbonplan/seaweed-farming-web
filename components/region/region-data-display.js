@@ -121,49 +121,77 @@ const valuesToBenefit = (values, target, species, parameters) => {
     avoidedEmissions,
     transportEmissions,
     conversionEmissions,
+    harvestTransportEmissions,
+    setupEmissions,
     sequestrationRate,
     removalRate,
   } = parameters
   const growthVariable = `harv_${species}`
+  const nharvVariable = `nharv_${species}`
 
-  return values.harv_preferred.map((_, i) => {
-    const growth = values[growthVariable][i]
-    const d2p = values.d2p[i]
-    const fseq = values.fseq[i]
-    const d2sink = values.d2sink[i]
+  return values.harv_preferred.reduce(
+    (accum, _, i) => {
+      const growth = values[growthVariable][i]
+      const nharv = values[nharvVariable][i]
+      const d2p = values.d2p[i]
+      const fseq = values.fseq[i]
+      const d2sink = values.d2sink[i]
 
-    // constants for forthcoming layers
-    const carbon_fraction = 0.248
-    const carbon_to_co2 = 3.67
+      // constants for forthcoming layers
+      const carbon_fraction = 0.248
+      const carbon_to_co2 = 3.67
 
-    // map to null if we have low or null value for growth
-    if (growth === NAN || growth < 0.2) {
-      return NAN
-    }
-    if (target === 'products') {
-      // calculate climate benefit of products
-      return (
-        growth *
-        (avoidedEmissions - transportEmissions * d2p - conversionEmissions)
-      )
-    } else {
-      // map to null null value for d2sink
-      if (d2sink === NAN) {
-        return NAN
+      // map to null if we have low or null value for growth
+      if (growth === NAN || growth < 0.2) {
+        accum.net.push(NAN)
+        accum.benefit.push(NAN)
+        accum.growth.push(NAN)
+        return accum
       }
 
-      // calculate climate benefit of sinking
-      return (
-        growth *
-        (carbon_fraction *
+      const growthEmissions =
+        growth * nharv * d2p * harvestTransportEmissions +
+        setupEmissions * 2.0 * d2p
+
+      let emissionsBenefit
+      let transport = 0
+      let conversion = 0
+      if (target === 'products') {
+        // calculate climate benefit of products
+        emissionsBenefit = growth * avoidedEmissions
+        transport = growth * transportEmissions * d2p
+        conversion = growth * conversionEmissions
+      } else {
+        // map to null when null value for d2sink
+        if (d2sink === NAN) {
+          accum.net.push(NAN)
+          accum.benefit.push(NAN)
+          accum.growth.push(NAN)
+          return accum
+        }
+
+        // calculate climate benefit of sinking
+        emissionsBenefit =
+          growth *
+          carbon_fraction *
           carbon_to_co2 *
           fseq *
           sequestrationRate *
-          removalRate -
-          transportEmissions * d2sink)
+          removalRate
+        transport = growth * transportEmissions * d2sink
+      }
+
+      accum.net.push(
+        emissionsBenefit - growthEmissions - transport - conversion
       )
-    }
-  })
+      accum.benefit.push(emissionsBenefit)
+      accum.growth.push(growthEmissions)
+      accum.transport.push(transport)
+      accum.conversion.push(conversion)
+      return accum
+    },
+    { net: [], benefit: [], growth: [], transport: [], conversion: [] }
+  )
 }
 
 const AverageDisplay = ({ value, label, units }) => {
@@ -219,14 +247,20 @@ export const RegionDataDisplay = ({ sx }) => {
     if (!regionData || regionData.loading) {
       content = 'loading...'
     } else {
-      const benefit = averageData(
-        valuesToBenefit(
-          regionData.value.all_variables,
-          target,
-          species,
-          parameters
-        )
+      const {
+        net: netBenefit,
+        benefit: emissionsBenefit,
+        growth: growthEmissions,
+        transport: transportEmissions,
+        conversion: conversionEmissions,
+      } = valuesToBenefit(
+        regionData.value.all_variables,
+        target,
+        species,
+        parameters
       )
+
+      const benefit = averageData(netBenefit)
       const cost = averageData(
         valuesToCost(
           regionData.value.all_variables,
@@ -256,9 +290,35 @@ export const RegionDataDisplay = ({ sx }) => {
           </Box>
           <Group>
             <AverageDisplay
-              label='Climate benefit'
+              label='Net climate benefit'
               units='tons CO₂e'
-              value={benefit}
+              value={averageData(netBenefit)}
+            />
+            <AverageDisplay
+              label='Emissions benefit'
+              units='tons CO₂e'
+              value={averageData(emissionsBenefit)}
+            />
+            <AverageDisplay
+              label='Production emissions'
+              units='tons CO₂e'
+              value={averageData(growthEmissions)}
+            />
+            <AverageDisplay
+              label='Transport emissions'
+              units='tons CO₂e'
+              value={averageData(transportEmissions)}
+            />
+            <AverageDisplay
+              label='Conversion emissions'
+              units='tons CO₂e'
+              value={averageData(conversionEmissions)}
+            />
+            ------
+            <AverageDisplay
+              label='Cost of avoided emissions'
+              units='$ / ton CO₂e'
+              value={benefit / cost}
             />
             <AverageDisplay label='Net cost' units='$ / ton DW' value={cost} />
             <AverageDisplay label='Depth' units='m' value={-1 * elevation} />

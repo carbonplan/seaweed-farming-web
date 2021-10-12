@@ -55,7 +55,7 @@ const PARAMETERS = {
     sinking: ['sinkingValue'],
   },
   benefit: {
-    base: ['transportEmissions'],
+    base: ['transportEmissions', 'setupEmissions', 'harvestTransportEmissions'],
     products: ['conversionEmissions', 'avoidedEmissions'],
     sinking: ['sequestrationRate', 'removalRate'],
   },
