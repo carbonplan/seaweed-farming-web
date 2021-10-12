@@ -281,7 +281,7 @@ const Parameters = ({ applicableParameters, sx }) => {
         <Parameter
           min={0.11}
           max={0.34}
-          step={0.1}
+          step={0.01}
           value={transportCost}
           setValue={setTransportCost}
           label={'Transport cost'}

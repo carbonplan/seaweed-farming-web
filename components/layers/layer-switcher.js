@@ -8,7 +8,7 @@ import { useRawUniformValues } from './context'
 
 const initOutputs = {
   'climate benefit': true,
-  'net value': false,
+  'net cost': false,
 }
 
 const initCostInputs = {
@@ -81,7 +81,7 @@ const LayerSwitcher = ({ sx }) => {
   const handleOutputChange = useCallback((res) => {
     let layer
     setOutputs(res)
-    if (res['net value']) {
+    if (res['net cost']) {
       layer = 'cost'
       setInputs(initCostInputs)
     } else {
@@ -93,7 +93,7 @@ const LayerSwitcher = ({ sx }) => {
   })
 
   const handleInputChange = useCallback((res) => {
-    setOutputs({ 'net value': false, 'climate benefit': false })
+    setOutputs({ 'net cost': false, 'climate benefit': false })
     setInputs(res)
     const selected = Object.keys(res).find((key) => res[key])
     setLayer(filterToValue[selected])

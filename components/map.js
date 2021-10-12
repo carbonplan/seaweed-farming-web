@@ -8,7 +8,7 @@ import { useParameters } from './parameters'
 import { useLayers, LAYER_UNIFORMS } from './layers'
 
 const CLIM_MAP = {
-  cost: [0, 75000],
+  cost: [0, 750],
   benefit: [0, 4000],
   depth: [0, 10000],
   growth: [0, 5000],
@@ -144,6 +144,8 @@ const Viewer = ({ children }) => {
 
               // constants for forthcoming layers
               float lineDensity = 714286.0;
+
+              // constants
               float carbon_fraction = 0.248;
               float carbon_to_co2 = 3.67;
 
@@ -190,10 +192,10 @@ const Viewer = ({ children }) => {
 
                 if (productsTarget == 1.0) {
                   // calculate product value
-                  value = growth * (productValue - transportCost * d2p - conversionCost) - growthCost;
+                  value = growthCost + growth * (transportCost * d2p + conversionCost - productValue);
                 } else {
                   // calculate sinking value
-                  value = growth * (sinkingValue - transportCost * d2sink) - growthCost;
+                  value = growthCost + growth * (transportCost * d2sink - sinkingValue);
                 }
               }
 

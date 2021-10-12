@@ -99,10 +99,10 @@ const valuesToCost = (values, target, species, parameters) => {
     const growthCost = (capital + operations + harvest) / growth
 
     if (target === 'products') {
-      // calculate product value
+      // calculate net product cost
       return (
-        growth * (productValue - transportCost * d2p - conversionCost) -
-        growthCost
+        growthCost +
+        growth * (transportCost * d2p + conversionCost - productValue)
       )
     } else {
       // map to null null value for d2sink
@@ -110,8 +110,8 @@ const valuesToCost = (values, target, species, parameters) => {
         return NAN
       }
 
-      // calculate sinking value
-      return growth * (sinkingValue - transportCost * d2sink) - growthCost
+      // calculate net sinking cost
+      return growthCost + growth * (transportCost * d2sink - sinkingValue)
     }
   })
 }
@@ -260,7 +260,7 @@ export const RegionDataDisplay = ({ sx }) => {
               units='tons CO₂e'
               value={benefit}
             />
-            <AverageDisplay label='Net value' units='$ / ton DW' value={cost} />
+            <AverageDisplay label='Net cost' units='$ / ton DW' value={cost} />
             <AverageDisplay label='Depth' units='m' value={-1 * elevation} />
             <AverageDisplay label='Growth' units='tons DW/km²' value={growth} />
           </Group>
