@@ -15,10 +15,10 @@ const ControlPanel = ({ children, title }) => {
     } else {
       // Otherwise, when expanded=true...
       if (showRegionPicker) {
-        // also hide region picker when active.
+        // also hide region picker when active...
         setShowRegionPicker(false)
       }
-      // allow panel to be closed otherwise.
+      // close panel
       setExpanded(false)
     }
   }, [expanded, showRegionPicker])

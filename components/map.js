@@ -1,59 +1,80 @@
-import { useMemo, useState } from 'react'
-import { Box, useColorMode, useThemeUI } from 'theme-ui'
-import { Canvas, Raster, RegionPicker } from '@carbonplan/maps'
+import { Box, Flex, useColorMode, useThemeUI } from 'theme-ui'
+import { Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
-import { useColormap } from '@carbonplan/colormaps'
+import { useColormap, Colorbar } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
-import Basemap from '../components/basemap'
-import style from '../components/style'
 import { useParameters } from './parameters'
+import {
+  useLayers,
+  LAYER_UNIFORMS,
+  LABEL_MAP,
+  CLIM_MAP,
+  UNITS_MAP,
+} from './layers'
 
-const CLIM_MAP = {
-  cost: [0, 5000],
-  value: [0, 1],
-  depth: [0, 10000],
-  growth: [0, 5000],
-  harvest: [0, 5],
-  waveHeight: [0, 5],
-  lineDensity: [0, 1000000],
-  d2p: [0, 5000],
+const speciesDefinition = `
+float growth;
+float nharv;
+
+if (preferred == 1.0) {
+    growth = harv_preferred;
+    nharv = nharv_preferred;
 }
-
-const emptyUniforms = {
-  costLayer: 0,
-  valueLayer: 0,
-  depthLayer: 0,
-  growthLayer: 0,
-  harvestLayer: 0,
-  waveHeightLayer: 0,
-  lineDensityLayer: 0,
-  d2pLayer: 0,
+if (sargassum == 1.0) {
+    growth = harv_sargassum;
+    nharv = nharv_sargassum;
 }
+if (eucheuma == 1.0) {
+    growth = harv_eucheuma;
+    nharv = nharv_eucheuma;
+}
+if (macrocystis == 1.0) {
+    growth = harv_macrocystis;
+    nharv = nharv_macrocystis;
+}
+if (porphyra == 1.0) {
+    growth = harv_porphyra;
+    nharv = nharv_porphyra;
+}
+// if (saccharina == 1.0) {
+//     growth = harv_saccharina;
+//     nharv = nharv_saccharina;
+// }
+`
 
-const Map = ({ children, layer }) => {
+const defaultLayers = LAYER_UNIFORMS.filter(
+  (u) => !['costLayer', 'benefitLayer'].includes(u)
+)
+  .map(
+    (uniformName) => `
+  if (${uniformName} == 1.0) {
+    value = ${uniformName.replace('Layer', '')};
+  }
+`
+  )
+  .join('')
+
+const Viewer = ({ children }) => {
   const { theme } = useThemeUI()
   const colormap = useColormap('cool')
   const [mode] = useColorMode()
   const parameters = useParameters()
+  const { uniforms: layerUniforms, layer, target } = useLayers()
+
   const { setRegionData, showRegionPicker } = useRegionContext()
 
   const clim = CLIM_MAP[layer]
-  const layerUniforms = useMemo(
-    () => ({ ...emptyUniforms, [`${layer}Layer`]: 1 }),
-    [layer]
-  )
 
   return (
-    <Canvas
-      style={style}
-      zoom={2}
-      minZoom={2}
-      center={[0, 0]}
-      debug={false}
-      extensions={['OES_texture_float', 'OES_element_index_uint']}
-    >
-      <Basemap inverted />
+    <Map zoom={2} minZoom={2} center={[0, 0]} debug={false}>
+      <Line
+        color={theme.rawColors.primary}
+        source={
+          'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
+        }
+        variable={'land'}
+      />
       {showRegionPicker && (
         <RegionPicker
           color={theme.colors.primary}
@@ -76,31 +97,54 @@ const Map = ({ children, layer }) => {
         uniforms={{
           ...layerUniforms,
           ...parameters,
+          target,
           empty: mode == 'dark' ? 0.25 : 0.75,
         }}
         setRegionData={setRegionData}
-        variables={['Growth2', 'elevation', 'd2p', 'wave_height']}
+        variable={'all_variables'}
+        selector={{
+          variable: [
+            'harv_preferred',
+            'nharv_preferred',
+            'harv_sargassum',
+            'nharv_sargassum',
+            'harv_eucheuma',
+            'nharv_eucheuma',
+            'harv_macrocystis',
+            'nharv_macrocystis',
+            'harv_porphyra',
+            'nharv_porphyra',
+            // 'harv_saccharina',
+            // 'nharv_saccharina',
+            'elevation',
+            'd2p',
+            'wave_height',
+            'fseq',
+            'd2sink',
+            // 'mask',
+          ],
+        }}
+        fillValue={9.969209968386869e36}
         source={
-          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid/{z}/all_variables'
+          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.4'
         }
         frag={`
+              ${speciesDefinition}
               float value;
-
-              // constants for forthcoming layers
-              float lineDensity = 714286.0;
-              float nharv = 2.0;
 
               // invert depth
               float depth = -1.0 * elevation;
 
+              // constants for forthcoming layers
+              float lineDensity = 714286.0;
+
+              // constants
+              float carbon_fraction = 0.248;
+              float carbon_to_co2 = 3.67;
+
+              ${defaultLayers}
+
               if (costLayer == 1.0) {
-                // return null color if null value or low growth
-                if ((Growth2 == nan) || (Growth2 < 0.2)) {
-                  gl_FragColor = vec4(empty, empty, empty, opacity);
-                  gl_FragColor.rgb *= gl_FragColor.a;
-                  return;
-                }
-  
                 // parameters
                 float cheapDepth = 50.0;
                 float priceyDepth = 150.0;
@@ -137,35 +181,43 @@ const Map = ({ children, layer }) => {
                 float harvest = harvestCost * nharv;
 
                 // combine terms
-                float cost = (capital + operations + harvest) / Growth2;
-                value = cost;
+                float growthCost = (capital + operations + harvest) / growth;
+
+                if (productsTarget == 1.0) {
+                  // calculate product value
+                  value = growthCost + growth * (transportCost * d2p + conversionCost - productValue);
+                } else {
+                  // calculate sinking value
+                  value = growthCost + growth * (transportCost * d2sink - sinkingValue);
+                }
               }
 
-              if (depthLayer == 1.0) {
-                value = depth;
+              if (benefitLayer == 1.0) {
+                float growthEmissions = growth * nharv * d2p * harvestTransportEmissions + setupEmissions * 2.0 * d2p;
+
+                if (productsTarget == 1.0) {
+                  // calculate climate benefit of products
+                  value = growth * (avoidedEmissions - transportEmissions * d2p - conversionEmissions) - growthEmissions;
+                } else {
+                  // calculate climate benefit of sinking
+                  value = growth * (carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink) - growthEmissions;
+                }
               }
 
-              if (growthLayer == 1.0) {
-                value = Growth2;
+              if (costLayer == 1.0 || benefitLayer == 1.0) {
+                // filter points
+                bool lowGrowth = growth == fillValue || growth < 0.2;
+                bool lowSink = sinkingTarget == 1.0 && d2sink == fillValue;
+                // bool masked = includeMask == 0.0 && mask == 1.0;
+
+                if (lowGrowth || lowSink) {
+                  gl_FragColor = vec4(empty, empty, empty, opacity);
+                  gl_FragColor.rgb *= gl_FragColor.a;
+                  return;
+                }
               }
 
-              if (harvestLayer == 1.0) {
-                value = nharv;
-              }
-
-              if (waveHeightLayer == 1.0) {
-                value = wave_height;
-              }
-
-              if (lineDensityLayer == 1.0) {
-                value = lineDensity;
-              }
-
-              if (d2pLayer == 1.0) {
-                value = d2p;
-              }
-
-              if (value == nan) {
+              if (value == fillValue) {
                 gl_FragColor = vec4(empty, empty, empty, opacity);
                 gl_FragColor.rgb *= gl_FragColor.a;
                 return;
@@ -185,16 +237,25 @@ const Map = ({ children, layer }) => {
           bottom: [17, 17, 15, 15],
         }}
       >
-        <Dimmer
-          sx={{
-            display: ['none', 'none', 'initial', 'initial'],
-            color: 'primary',
-          }}
-        />
+        <Flex sx={{ gap: [4] }}>
+          <Colorbar
+            colormap={colormap}
+            clim={clim}
+            units={UNITS_MAP[layer]}
+            label={LABEL_MAP[layer]}
+            horizontal
+          />
+          <Dimmer
+            sx={{
+              display: ['none', 'none', 'initial', 'initial'],
+              color: 'primary',
+            }}
+          />
+        </Flex>
       </Box>
       {children}
-    </Canvas>
+    </Map>
   )
 }
 
-export default Map
+export default Viewer

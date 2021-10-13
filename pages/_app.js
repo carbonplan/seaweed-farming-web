@@ -5,15 +5,18 @@ import '@carbonplan/components/globals.css'
 import theme from '@carbonplan/theme'
 import { RegionProvider } from '../components/region'
 import { ParameterProvider } from '../components/parameters'
+import { LayersProvider } from '../components/layers'
 
 const App = ({ Component, pageProps }) => {
   return (
     <ThemeProvider theme={theme}>
-      <ParameterProvider>
-        <RegionProvider>
-          <Component {...pageProps} />
-        </RegionProvider>
-      </ParameterProvider>
+      <LayersProvider>
+        <ParameterProvider>
+          <RegionProvider>
+            <Component {...pageProps} />
+          </RegionProvider>
+        </ParameterProvider>
+      </LayersProvider>
     </ThemeProvider>
   )
 }
