@@ -3,9 +3,9 @@ import { Filter, Group } from '@carbonplan/components'
 import { Box } from 'theme-ui'
 
 import ControlPanelDivider from '../control-panel-divider'
+import Section from '../section'
 import { useRawUniformValues } from './context'
 import { LABEL_MAP } from './constants'
-
 const initOutputs = {
   [LABEL_MAP['benefit']]: true,
   [LABEL_MAP['cost']]: false,
@@ -68,17 +68,19 @@ const LayerSwitcher = ({ sx }) => {
 
       <ControlPanelDivider />
 
-      <Box sx={sxHeading}>Display</Box>
+      <Section sx={sxHeading} label='Display'>
+        <Group>
+          <Box>
+            <Box sx={sxLabel}>Derived outputs</Box>
+            <Filter values={outputs} setValues={handleOutputChange} />
+          </Box>
 
-      <Box>
-        <Box sx={sxLabel}>Derived outputs</Box>
-        <Filter values={outputs} setValues={handleOutputChange} />
-      </Box>
-
-      <Box>
-        <Box sx={sxLabel}>Biophysical inputs</Box>
-        <Filter values={inputs} setValues={handleInputChange} />
-      </Box>
+          <Box>
+            <Box sx={sxLabel}>Biophysical inputs</Box>
+            <Filter values={inputs} setValues={handleInputChange} />
+          </Box>
+        </Group>
+      </Section>
     </Group>
   )
 }

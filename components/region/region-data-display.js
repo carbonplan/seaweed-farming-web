@@ -343,7 +343,7 @@ export const RegionDataDisplay = ({ sx }) => {
           id='label'
           sx={{ color: 'primary', transition: 'color 0.15s' }}
         >
-          Region data
+          Statistics
         </Box>
         <Expander
           value={showRegionPicker}

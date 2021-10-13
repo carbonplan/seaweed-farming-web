@@ -6,6 +6,7 @@ import { GrowthParameters, LayerSwitcher } from '../components/layers'
 import { RegionDataDisplay } from '../components/region'
 import ControlPanelDivider from '../components/control-panel-divider'
 import Parameters from '../components/parameters'
+import Section from '../components/section'
 
 const sx = {
   heading: {
@@ -56,11 +57,13 @@ const Index = () => {
 
                 <ControlPanelDivider />
 
-                <Box sx={sx.heading}>Parameters</Box>
+                <Section sx={sx.heading} label='Parameters'>
+                  <Group>
+                    <GrowthParameters sx={sx} />
 
-                <GrowthParameters sx={sx} />
-
-                <Parameters sx={sx} />
+                    <Parameters sx={sx} />
+                  </Group>
+                </Section>
 
                 <ControlPanelDivider />
 
