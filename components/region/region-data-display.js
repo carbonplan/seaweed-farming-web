@@ -100,10 +100,7 @@ const valuesToCost = (values, target, species, parameters) => {
 
     if (target === 'products') {
       // calculate net product cost
-      return (
-        growthCost +
-        growth * (transportCost * d2p + conversionCost - productValue)
-      )
+      return growthCost + transportCost * d2p + conversionCost - productValue
     } else {
       // map to null null value for d2sink
       if (d2sink === NAN) {
@@ -111,7 +108,7 @@ const valuesToCost = (values, target, species, parameters) => {
       }
 
       // calculate net sinking cost
-      return growthCost + growth * (transportCost * d2sink - sinkingValue)
+      return growthCost + transportCost * d2sink - sinkingValue
     }
   })
 }
@@ -150,17 +147,15 @@ const valuesToBenefit = (values, target, species, parameters) => {
       }
 
       const growthEmissions =
-        growth * nharv * d2p * harvestTransportEmissions +
-        setupEmissions * 2.0 * d2p
-
+        nharv * d2p * harvestTransportEmissions + setupEmissions * 2.0 * d2p
       let emissionsBenefit
       let transport = 0
       let conversion = 0
       if (target === 'products') {
         // calculate climate benefit of products
-        emissionsBenefit = growth * avoidedEmissions
-        transport = growth * transportEmissions * d2p
-        conversion = growth * conversionEmissions
+        emissionsBenefit = avoidedEmissions
+        transport = transportEmissions * d2p
+        conversion = conversionEmissions
       } else {
         // map to null when null value for d2sink
         if (d2sink === NAN) {
@@ -172,13 +167,12 @@ const valuesToBenefit = (values, target, species, parameters) => {
 
         // calculate climate benefit of sinking
         emissionsBenefit =
-          growth *
           carbon_fraction *
           carbon_to_co2 *
           fseq *
           sequestrationRate *
           removalRate
-        transport = growth * transportEmissions * d2sink
+        transport = transportEmissions * d2sink
       }
 
       accum.net.push(
