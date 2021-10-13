@@ -2,9 +2,10 @@ import { Box, Container } from 'theme-ui'
 import { Group, Meta, Guide, Header } from '@carbonplan/components'
 import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
-import { LayerSwitcher } from '../components/layers'
+import { GrowthParameters, LayerSwitcher } from '../components/layers'
 import { RegionDataDisplay } from '../components/region'
 import ControlPanelDivider from '../components/control-panel-divider'
+import Parameters from '../components/parameters'
 
 const sx = {
   heading: {
@@ -52,6 +53,14 @@ const Index = () => {
                 <ControlPanelDivider />
 
                 <LayerSwitcher sx={sx} />
+
+                <ControlPanelDivider />
+
+                <Box sx={sx.heading}>Parameters</Box>
+
+                <GrowthParameters sx={sx} />
+
+                <Parameters sx={sx} />
 
                 <ControlPanelDivider />
 
