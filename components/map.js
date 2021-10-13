@@ -185,22 +185,22 @@ const Viewer = ({ children }) => {
 
                 if (productsTarget == 1.0) {
                   // calculate product value
-                  value = growthCost + growth * (transportCost * d2p + conversionCost - productValue);
+                  value = growthCost + transportCost * d2p + conversionCost - productValue;
                 } else {
                   // calculate sinking value
-                  value = growthCost + growth * (transportCost * d2sink - sinkingValue);
+                  value = growthCost + transportCost * d2sink - sinkingValue;
                 }
               }
 
               if (benefitLayer == 1.0) {
-                float growthEmissions = growth * nharv * d2p * harvestTransportEmissions + setupEmissions * 2.0 * d2p;
+                float growthEmissions = (nharv * d2p * harvestTransportEmissions + setupEmissions * 2.0 * d2p) / growth;
 
                 if (productsTarget == 1.0) {
                   // calculate climate benefit of products
-                  value = growth * (avoidedEmissions - transportEmissions * d2p - conversionEmissions) - growthEmissions;
+                  value = avoidedEmissions - transportEmissions * d2p - conversionEmissions - growthEmissions;
                 } else {
                   // calculate climate benefit of sinking
-                  value = growth * (carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink) - growthEmissions;
+                  value = carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink - growthEmissions;
                 }
               }
 
