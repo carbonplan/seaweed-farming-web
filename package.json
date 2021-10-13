@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/carbonplan/article-template#readme",
   "dependencies": {
-    "@carbonplan/colormaps": "^1.0.0",
+    "@carbonplan/colormaps": "^2.1.0",
     "@carbonplan/components": "^10.0.0",
     "@carbonplan/maps": "^1.0.0",
     "@carbonplan/theme": "^7.0.0",
@@ -34,7 +34,7 @@
     "react": "^16.14.0",
     "react-animate-height": "^2.0.23",
     "react-dom": "^16.14.0",
-    "theme-ui": "^0.10.0"
+    "theme-ui": "^0.11.1"
   },
   "devDependencies": {
     "prettier": "2.2.1"

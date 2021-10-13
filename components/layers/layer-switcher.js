@@ -5,36 +5,37 @@ import { Box, Flex } from 'theme-ui'
 import ControlPanelDivider from '../control-panel-divider'
 import Parameters from '../parameters'
 import { useRawUniformValues } from './context'
+import { LABEL_MAP } from './constants'
 
 const initOutputs = {
-  'climate benefit': true,
-  'net cost': false,
+  [LABEL_MAP['benefit']]: true,
+  [LABEL_MAP['cost']]: false,
 }
 
 const initCostInputs = {
-  growth: true,
-  harvests: true,
-  depth: true,
-  'wave height': true,
-  'line density': true,
-}
-
-const filterToValue = {
-  depth: 'depth',
-  growth: 'growth',
-  harvests: 'nharv',
-  'wave height': 'wave_height',
-  'line density': 'lineDensity',
-  'distance to port': 'd2p',
-  'distance to sink': 'd2sink',
-  'fraction sequestered': 'fseq',
+  [LABEL_MAP['growth']]: true,
+  [LABEL_MAP['nharv']]: true,
+  [LABEL_MAP['depth']]: true,
+  [LABEL_MAP['wave_height']]: true,
+  [LABEL_MAP['lineDensity']]: true,
 }
 
 const initBenefitInputs = {
-  growth: true,
-  'distance to port': true,
-  'distance to sink': true,
-  'fraction sequestered': true,
+  [LABEL_MAP['growth']]: true,
+  [LABEL_MAP['d2p']]: true,
+  [LABEL_MAP['d2sink']]: true,
+  [LABEL_MAP['fseq']]: true,
+}
+
+const filterToValue = {
+  [LABEL_MAP['depth']]: 'depth',
+  [LABEL_MAP['growth']]: 'growth',
+  [LABEL_MAP['nharv']]: 'nharv',
+  [LABEL_MAP['wave_height']]: 'wave_height',
+  [LABEL_MAP['lineDensity']]: 'lineDensity',
+  [LABEL_MAP['d2p']]: 'd2p',
+  [LABEL_MAP['d2sink']]: 'd2sink',
+  [LABEL_MAP['fseq']]: 'fseq',
 }
 
 const PARAMETERS = {

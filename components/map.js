@@ -1,24 +1,17 @@
-import { Box, useColorMode, useThemeUI } from 'theme-ui'
+import { Box, Flex, useColorMode, useThemeUI } from 'theme-ui'
 import { Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
-import { useColormap } from '@carbonplan/colormaps'
+import { useColormap, Colorbar } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
 import { useParameters } from './parameters'
-import { useLayers, LAYER_UNIFORMS } from './layers'
-
-const CLIM_MAP = {
-  cost: [0, 750],
-  benefit: [0, 500],
-  depth: [0, 10000],
-  growth: [0, 5000],
-  nharv: [0, 5],
-  wave_height: [0, 5],
-  lineDensity: [0, 1000000],
-  d2p: [0, 5000],
-  d2sink: [0, 5000],
-  fseq: [0, 1],
-}
+import {
+  useLayers,
+  LAYER_UNIFORMS,
+  LABEL_MAP,
+  CLIM_MAP,
+  UNITS_MAP,
+} from './layers'
 
 const speciesDefinition = `
 float growth;
@@ -244,12 +237,21 @@ const Viewer = ({ children }) => {
           bottom: [17, 17, 15, 15],
         }}
       >
-        <Dimmer
-          sx={{
-            display: ['none', 'none', 'initial', 'initial'],
-            color: 'primary',
-          }}
-        />
+        <Flex sx={{ gap: [4] }}>
+          <Colorbar
+            colormap={colormap}
+            clim={clim}
+            units={UNITS_MAP[layer]}
+            label={LABEL_MAP[layer]}
+            horizontal
+          />
+          <Dimmer
+            sx={{
+              display: ['none', 'none', 'initial', 'initial'],
+              color: 'primary',
+            }}
+          />
+        </Flex>
       </Box>
       {children}
     </Map>
