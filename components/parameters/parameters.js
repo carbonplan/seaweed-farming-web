@@ -27,7 +27,7 @@ export const ParameterProvider = ({ children }) => {
   const [transportEmissions, setTransportEmissions] = useState(0.00003)
   const [setupEmissions, setSetupEmissions] = useState(5)
   const [harvestTransportEmissions, setHarvestTransportEmissions] = useState(
-    0.01
+    0.00003
   )
 
   const [conversionEmissions, setConversionEmissions] = useState(0.005)
@@ -248,9 +248,9 @@ const Parameters = ({ applicableParameters, sx }) => {
         id='harvestTransportEmissions'
       >
         <Parameter
-          min={0.01}
-          max={1}
-          step={0.01}
+          min={0.0000142}
+          max={0.00004268}
+          step={0.0000001}
           value={harvestTransportEmissions}
           setValue={setHarvestTransportEmissions}
           label={'Harvest transport emissions'}
