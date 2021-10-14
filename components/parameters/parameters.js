@@ -132,7 +132,12 @@ export const useParameters = () => {
 }
 
 const Parameters = ({ sx }) => {
-  const { heading: sxHeading, description: sxDescription, ...sxProps } = sx
+  const {
+    heading: sxHeading,
+    description: sxDescription,
+    label: sxLabel,
+    ...sxProps
+  } = sx
 
   const [expandedParameters, setExpandedParameters] = useState(false)
   const {
@@ -187,6 +192,7 @@ const Parameters = ({ sx }) => {
         value={transportEmissions}
         setValue={setTransportEmissions}
         label={'Transport emissions'}
+        sx={sxLabel}
       />
 
       <Parameter
@@ -196,6 +202,7 @@ const Parameters = ({ sx }) => {
         value={conversionEmissions}
         setValue={setConversionEmissions}
         label={'Conversion emissions'}
+        sx={sxLabel}
       />
 
       <Parameter
@@ -205,6 +212,7 @@ const Parameters = ({ sx }) => {
         value={avoidedEmissions}
         setValue={setAvoidedEmissions}
         label={'Avoided emissions'}
+        sx={sxLabel}
       />
 
       <Parameter
@@ -214,6 +222,7 @@ const Parameters = ({ sx }) => {
         value={setupEmissions}
         setValue={setSetupEmissions}
         label={'Setup emissions'}
+        sx={sxLabel}
       />
 
       <Parameter
@@ -223,6 +232,7 @@ const Parameters = ({ sx }) => {
         value={harvestTransportEmissions}
         setValue={setHarvestTransportEmissions}
         label={'Harvest transport emissions'}
+        sx={sxLabel}
       />
 
       <Parameter
@@ -232,6 +242,7 @@ const Parameters = ({ sx }) => {
         value={sequestrationRate}
         setValue={setSequestrationRate}
         label={'Sequestration rate'}
+        sx={sxLabel}
       />
 
       <Parameter
@@ -241,6 +252,7 @@ const Parameters = ({ sx }) => {
         value={removalRate}
         setValue={setRemovalRate}
         label={'Removal rate'}
+        sx={sxLabel}
       />
 
       <>
@@ -282,6 +294,7 @@ const Parameters = ({ sx }) => {
                 value={capex}
                 setValue={setCapex}
                 label={'Capex'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -291,6 +304,7 @@ const Parameters = ({ sx }) => {
                 value={lineCost}
                 setValue={setLineCost}
                 label={'Line cost'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -300,6 +314,7 @@ const Parameters = ({ sx }) => {
                 value={opex}
                 setValue={setOpex}
                 label={'Opex'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -309,6 +324,7 @@ const Parameters = ({ sx }) => {
                 value={transportCost}
                 setValue={setTransportCost}
                 label={'Transport cost'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -318,6 +334,7 @@ const Parameters = ({ sx }) => {
                 value={conversionCost}
                 setValue={setConversionCost}
                 label={'Conversion cost'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -327,6 +344,7 @@ const Parameters = ({ sx }) => {
                 value={productValue}
                 setValue={setProductValue}
                 label={'Product value'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -336,6 +354,7 @@ const Parameters = ({ sx }) => {
                 value={sinkingValue}
                 setValue={setSinkingValue}
                 label={'Sinking value'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -345,6 +364,7 @@ const Parameters = ({ sx }) => {
                 value={labor}
                 setValue={setLabor}
                 label={'Labor'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -354,6 +374,7 @@ const Parameters = ({ sx }) => {
                 value={harvestCost}
                 setValue={setHarvestCost}
                 label={'Harvest costs'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -363,6 +384,7 @@ const Parameters = ({ sx }) => {
                 value={depthFactor}
                 setValue={setDepthFactor}
                 label={'Depth factor'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -372,6 +394,7 @@ const Parameters = ({ sx }) => {
                 value={waveFactor}
                 setValue={setWaveFactor}
                 label={'Wave factor'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -381,6 +404,7 @@ const Parameters = ({ sx }) => {
                 value={insurance}
                 setValue={setInsurance}
                 label={'Insurance'}
+                sx={sxLabel}
               />
 
               <Parameter
@@ -390,6 +414,7 @@ const Parameters = ({ sx }) => {
                 value={license}
                 setValue={setLicense}
                 label={'License'}
+                sx={sxLabel}
               />
             </Box>
           )}

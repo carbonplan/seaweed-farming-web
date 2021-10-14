@@ -20,6 +20,12 @@ const sx = {
   description: {
     fontSize: [1, 1, 1, 2],
   },
+  label: {
+    fontFamily: 'faux',
+    letterSpacing: 'smallcaps',
+    fontSize: [2, 2, 2, 3],
+    mb: [2],
+  },
 }
 
 const Index = () => {

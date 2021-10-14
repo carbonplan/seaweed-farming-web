@@ -1,18 +1,19 @@
 import { Box } from 'theme-ui'
 import { Slider, Badge, Row, Column } from '@carbonplan/components'
 
-const Parameter = ({ label, min, max, step, value, setValue, onChange }) => {
+const Parameter = ({
+  label,
+  min,
+  max,
+  step,
+  value,
+  setValue,
+  onChange,
+  sx,
+}) => {
   return (
     <Box sx={{ mt: [2], mb: [2] }}>
-      <Box
-        sx={{
-          fontFamily: 'faux',
-          letterSpacing: 'smallcaps',
-          fontSize: [2, 2, 2, 3],
-        }}
-      >
-        {label}
-      </Box>
+      <Box sx={{ ...sx, mb: [0] }}>{label}</Box>
       <Row columns={3}>
         <Column start={1} width={2}>
           <Box sx={{ height: ['3px'] }} />
