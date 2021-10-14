@@ -1,10 +1,17 @@
 import { Box } from 'theme-ui'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Expander } from '@carbonplan/components'
 import AnimateHeight from 'react-animate-height'
 
-export const Section = ({ children, label, sx }) => {
+export const Section = ({ children, label, onClose, sx }) => {
   const [showSection, setShowSection] = useState(false)
+
+  const handleClick = useCallback(() => {
+    setShowSection((previouslyShown) => {
+      if (previouslyShown && onClose) onClose()
+      return !previouslyShown
+    })
+  }, [onClose])
 
   return (
     <>
@@ -19,7 +26,7 @@ export const Section = ({ children, label, sx }) => {
             '&:hover > #label': { color: 'secondary' },
           },
         }}
-        onClick={() => setShowSection(!showSection)}
+        onClick={handleClick}
       >
         <Box
           as='span'

@@ -1,12 +1,13 @@
 import { Box, Container } from 'theme-ui'
 import { Group, Meta, Guide, Header } from '@carbonplan/components'
+
 import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
 import { GrowthParameters, LayerSwitcher } from '../components/layers'
-import { RegionDataDisplay } from '../components/region'
 import ControlPanelDivider from '../components/control-panel-divider'
-import Parameters from '../components/parameters'
 import Section from '../components/section'
+import Parameters from '../components/parameters'
+import Statistics from '../components/statistics'
 
 const sx = {
   heading: {
@@ -67,7 +68,7 @@ const Index = () => {
 
                 <ControlPanelDivider />
 
-                <RegionDataDisplay sx={sx} />
+                <Statistics sx={sx} />
               </Group>
             </ControlPanel>
           </Container>
