@@ -36,3 +36,16 @@ export const LABEL_MAP = {
   d2sink: 'distance to sink',
   fseq: 'fraction sequestered',
 }
+
+export const TARGETS = ['sinking', 'products']
+
+export const GROWTH_MODELS = ['low', 'high']
+
+export const SPECIES = [
+  'preferred',
+  'sargassum',
+  'eucheuma',
+  'macrocystis',
+  'porphyra',
+  'saccharina',
+]

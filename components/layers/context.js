@@ -1,26 +1,13 @@
 import { createContext, useContext, useMemo, useState } from 'react'
-
-const initGrowthModel = {
-  low: true,
-  high: false,
-}
-
-const initSeaweedSpecies = {
-  preferred: true,
-  sargassum: false,
-  eucheuma: false,
-  macrocystis: false,
-  porphyra: false,
-  saccharina: false,
-}
+import { GROWTH_MODELS, SPECIES } from './constants'
 
 const LayersContext = createContext(null)
 
 export const LayersProvider = ({ children }) => {
   const [layer, setLayer] = useState('benefit')
   const [target, setTarget] = useState('sinking')
-  const [species, setSpecies] = useState(initSeaweedSpecies)
-  const [growthModel, setGrowthModel] = useState(initGrowthModel)
+  const [species, setSpecies] = useState(SPECIES[0])
+  const [growthModel, setGrowthModel] = useState(GROWTH_MODELS[0])
   const [mask, setMask] = useState(false)
 
   return (
@@ -75,15 +62,10 @@ export const useLayers = () => {
 
   const speciesUniforms = useMemo(
     () =>
-      Object.keys(species).reduce((accum, speciesName) => {
-        accum[speciesName] = species[speciesName] ? 1 : 0
+      SPECIES.reduce((accum, speciesName) => {
+        accum[speciesName] = species === speciesName ? 1 : 0
         return accum
       }, {}),
-    [species]
-  )
-
-  const speciesValue = useMemo(
-    () => Object.keys(species).find((k) => species[k]),
     [species]
   )
 
@@ -95,5 +77,5 @@ export const useLayers = () => {
     includeMask: mask ? 1 : 0,
   }
 
-  return { layer, uniforms, target, species: speciesValue }
+  return { layer, uniforms, target, species }
 }
