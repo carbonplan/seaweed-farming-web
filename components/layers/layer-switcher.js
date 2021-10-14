@@ -6,6 +6,8 @@ import ControlPanelDivider from '../control-panel-divider'
 import Section from '../section'
 import { useRawUniformValues } from './context'
 import { LABEL_MAP } from './constants'
+import Radio from '../radio'
+
 const initOutputs = {
   [LABEL_MAP['benefit']]: true,
   [LABEL_MAP['cost']]: false,
@@ -63,7 +65,22 @@ const LayerSwitcher = ({ sx }) => {
   return (
     <Group sx={sxProps}>
       <Box>
-        <Filter values={target} setValues={setTarget} />
+        <Group direction='horizontal'>
+          <Radio
+            label='Sinking'
+            value='sinking'
+            name='target'
+            onChange={setTarget}
+            checked={target === 'sinking'}
+          />
+          <Radio
+            label='Products'
+            value='products'
+            name='target'
+            onChange={setTarget}
+            checked={target === 'products'}
+          />
+        </Group>
       </Box>
 
       <ControlPanelDivider />

@@ -1,10 +1,5 @@
 import { createContext, useContext, useMemo, useState } from 'react'
 
-const initTarget = {
-  sinking: true,
-  products: false,
-}
-
 const initGrowthModel = {
   low: true,
   high: false,
@@ -23,7 +18,7 @@ const LayersContext = createContext(null)
 
 export const LayersProvider = ({ children }) => {
   const [layer, setLayer] = useState('benefit')
-  const [target, setTarget] = useState(initTarget)
+  const [target, setTarget] = useState('sinking')
   const [species, setSpecies] = useState(initSeaweedSpecies)
   const [growthModel, setGrowthModel] = useState(initGrowthModel)
   const [mask, setMask] = useState(false)
@@ -87,11 +82,6 @@ export const useLayers = () => {
     [species]
   )
 
-  const targetValue = useMemo(
-    () => Object.keys(target).find((k) => target[k]),
-    [target]
-  )
-
   const speciesValue = useMemo(
     () => Object.keys(species).find((k) => species[k]),
     [species]
@@ -100,10 +90,10 @@ export const useLayers = () => {
   const uniforms = {
     ...layerUniforms,
     ...speciesUniforms,
-    productsTarget: target.products ? 1 : 0,
-    sinkingTarget: target.sinking ? 1 : 0,
+    productsTarget: target === 'products' ? 1 : 0,
+    sinkingTarget: target === 'sinking' ? 1 : 0,
     includeMask: mask ? 1 : 0,
   }
 
-  return { layer, uniforms, target: targetValue, species: speciesValue }
+  return { layer, uniforms, target, species: speciesValue }
 }
