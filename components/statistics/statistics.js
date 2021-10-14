@@ -1,6 +1,7 @@
-import { Filter, Group } from '@carbonplan/components'
+import { Group } from '@carbonplan/components'
 
 import { useRegionContext } from '../region'
+import Radio from '../radio'
 import Section from '../section'
 import DataDisplay from './data-display'
 
@@ -23,12 +24,23 @@ export const Statistics = ({ sx }) => {
       onClose={() => setShowRegionPicker(false)}
     >
       <Group>
-        <Filter
-          values={{ global: !showRegionPicker, regional: showRegionPicker }}
-          setValues={(res) => {
-            setShowRegionPicker(res.regional)
-          }}
-        />
+        <Group direction='horizontal'>
+          <Radio
+            label='Global'
+            value='global'
+            name='statistics'
+            onChange={(v) => setShowRegionPicker(v === 'regional')}
+            checked={!showRegionPicker}
+          />
+          <Radio
+            label='Regional'
+            value='regional'
+            name='statistics'
+            onChange={(v) => setShowRegionPicker(v === 'regional')}
+            checked={showRegionPicker}
+          />
+        </Group>
+
         {data && <DataDisplay data={data} />}
       </Group>
     </Section>
