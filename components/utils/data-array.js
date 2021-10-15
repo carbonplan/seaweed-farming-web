@@ -44,16 +44,21 @@ class DataArray {
 
       let dimensionKeys
       if (!dimensionCoordinates || dimensionCoordinates.length === []) {
-        dimensionKeys = Array(this.shape[dimensionIdx]).fill(null)
+        dimensionKeys = Array(this.shape[dimensionIdx])
+          .fill(null)
+          .map((el, i) => [null, i])
       } else if (Array.isArray(selectorValue)) {
-        dimensionKeys = selectorValue
+        dimensionKeys = selectorValue.map((el) => [
+          el,
+          dimensionCoordinates.indexOf(el),
+        ])
       } else {
-        dimensionKeys = [dimensionCoordinates.indexOf(selectorValue)]
+        dimensionKeys = [[null, dimensionCoordinates.indexOf(selectorValue)]]
       }
 
       const updatedKeys = []
       const updatedIndexes = []
-      dimensionKeys.forEach((coordinate, i) => {
+      dimensionKeys.forEach(([coordinate, i]) => {
         keys.forEach((prevKeys, j) => {
           if (coordinate) {
             updatedKeys.push([...prevKeys, coordinate])
