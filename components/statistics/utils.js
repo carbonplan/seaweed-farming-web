@@ -2,7 +2,7 @@ const NAN = 9.969209968386869e36
 
 export const averageData = (data) => {
   if (data.length === 0) {
-    return NaN
+    return null
   }
 
   const filteredData = data.filter((d) => d !== NAN)
