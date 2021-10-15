@@ -32,27 +32,27 @@ export const DataDisplay = ({ data }) => {
         <Group>
           <AverageDisplay
             label='Net climate benefit'
-            units='tons CO₂e'
+            units='tCO₂e / ton DW'
             value={averageData(netBenefit)}
           />
           <AverageDisplay
             label='Emissions benefit'
-            units='tons CO₂e'
+            units='tCO₂e / ton DW'
             value={averageData(emissionsBenefit)}
           />
           <AverageDisplay
             label='Production emissions'
-            units='tons CO₂e'
+            units='tCO₂e / ton DW'
             value={averageData(growthEmissions)}
           />
           <AverageDisplay
             label='Transport emissions'
-            units='tons CO₂e'
+            units='tCO₂e / ton DW'
             value={averageData(transportEmissions)}
           />
           <AverageDisplay
             label='Conversion emissions'
-            units='tons CO₂e'
+            units='tCO₂e / ton DW'
             value={averageData(conversionEmissions)}
           />
           ------
