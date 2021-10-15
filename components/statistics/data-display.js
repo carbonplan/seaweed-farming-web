@@ -1,7 +1,5 @@
-import { Box } from 'theme-ui'
 import { Group } from '@carbonplan/components'
 
-import { RecenterButton } from '../region/recenter-button'
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
 import AverageDisplay from './average-display'
@@ -31,19 +29,6 @@ export const DataDisplay = ({ data }) => {
 
     return (
       <>
-        <Box
-          as='span'
-          sx={{
-            fontFamily: 'faux',
-            letterSpacing: 'faux',
-            color: 'secondary',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Box sx={{ mb: [1] }}>Recenter map</Box>
-          <RecenterButton color='secondary' />
-        </Box>
         <Group>
           <AverageDisplay
             label='Net climate benefit'
