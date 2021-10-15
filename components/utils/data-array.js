@@ -28,11 +28,11 @@ const setObjectValues = (obj, keys, value) => {
 
 class DataArray {
   constructor(data, dimensions, coordinates, shape) {
-    this.data = ndarray(data)
     this.dimensions = dimensions
     this.coordinates = coordinates
     this.ndim = dimensions.length
     this.shape = shape
+    this.data = ndarray(data, shape)
   }
 
   select(selector) {
