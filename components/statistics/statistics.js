@@ -1,6 +1,7 @@
 import { Group } from '@carbonplan/components'
 
 import { useRegionContext } from '../region'
+import { useGlobalContext } from '../global'
 import Radio from '../radio'
 import Section from '../section'
 import DataDisplay from './data-display'
@@ -11,11 +12,14 @@ export const Statistics = ({ sx }) => {
     showRegionPicker,
     setShowRegionPicker,
   } = useRegionContext()
+  const { globalData } = useGlobalContext()
 
   let data
 
   if (showRegionPicker) {
     data = regionData
+  } else {
+    data = globalData
   }
   return (
     <Section

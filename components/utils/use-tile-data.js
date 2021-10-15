@@ -3,10 +3,11 @@ import zarr from 'zarr-js'
 
 import DataArray from './data-array'
 
+const dimensions = ['variable', 'y', 'x']
 const pyramid =
   'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.4'
 
-const useTileData = (dimensions) => {
+const useTileData = () => {
   const [data, setData] = useState()
   const [coordinates, setCoordinates] = useState()
   const [error, setError] = useState()
