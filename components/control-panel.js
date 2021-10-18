@@ -1,12 +1,22 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box } from 'theme-ui'
-import { Row, Column } from '@carbonplan/components'
+import { Box, IconButton } from 'theme-ui'
+import { Row, Column, Tray } from '@carbonplan/components'
+import { useBreakpointIndex } from '@theme-ui/match-media'
 
+import ArrowThin from './icons/arrow-thin'
 import { useRegionContext } from './region'
 
-const ControlPanel = ({ children, title }) => {
-  const [expanded, setExpanded] = useState(false)
+const ControlPanel = ({
+  children,
+  title,
+  description,
+  expanded,
+  setExpanded,
+}) => {
+  const index = useBreakpointIndex()
   const { showRegionPicker, setShowRegionPicker } = useRegionContext()
+  const [hasExpanded, setHasExpanded] = useState(expanded)
+  const [tooltip, setTooltip] = useState(false)
 
   const handleToggleExpanded = useCallback(() => {
     // Always allow opening of panel
@@ -30,108 +40,179 @@ const ControlPanel = ({ children, title }) => {
     }
   }, [showRegionPicker])
 
-  return (
-    <Row>
-      <Column width={3} start={1}>
-        <Box
+  useEffect(() => {
+    if (expanded && !hasExpanded) {
+      setHasExpanded(true)
+    }
+  }, [expanded, hasExpanded])
+
+  const overview = (
+    <Column start={[1, 2, 7, 7]} width={[4, 4, 5, 5]}>
+      <Box
+        sx={{
+          mt: [9],
+          opacity: expanded ? 0 : 1,
+          transition: 'opacity 0.3s',
+          position: 'relative',
+          display: 'block',
+          zIndex: 1001,
+          fontSize: [5, 7, 7, 8],
+          letterSpacing: 'heading',
+          fontFamily: 'heading',
+          lineHeight: 'heading',
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}
+      >
+        {title}
+      </Box>
+      <Box
+        sx={{
+          mt: [3],
+          opacity: expanded ? 0 : 1,
+          transition: 'opacity 0.3s',
+          position: 'relative',
+          display: 'block',
+          zIndex: 1001,
+          fontSize: [2, 3, 3, 4],
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}
+      >
+        {description}
+      </Box>
+    </Column>
+  )
+
+  if (index < 2) {
+    return (
+      <>
+        <Tray
+          expanded={expanded}
           sx={{
-            position: 'absolute',
-            left: '0px',
-            right: [
-              'calc(3 * 100vw / 6 - 12px)',
-              'calc(5 * 100vw / 8 - 18px)',
-              'calc(9 * 100vw / 12 - 24px)',
-              'calc(9 * 100vw / 12 - 36px)',
-            ],
-            zIndex: 1000,
-            transition: 'transform 0.2s',
-            transform: expanded ? 'translateX(0)' : 'translateX(-100%)',
+            pb: [4],
+            pt: [5],
           }}
         >
+          {children}
+        </Tray>
+        {!hasExpanded && <Row>{overview}</Row>}
+      </>
+    )
+  }
+
+  return (
+    <>
+      <IconButton
+        aria-label='Toggle settings'
+        onClick={handleToggleExpanded}
+        onMouseOver={() => {
+          if (!expanded) setTooltip(true)
+        }}
+        onMouseOut={() => setTooltip(false)}
+        role='checkbox'
+        sx={{
+          width: 32,
+          height: 32,
+          display: ['none', 'none', 'inline-block', 'inline-block'],
+          cursor: 'pointer',
+          color: 'primary',
+          position: 'absolute',
+          opacity: 1,
+          transition: 'left 0.2s, transform 0.2s',
+          left: expanded
+            ? [
+                'calc(3 * 100vw / 6 - 12px)',
+                'calc(3 * 100vw / 8 - 18px)',
+                'calc(3 * 100vw / 12 + 37px)',
+                'calc(3 * 100vw / 12 + 54px)',
+              ]
+            : '12px',
+          bottom: '13px',
+          transform: expanded ? 'scaleX(-1)' : '',
+          zIndex: 1001,
+        }}
+      >
+        <ArrowThin sx={{ strokeWidth: 2, width: 24, height: 24 }} />
+      </IconButton>
+      <Box
+        id='open-tooltip'
+        sx={{
+          display: ['none', 'none', 'inline-block', 'inline-block'],
+          color: 'primary',
+          position: 'absolute',
+          opacity: tooltip ? 1 : 0,
+          transition: 'opacity 0.15s ease-out',
+          pointerEvents: 'none',
+          left: '54px',
+          bottom: ['18px', '18px', '18px', '14px'],
+          zIndex: 1001,
+          fontSize: [3, 3, 3, 4],
+        }}
+      >
+        Show controls
+      </Box>
+      <Row>
+        <Column width={3} start={1}>
           <Box
-            as='button'
-            onClick={handleToggleExpanded}
             sx={{
-              fontFamily: 'inherit',
-              fontSize: '100%',
-              lineHeight: 1.15,
-              color: 'text',
-              bg: 'background',
-              m: 0,
-              pb: [1],
-              pt: ['2px'],
-              px: [2],
               position: 'absolute',
-              right: '-53px',
-              bottom: '50px',
-              transform: 'rotate(-90deg)',
-              cursor: 'pointer',
-              border: 'none',
-              borderRight: ({ colors }) => `1px solid ${colors.muted}`,
-              borderBottom: ({ colors }) => `1px solid ${colors.muted}`,
-              borderLeft: ({ colors }) => `1px solid ${colors.muted}`,
-            }}
-          >
-            Controls
-          </Box>
-          <Box
-            sx={{
-              px: [4, 5, 5, 6],
-              height: '56px',
-              bg: 'background',
-              borderRight: ({ colors }) =>
-                `${expanded ? 1 : 0}px solid ${colors.muted}`,
-              borderBottom: ({ colors }) =>
-                `${expanded ? 1 : 0}px solid ${colors.muted}`,
-              transition: 'border 0.2s',
-            }}
-          />
-          <Box
-            sx={{
-              px: [4, 5, 5, 6],
-              pb: [5],
-              pt: [5],
-              pointerEvents: 'all',
-              bg: 'background',
-              overflowY: 'scroll',
-              maxHeight: 'calc(100vh - 56px)',
-              minHeight: 'calc(100vh - 56px)',
-              transition: 'border 0.2s',
-              borderRight: ({ colors }) =>
-                `${expanded ? 1 : 0}px solid ${colors.muted}`,
+              left: '0px',
+              right: [
+                'calc(3 * 100vw / 6 - 12px)',
+                'calc(5 * 100vw / 8 - 18px)',
+                'calc(9 * 100vw / 12 - 24px)',
+                'calc(9 * 100vw / 12 - 36px)',
+              ],
+              zIndex: 1000,
+              transition: 'transform 0.2s',
+              transform: expanded ? 'translateX(0)' : 'translateX(-100%)',
             }}
           >
             <Box
               sx={{
-                transition: 'opacity 0.2s',
-                opacity: expanded ? 1 : 0,
+                px: [4, 5, 5, 6],
+                height: '56px',
+                bg: 'background',
+                borderRight: ({ colors }) =>
+                  `${expanded ? 1 : 0}px solid ${colors.muted}`,
+                borderBottom: ({ colors }) =>
+                  `${expanded ? 1 : 0}px solid ${colors.muted}`,
+                transition: 'border 0.2s',
+              }}
+            />
+            <Box
+              sx={{
+                px: [4, 5, 5, 6],
+                pb: [4],
+                pt: [4],
+                pointerEvents: 'all',
+                bg: 'background',
+                overflowY: 'scroll',
+                overflowX: 'hidden',
+                maxHeight: 'calc(100vh - 56px)',
+                minHeight: 'calc(100vh - 56px)',
+                transition: 'border 0.2s',
+                borderRight: ({ colors }) =>
+                  `${expanded ? 1 : 0}px solid ${colors.muted}`,
               }}
             >
-              {children}
+              <Box
+                sx={{
+                  transition: 'opacity 0.2s',
+                  opacity: expanded ? 1 : 0,
+                }}
+              >
+                {children}
+              </Box>
             </Box>
           </Box>
-        </Box>
-      </Column>
-      <Column start={[3, 5, 8, 8]} width={3}>
-        <Box
-          sx={{
-            mt: [8],
-            opacity: expanded ? 0 : 1,
-            transition: 'opacity 0.3s',
-            position: 'relative',
-            display: 'block',
-            zIndex: 1001,
-            fontSize: [6, 7, 8, 9],
-            letterSpacing: 'heading',
-            fontFamily: 'heading',
-            lineHeight: 'heading',
-            pointerEvents: 'none',
-          }}
-        >
-          {title}
-        </Box>
-      </Column>
-    </Row>
+        </Column>
+        <Column start={[3, 5, 7, 7]} width={[4, 4, 5, 5]}>
+          {overview}
+        </Column>
+      </Row>
+    </>
   )
 }
 

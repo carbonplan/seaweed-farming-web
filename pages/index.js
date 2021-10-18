@@ -1,5 +1,7 @@
 import { Box, Container } from 'theme-ui'
+import { useBreakpointIndex } from '@theme-ui/match-media'
 import { Group, Meta, Guide, Header } from '@carbonplan/components'
+import { useState } from 'react'
 
 import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
@@ -29,6 +31,10 @@ const sx = {
 }
 
 const Index = () => {
+  const [expanded, setExpanded] = useState(false)
+  const index = useBreakpointIndex({ defaultIndex: 2 })
+  const isNarrow = index < 2
+
   return (
     <>
       <Meta />
@@ -36,9 +42,35 @@ const Index = () => {
         <Guide color='teal' />
       </Container>
       <Box sx={{ position: 'absolute', top: 0, width: '100%', zIndex: 5000 }}>
-        <Container>
-          <Header dimmer={'none'} />
-        </Container>
+        <Box
+          as='header'
+          sx={
+            isNarrow
+              ? {
+                  width: '100%',
+                  borderStyle: 'solid',
+                  borderColor: 'muted',
+                  borderWidth: '0px',
+                  borderBottomWidth: '1px',
+                  position: 'sticky',
+                  top: 0,
+                  bg: 'background',
+                  height: '56px',
+                  zIndex: 2000,
+                }
+              : {}
+          }
+        >
+          <Container>
+            <Header
+              dimmer={'none'}
+              settings={{
+                expanded,
+                onClick: () => setExpanded((prev) => !prev),
+              }}
+            />
+          </Container>
+        </Box>
       </Box>
       <Box
         sx={{
@@ -51,7 +83,11 @@ const Index = () => {
       >
         <Map>
           <Container>
-            <ControlPanel title='Mapping macroalgae'>
+            <ControlPanel
+              title='Mapping macroalgae'
+              expanded={expanded}
+              setExpanded={setExpanded}
+            >
               <Group>
                 <Box sx={sx.description}>
                   This is an interactive web tool for mapping the potential of
