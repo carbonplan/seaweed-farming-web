@@ -87,12 +87,9 @@ const Viewer = ({ children }) => {
       )}
       <Raster
         maxZoom={5}
-        size={128}
-        ndim={3}
         colormap={colormap}
         clim={clim}
         display={true}
-        opacity={1}
         mode={'texture'}
         uniforms={{
           ...layerUniforms,

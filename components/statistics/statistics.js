@@ -1,6 +1,9 @@
+import { Box } from 'theme-ui'
 import { Group } from '@carbonplan/components'
 
 import { useRegionContext } from '../region'
+import { useGlobalContext } from '../global'
+import { RecenterButton } from '../region/recenter-button'
 import Radio from '../radio'
 import Section from '../section'
 import DataDisplay from './data-display'
@@ -11,11 +14,14 @@ export const Statistics = ({ sx }) => {
     showRegionPicker,
     setShowRegionPicker,
   } = useRegionContext()
+  const { globalData } = useGlobalContext()
 
   let data
 
   if (showRegionPicker) {
     data = regionData
+  } else {
+    data = globalData
   }
   return (
     <Section
@@ -40,6 +46,21 @@ export const Statistics = ({ sx }) => {
             checked={showRegionPicker}
           />
         </Group>
+        {showRegionPicker && (
+          <Box
+            as='span'
+            sx={{
+              fontFamily: 'faux',
+              letterSpacing: 'faux',
+              color: 'secondary',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Box sx={{ mb: [1] }}>Recenter map</Box>
+            <RecenterButton color='secondary' />
+          </Box>
+        )}
 
         {data && <DataDisplay data={data} />}
       </Group>
