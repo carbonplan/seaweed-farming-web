@@ -1,145 +1,13 @@
-import { createContext, useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Box } from 'theme-ui'
 import AnimateHeight from 'react-animate-height'
 import { Expander } from '@carbonplan/components'
+
 import Parameter from './parameter'
+import { ParameterContext } from './context'
+import { useLayers } from '../layers'
 
-const ParameterContext = createContext(null)
-
-export const ParameterProvider = ({ children }) => {
-  const [capex, setCapex] = useState(170630)
-  const [lineCost, setLineCost] = useState(0.06)
-  const [opex, setOpex] = useState(63004)
-  const [labor, setLabor] = useState(37706)
-  const [harvestCost, setHarvestCost] = useState(124485)
-  const [depthFactor, setDepthFactor] = useState(0)
-  const [waveFactor, setWaveFactor] = useState(0)
-  const [insurance, setInsurance] = useState(35000)
-  const [license, setLicense] = useState(1409)
-
-  const [transportCost, setTransportCost] = useState(0.11)
-  const [conversionCost, setConversionCost] = useState(50)
-  const [productValue, setProductValue] = useState(100)
-  const [sinkingValue, setSinkingValue] = useState(0)
-
-  const [transportEmissions, setTransportEmissions] = useState(0.00003)
-  const [setupEmissions, setSetupEmissions] = useState(5)
-  const [harvestTransportEmissions, setHarvestTransportEmissions] = useState(
-    0.00003
-  )
-
-  const [conversionEmissions, setConversionEmissions] = useState(0.005)
-  const [avoidedEmissions, setAvoidedEmissions] = useState(0.5)
-  const [sequestrationRate, setSequestrationRate] = useState(0.95)
-  const [removalRate, setRemovalRate] = useState(0.6)
-
-  return (
-    <ParameterContext.Provider
-      value={{
-        capex,
-        setCapex,
-        lineCost,
-        setLineCost,
-        opex,
-        setOpex,
-        labor,
-        setLabor,
-        harvestCost,
-        setHarvestCost,
-        depthFactor,
-        setDepthFactor,
-        waveFactor,
-        setWaveFactor,
-        insurance,
-        setInsurance,
-        license,
-        setLicense,
-        transportCost,
-        setTransportCost,
-        conversionCost,
-        setConversionCost,
-        productValue,
-        setProductValue,
-        sinkingValue,
-        setSinkingValue,
-        transportEmissions,
-        setTransportEmissions,
-        conversionEmissions,
-        setConversionEmissions,
-        avoidedEmissions,
-        setAvoidedEmissions,
-        setupEmissions,
-        setSetupEmissions,
-        harvestTransportEmissions,
-        setHarvestTransportEmissions,
-        sequestrationRate,
-        setSequestrationRate,
-        removalRate,
-        setRemovalRate,
-      }}
-    >
-      {children}
-    </ParameterContext.Provider>
-  )
-}
-
-export const useParameters = () => {
-  const {
-    capex,
-    lineCost,
-    opex,
-    labor,
-    harvestCost,
-    depthFactor,
-    waveFactor,
-    insurance,
-    license,
-    transportCost,
-    conversionCost,
-    productValue,
-    sinkingValue,
-    transportEmissions,
-    conversionEmissions,
-    avoidedEmissions,
-    setupEmissions,
-    harvestTransportEmissions,
-    sequestrationRate,
-    removalRate,
-  } = useContext(ParameterContext)
-
-  return {
-    capex,
-    lineCost,
-    opex,
-    labor,
-    harvestCost,
-    depthFactor,
-    waveFactor,
-    insurance,
-    license,
-    transportCost,
-    conversionCost,
-    productValue,
-    sinkingValue,
-    transportEmissions,
-    conversionEmissions,
-    avoidedEmissions,
-    sequestrationRate,
-    removalRate,
-    setupEmissions,
-    harvestTransportEmissions,
-  }
-}
-
-const Parameters = ({ sx }) => {
-  const {
-    heading: sxHeading,
-    description: sxDescription,
-    label: sxLabel,
-    ...sxProps
-  } = sx
-
-  const [expandedParameters, setExpandedParameters] = useState(false)
+const useParameterInputs = ({ sx }) => {
   const {
     capex,
     setCapex,
@@ -182,79 +50,257 @@ const Parameters = ({ sx }) => {
     removalRate,
     setRemovalRate,
   } = useContext(ParameterContext)
+  const { target, layer } = useLayers()
+
+  const mapping = {
+    cost: {
+      shared: [
+        <Parameter
+          min={170630}
+          max={969626}
+          step={10}
+          value={capex}
+          key='capex'
+          setValue={setCapex}
+          label={'Capex'}
+          sx={sx}
+        />,
+        <Parameter
+          min={0.06}
+          max={1.45}
+          step={0.01}
+          value={lineCost}
+          key='lineCost'
+          setValue={setLineCost}
+          label={'Line cost'}
+          sx={sx}
+        />,
+        <Parameter
+          min={63004}
+          max={69316}
+          step={100}
+          value={opex}
+          key='opex'
+          setValue={setOpex}
+          label={'Opex'}
+          sx={sx}
+        />,
+        <Parameter
+          min={0.11}
+          max={0.34}
+          step={0.01}
+          value={transportCost}
+          key='transportCost'
+          setValue={setTransportCost}
+          label={'Transport cost'}
+          sx={sx}
+        />,
+        <Parameter
+          min={37706}
+          max={119579}
+          step={10}
+          value={labor}
+          key='labor'
+          setValue={setLabor}
+          label={'Labor'}
+          sx={sx}
+        />,
+        <Parameter
+          min={124485}
+          max={394780}
+          step={100}
+          value={harvestCost}
+          key='harvestCost'
+          setValue={setHarvestCost}
+          label={'Harvest costs'}
+          sx={sx}
+        />,
+        <Parameter
+          min={0}
+          max={3}
+          step={0.1}
+          value={depthFactor}
+          key='depthFactor'
+          setValue={setDepthFactor}
+          label={'Depth factor'}
+          sx={sx}
+        />,
+        <Parameter
+          min={0}
+          max={2}
+          step={0.1}
+          value={waveFactor}
+          key='waveFactor'
+          setValue={setWaveFactor}
+          label={'Wave factor'}
+          sx={sx}
+        />,
+        <Parameter
+          min={35000}
+          max={105000}
+          step={1000}
+          value={insurance}
+          key='insurance'
+          setValue={setInsurance}
+          label={'Insurance'}
+          sx={sx}
+        />,
+        <Parameter
+          min={1409}
+          max={1637}
+          step={1}
+          value={license}
+          key='license'
+          setValue={setLicense}
+          label={'License'}
+          sx={sx}
+        />,
+      ],
+      products: [
+        <Parameter
+          min={50}
+          max={200}
+          step={10}
+          value={conversionCost}
+          key='conversionCost'
+          setValue={setConversionCost}
+          label={'Conversion cost'}
+          sx={sx}
+        />,
+
+        <Parameter
+          min={100}
+          max={500}
+          step={10}
+          value={productValue}
+          key='productValue'
+          setValue={setProductValue}
+          label={'Product value'}
+          sx={sx}
+        />,
+      ],
+      sinking: [
+        <Parameter
+          min={0}
+          max={100}
+          step={10}
+          value={sinkingValue}
+          key='sinkingValue'
+          setValue={setSinkingValue}
+          label={'Sinking value'}
+          sx={sx}
+        />,
+      ],
+    },
+    benefit: {
+      shared: [
+        <Parameter
+          min={0.0000142}
+          max={0.0000426}
+          step={0.0000001}
+          value={transportEmissions}
+          key='transportEmissions'
+          setValue={setTransportEmissions}
+          label={'Transport emissions'}
+          sx={sx}
+        />,
+        <Parameter
+          min={1}
+          max={10}
+          step={0.1}
+          value={setupEmissions}
+          key='setupEmissions'
+          setValue={setSetupEmissions}
+          label={'Setup emissions'}
+          sx={sx}
+        />,
+        <Parameter
+          min={0.0000142}
+          max={0.00004268}
+          step={0.0000001}
+          value={harvestTransportEmissions}
+          key='harvestTransportEmissions'
+          setValue={setHarvestTransportEmissions}
+          label={'Harvest transport emissions'}
+          sx={sx}
+        />,
+      ],
+      products: [
+        <Parameter
+          min={0.0011}
+          max={0.0085}
+          step={0.0001}
+          value={conversionEmissions}
+          key='conversionEmissions'
+          setValue={setConversionEmissions}
+          label={'Conversion emissions'}
+          sx={sx}
+        />,
+        <Parameter
+          min={0.1}
+          max={1}
+          step={0.05}
+          value={avoidedEmissions}
+          key='avoidedEmissions'
+          setValue={setAvoidedEmissions}
+          label={'Avoided emissions'}
+          sx={sx}
+        />,
+      ],
+      sinking: [
+        <Parameter
+          min={0.9}
+          max={1}
+          step={0.01}
+          value={sequestrationRate}
+          key='sequestrationRate'
+          setValue={setSequestrationRate}
+          label={'Sequestration rate'}
+          sx={sx}
+        />,
+
+        <Parameter
+          min={0.5}
+          max={1}
+          step={0.05}
+          value={removalRate}
+          key='removalRate'
+          setValue={setRemovalRate}
+          label={'Removal rate'}
+          sx={sx}
+        />,
+      ],
+    },
+  }
+
+  // default to parameters for cost layer if other layer is active
+  const firstLayer = layer === 'benefit' ? 'benefit' : 'cost'
+  const secondLayer = layer === 'benefit' ? 'cost' : 'benefit'
+
+  const secondTarget = target === 'sinking' ? 'products' : 'sinking'
+
+  return mapping[firstLayer][target]
+    .concat(mapping[firstLayer].shared)
+    .concat(mapping[secondLayer][target])
+    .concat(mapping[secondLayer].shared)
+    .concat(mapping[firstLayer][secondTarget])
+    .concat(mapping[secondLayer][secondTarget])
+}
+
+const Parameters = ({ sx }) => {
+  const {
+    heading: sxHeading,
+    description: sxDescription,
+    label: sxLabel,
+    ...sxProps
+  } = sx
+
+  const [expandedParameters, setExpandedParameters] = useState(false)
+  const parameterInputs = useParameterInputs(sxLabel)
 
   return (
     <Box sx={sxProps}>
-      <Parameter
-        min={0.0000142}
-        max={0.0000426}
-        step={0.0000001}
-        value={transportEmissions}
-        setValue={setTransportEmissions}
-        label={'Transport emissions'}
-        sx={sxLabel}
-      />
-
-      <Parameter
-        min={0.0011}
-        max={0.0085}
-        step={0.0001}
-        value={conversionEmissions}
-        setValue={setConversionEmissions}
-        label={'Conversion emissions'}
-        sx={sxLabel}
-      />
-
-      <Parameter
-        min={0.1}
-        max={1}
-        step={0.05}
-        value={avoidedEmissions}
-        setValue={setAvoidedEmissions}
-        label={'Avoided emissions'}
-        sx={sxLabel}
-      />
-
-      <Parameter
-        min={1}
-        max={10}
-        step={0.1}
-        value={setupEmissions}
-        setValue={setSetupEmissions}
-        label={'Setup emissions'}
-        sx={sxLabel}
-      />
-
-      <Parameter
-        min={0.0000142}
-        max={0.00004268}
-        step={0.0000001}
-        value={harvestTransportEmissions}
-        setValue={setHarvestTransportEmissions}
-        label={'Harvest transport emissions'}
-        sx={sxLabel}
-      />
-
-      <Parameter
-        min={0.9}
-        max={1}
-        step={0.01}
-        value={sequestrationRate}
-        setValue={setSequestrationRate}
-        label={'Sequestration rate'}
-        sx={sxLabel}
-      />
-
-      <Parameter
-        min={0.5}
-        max={1}
-        step={0.05}
-        value={removalRate}
-        setValue={setRemovalRate}
-        label={'Removal rate'}
-        sx={sxLabel}
-      />
-
+      {parameterInputs.slice(0, 5)}
       <>
         <Box
           sx={{
@@ -285,139 +331,7 @@ const Parameters = ({ sx }) => {
           height={expandedParameters ? 'auto' : 0}
           easing={'linear'}
         >
-          {expandedParameters && (
-            <Box mt={[3]}>
-              <Parameter
-                min={170630}
-                max={969626}
-                step={10}
-                value={capex}
-                setValue={setCapex}
-                label={'Capex'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={0.06}
-                max={1.45}
-                step={0.01}
-                value={lineCost}
-                setValue={setLineCost}
-                label={'Line cost'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={63004}
-                max={69316}
-                step={100}
-                value={opex}
-                setValue={setOpex}
-                label={'Opex'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={0.11}
-                max={0.34}
-                step={0.01}
-                value={transportCost}
-                setValue={setTransportCost}
-                label={'Transport cost'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={50}
-                max={200}
-                step={10}
-                value={conversionCost}
-                setValue={setConversionCost}
-                label={'Conversion cost'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={100}
-                max={500}
-                step={10}
-                value={productValue}
-                setValue={setProductValue}
-                label={'Product value'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={0}
-                max={100}
-                step={10}
-                value={sinkingValue}
-                setValue={setSinkingValue}
-                label={'Sinking value'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={37706}
-                max={119579}
-                step={10}
-                value={labor}
-                setValue={setLabor}
-                label={'Labor'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={124485}
-                max={394780}
-                step={100}
-                value={harvestCost}
-                setValue={setHarvestCost}
-                label={'Harvest costs'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={0}
-                max={3}
-                step={0.1}
-                value={depthFactor}
-                setValue={setDepthFactor}
-                label={'Depth factor'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={0}
-                max={2}
-                step={0.1}
-                value={waveFactor}
-                setValue={setWaveFactor}
-                label={'Wave factor'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={35000}
-                max={105000}
-                step={1000}
-                value={insurance}
-                setValue={setInsurance}
-                label={'Insurance'}
-                sx={sxLabel}
-              />
-
-              <Parameter
-                min={1409}
-                max={1637}
-                step={1}
-                value={license}
-                setValue={setLicense}
-                label={'License'}
-                sx={sxLabel}
-              />
-            </Box>
-          )}
+          {expandedParameters && <Box mt={[3]}>{parameterInputs.slice(5)}</Box>}
         </AnimateHeight>
       </>
     </Box>

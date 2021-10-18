@@ -1,1 +1,2 @@
-export { default, ParameterProvider, useParameters } from './parameters'
+export { default } from './parameters'
+export { ParameterProvider, useParameters } from './context'
