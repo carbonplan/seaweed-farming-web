@@ -1,5 +1,6 @@
 import { Box, IconButton, Label } from 'theme-ui'
 import { Group } from '@carbonplan/components'
+import { Globe, Search } from '@carbonplan/icons'
 
 import { useRegionContext } from '../region'
 import { useGlobalContext } from '../global'
@@ -34,26 +35,11 @@ export const Statistics = ({ sx }) => {
             <IconButton
               aria-label='Global'
               onClick={() => setShowRegionPicker(false)}
-              sx={{
-                ...sx,
-                stroke: !showRegionPicker ? 'primary' : 'secondary',
-                cursor: 'pointer',
-              }}
+              sx={{ ...sx, cursor: 'pointer' }}
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-                width='24'
-                height='24'
-                strokeWidth='1.75'
-                fill='none'
-              >
-                <circle cx='12' cy='12' r='10' />
-                <line x1='9' x2='9' y1='2' y2='22' />
-                <line x1='15' x2='15' y1='2' y2='22' />
-                <line x1='2' x2='22' y1='9' y2='9' />
-                <line x1='2' x2='22' y1='15' y2='15' />
-              </svg>
+              <Globe
+                sx={{ stroke: !showRegionPicker ? 'primary' : 'secondary' }}
+              />
             </IconButton>
             <Box sx={{ height: '100%' }}>Global</Box>
           </Label>
@@ -62,24 +48,11 @@ export const Statistics = ({ sx }) => {
             <IconButton
               aria-label='Regional'
               onClick={() => setShowRegionPicker(true)}
-              sx={{
-                ...sx,
-                stroke: showRegionPicker ? 'primary' : 'secondary',
-                cursor: 'pointer',
-              }}
+              sx={{ ...sx, cursor: 'pointer' }}
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 24 24'
-                width='24'
-                height='24'
-                strokeWidth='1.75'
-                fill='none'
-              >
-                <circle cx='12' cy='12' r='10' />
-                <circle cx='10' cy='10' r='3' />
-                <line x1='12' x2='17' y1='12' y2='17' />
-              </svg>
+              <Search
+                sx={{ stroke: showRegionPicker ? 'primary' : 'secondary' }}
+              />
             </IconButton>
             <Box sx={{ height: '100%' }}>Regional</Box>
           </Label>

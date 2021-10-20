@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Box, IconButton } from 'theme-ui'
 import { Row, Column, Tray } from '@carbonplan/components'
+import { ArrowThin } from '@carbonplan/icons'
 import { useBreakpointIndex } from '@theme-ui/match-media'
 
-import ArrowThin from './icons/arrow-thin'
 import { useRegionContext } from './region'
 
 const ControlPanel = ({
