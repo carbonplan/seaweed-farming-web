@@ -4,6 +4,7 @@ import { useRegionContext } from './region'
 import { useColormap, Colorbar } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
+import SpeciesLegend from './species-legend'
 import { useParameters } from './parameters'
 import { LAYER_UNIFORMS, useLayers } from './layers'
 import {
@@ -45,10 +46,12 @@ const defaultLayers = LAYER_UNIFORMS.filter(
 
 const Viewer = ({ children }) => {
   const { theme } = useThemeUI()
-  const colormap = useColormap('cool')
   const [mode] = useColorMode()
   const parameters = useParameters()
   const { uniforms: layerUniforms, layer, target } = useLayers()
+
+  const speciesMap = layer === 'species_preferred'
+  const colormap = useColormap('cool', speciesMap ? 5 : 255)
 
   const { setRegionData, showRegionPicker } = useRegionContext()
 
@@ -207,14 +210,18 @@ const Viewer = ({ children }) => {
           bottom: [17, 17, 15, 15],
         }}
       >
-        <Flex sx={{ gap: [4] }}>
-          <Colorbar
-            colormap={colormap}
-            clim={clim}
-            units={UNITS_MAP[layer]}
-            label={LABEL_MAP[layer]}
-            horizontal
-          />
+        <Flex sx={{ gap: [4], alignItems: speciesMap ? 'flex-end' : 'center' }}>
+          {speciesMap ? (
+            <SpeciesLegend colormap={colormap} />
+          ) : (
+            <Colorbar
+              colormap={colormap}
+              clim={clim}
+              units={UNITS_MAP[layer]}
+              label={LABEL_MAP[layer]}
+              horizontal
+            />
+          )}
           <Dimmer
             sx={{
               display: ['none', 'none', 'initial', 'initial'],
