@@ -41,10 +41,6 @@ const useParameterInputs = ({ sx }) => {
     setConversionEmissions,
     avoidedEmissions,
     setAvoidedEmissions,
-    setupEmissions,
-    setSetupEmissions,
-    harvestTransportEmissions,
-    setHarvestTransportEmissions,
     sequestrationRate,
     setSequestrationRate,
     removalRate,
@@ -202,26 +198,6 @@ const useParameterInputs = ({ sx }) => {
           key='transportEmissions'
           setValue={setTransportEmissions}
           label={'Transport emissions'}
-          sx={sx}
-        />,
-        <Parameter
-          min={1}
-          max={10}
-          step={0.1}
-          value={setupEmissions}
-          key='setupEmissions'
-          setValue={setSetupEmissions}
-          label={'Setup emissions'}
-          sx={sx}
-        />,
-        <Parameter
-          min={0.0000142}
-          max={0.00004268}
-          step={0.0000001}
-          value={harvestTransportEmissions}
-          key='harvestTransportEmissions'
-          setValue={setHarvestTransportEmissions}
-          label={'Harvest transport emissions'}
           sx={sx}
         />,
       ],

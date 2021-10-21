@@ -19,10 +19,6 @@ export const ParameterProvider = ({ children }) => {
   const [sinkingValue, setSinkingValue] = useState(0)
 
   const [transportEmissions, setTransportEmissions] = useState(0.00003)
-  const [setupEmissions, setSetupEmissions] = useState(5)
-  const [harvestTransportEmissions, setHarvestTransportEmissions] = useState(
-    0.00003
-  )
 
   const [conversionEmissions, setConversionEmissions] = useState(0.005)
   const [avoidedEmissions, setAvoidedEmissions] = useState(0.5)
@@ -64,10 +60,6 @@ export const ParameterProvider = ({ children }) => {
         setConversionEmissions,
         avoidedEmissions,
         setAvoidedEmissions,
-        setupEmissions,
-        setSetupEmissions,
-        harvestTransportEmissions,
-        setHarvestTransportEmissions,
         sequestrationRate,
         setSequestrationRate,
         removalRate,
@@ -97,8 +89,6 @@ export const useParameters = () => {
     transportEmissions,
     conversionEmissions,
     avoidedEmissions,
-    setupEmissions,
-    harvestTransportEmissions,
     sequestrationRate,
     removalRate,
   } = useContext(ParameterContext)
@@ -122,7 +112,5 @@ export const useParameters = () => {
     avoidedEmissions,
     sequestrationRate,
     removalRate,
-    setupEmissions,
-    harvestTransportEmissions,
   }
 }

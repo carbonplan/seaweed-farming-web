@@ -201,7 +201,7 @@ const Viewer = ({ children }) => {
               }
 
               if (benefitLayer == 1.0) {
-                float growthEmissions = (nharv * d2p * harvestTransportEmissions * growth + setupEmissions * equipment * d2p) / growth;
+                float growthEmissions = (nharv * d2p * transportEmissions * growth + transportEmissions * equipment * d2p) / growth;
 
                 if (productsTarget == 1.0) {
                   // calculate climate benefit of products

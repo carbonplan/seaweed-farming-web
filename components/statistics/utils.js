@@ -129,8 +129,6 @@ export const valuesToBenefit = (values, target, species, parameters) => {
     avoidedEmissions,
     transportEmissions,
     conversionEmissions,
-    harvestTransportEmissions,
-    setupEmissions,
     sequestrationRate,
     removalRate,
   } = parameters
@@ -159,8 +157,8 @@ export const valuesToBenefit = (values, target, species, parameters) => {
       }
 
       const growthEmissions =
-        (growth * harvestTransportEmissions * nharv * d2p +
-          setupEmissions * equipment * d2p) /
+        (growth * transportEmissions * nharv * d2p +
+          transportEmissions * equipment * d2p) /
         growth
       let emissionsBenefit
       let transport = 0
