@@ -6,8 +6,7 @@ import { RecenterButton } from './recenter-button'
 import { useRegionContext } from './context'
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
-
-const NAN = 9.969209968386869e36
+import { NAN } from '../../constants'
 
 const averageData = (data) => {
   if (data.length === 0) {

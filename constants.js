@@ -1,3 +1,5 @@
+export const NAN = 9.969209968386869e36
+
 export const CLIM_MAP = {
   cost: [0, 750],
   benefit: [0, 1],
@@ -47,5 +49,23 @@ export const SPECIES = [
   'eucheuma',
   'macrocystis',
   'porphyra',
-  'saccharina',
+  // 'saccharina',
 ]
+
+export const LINE_DENSITY_MAPPING = {
+  preferred: 5000000.0,
+  eucheuma: 5000000.0,
+  sargassum: 751880.0,
+  porphyra: 20000000.0,
+  saccharina: 666667.0,
+  macrocystis: 666667.0,
+}
+
+export const EQUIPMENT_MAPPING = {
+  preferred: 1231.87,
+  eucheuma: 1231.87,
+  sargassum: 185.24,
+  porphyra: 4927.5,
+  saccharina: 164.25,
+  macrocystis: 164.25,
+}

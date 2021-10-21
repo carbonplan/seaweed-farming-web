@@ -5,59 +5,32 @@ import { useColormap, Colorbar } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
 import { useParameters } from './parameters'
+import { LAYER_UNIFORMS, useLayers } from './layers'
 import {
-  useLayers,
-  LAYER_UNIFORMS,
+  NAN,
   LABEL_MAP,
   CLIM_MAP,
   UNITS_MAP,
-} from './layers'
+  SPECIES,
+  LINE_DENSITY_MAPPING,
+  EQUIPMENT_MAPPING,
+} from '../constants'
 
 const speciesDefinition = `
 float growth;
 float nharv;
 float equipment;
 float lineDensity;
-
-if (preferred == 1.0) {
-  growth = harv_preferred;
-  nharv = nharv_preferred;
-  // todo: properly handle values for preferred maps
-  equipment = 1231.87;
-  lineDensity = 5000000.0;
+${SPECIES.map(
+  (species) => `
+if (${species} == 1.0) {
+  growth = harv_${species};
+  nharv = nharv_${species};
+  equipment = ${EQUIPMENT_MAPPING[species].toFixed(2)};
+  lineDensity = ${LINE_DENSITY_MAPPING[species].toFixed(2)};
 }
-if (eucheuma == 1.0) {
-  growth = harv_eucheuma;
-  nharv = nharv_eucheuma;
-  equipment = 1231.87;
-  lineDensity = 5000000.0;
-}
-if (sargassum == 1.0) {
-  growth = harv_sargassum;
-  nharv = nharv_sargassum;
-  equipment = 185.24;
-  lineDensity = 751880.0;
-}
-if (porphyra == 1.0) {
-  growth = harv_porphyra;
-  nharv = nharv_porphyra;
-  equipment = 4927.50;
-  lineDensity = 20000000.0;
-}
-
-// if (saccharina == 1.0) {
-//     growth = harv_saccharina;
-//     nharv = nharv_saccharina;
-// equipment = 164.25;
-// lineDensity = 666667.0;
-// }
-
-if (macrocystis == 1.0) {
-  growth = harv_macrocystis;
-  nharv = nharv_macrocystis;
-  equipment = 164.25;
-  lineDensity = 666667.0;
-}
+`
+).join('')}
 `
 
 const defaultLayers = LAYER_UNIFORMS.filter(
@@ -135,7 +108,7 @@ const Viewer = ({ children }) => {
             // 'mask',
           ],
         }}
-        fillValue={9.969209968386869e36}
+        fillValue={NAN}
         source={
           'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.4'
         }

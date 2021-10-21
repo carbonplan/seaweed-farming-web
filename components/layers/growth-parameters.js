@@ -3,7 +3,7 @@ import { Group } from '@carbonplan/components'
 
 import Radio from '../radio'
 import { useRawUniformValues } from './context'
-import { GROWTH_MODELS, SPECIES } from './constants'
+import { GROWTH_MODELS, SPECIES } from '../../constants'
 
 const GrowthParameters = ({ sx }) => {
   const {

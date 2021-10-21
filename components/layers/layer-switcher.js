@@ -5,7 +5,7 @@ import { Box } from 'theme-ui'
 import ControlPanelDivider from '../control-panel-divider'
 import Section from '../section'
 import { useRawUniformValues } from './context'
-import { LABEL_MAP } from './constants'
+import { LABEL_MAP } from '../../constants'
 import Radio from '../radio'
 
 const initOutputs = {
