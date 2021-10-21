@@ -1,4 +1,9 @@
-import { NAN, EQUIPMENT_MAPPING, LINE_DENSITY_MAPPING } from '../../constants'
+import {
+  NAN,
+  EQUIPMENT_MAPPING,
+  LINE_DENSITY_MAPPING,
+  SPECIES,
+} from '../../constants'
 
 export const averageData = (data) => {
   if (data.length === 0) {
@@ -9,7 +14,7 @@ export const averageData = (data) => {
   return filteredData.reduce((a, d) => a + d, 0) / filteredData.length
 }
 
-export const valuesToCost = (values, target, species, parameters) => {
+export const valuesToCost = (values, target, parameters) => {
   const {
     capex,
     depthFactor,
@@ -25,18 +30,18 @@ export const valuesToCost = (values, target, species, parameters) => {
     conversionCost,
     sinkingValue,
   } = parameters
-  const growthVariable = `harv_${species}`
-  const nharvVariable = `nharv_${species}`
-  const lineDensity = LINE_DENSITY_MAPPING[species]
-  const equipment = EQUIPMENT_MAPPING[species]
 
   return values.harv_preferred.map((_, i) => {
-    const growth = values[growthVariable][i]
+    const growth = values.harv_preferred[i]
     const elevation = values.elevation[i]
     const d2p = values.d2p[i]
-    const nharv = values[nharvVariable][i]
+    const nharv = values.nharv_preferred[i]
     const wave_height = values.wave_height[i]
     const d2sink = values.d2sink[i]
+
+    const species = SPECIES[values.species_preferred[i] + 1]
+    const lineDensity = LINE_DENSITY_MAPPING[species]
+    const equipment = EQUIPMENT_MAPPING[species]
 
     // invert depth
     const depth = -1.0 * elevation
@@ -106,7 +111,7 @@ export const valuesToCost = (values, target, species, parameters) => {
   })
 }
 
-export const valuesToBenefit = (values, target, species, parameters) => {
+export const valuesToBenefit = (values, target, parameters) => {
   const {
     avoidedEmissions,
     transportEmissions,
@@ -114,17 +119,17 @@ export const valuesToBenefit = (values, target, species, parameters) => {
     sequestrationRate,
     removalRate,
   } = parameters
-  const growthVariable = `harv_${species}`
-  const nharvVariable = `nharv_${species}`
-  const equipment = EQUIPMENT_MAPPING[species]
 
   return values.harv_preferred.reduce(
     (accum, _, i) => {
-      const growth = values[growthVariable][i]
-      const nharv = values[nharvVariable][i]
+      const growth = values.harv_preferred[i]
+      const nharv = values.nharv_preferred[i]
       const d2p = values.d2p[i]
       const fseq = values.fseq[i]
       const d2sink = values.d2sink[i]
+
+      const species = SPECIES[values.species_preferred[i] + 1]
+      const equipment = EQUIPMENT_MAPPING[species]
 
       // constants for forthcoming layers
       const carbon_fraction = 0.248

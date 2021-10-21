@@ -6,7 +6,6 @@ const LayersContext = createContext(null)
 export const LayersProvider = ({ children }) => {
   const [layer, setLayer] = useState('benefit')
   const [target, setTarget] = useState('sinking')
-  const [species, setSpecies] = useState(SPECIES[0])
   const [growthModel, setGrowthModel] = useState(GROWTH_MODELS[0])
   const [mask, setMask] = useState(false)
 
@@ -17,8 +16,6 @@ export const LayersProvider = ({ children }) => {
         setLayer,
         target,
         setTarget,
-        species,
-        setSpecies,
         growthModel,
         setGrowthModel,
         mask,
@@ -49,7 +46,7 @@ export const LAYER_UNIFORMS = [
 ]
 
 export const useLayers = () => {
-  const { layer, target, species, growthModel, mask } = useRawUniformValues()
+  const { layer, target, growthModel, mask } = useRawUniformValues()
 
   const layerUniforms = useMemo(
     () =>
@@ -60,22 +57,12 @@ export const useLayers = () => {
     [layer]
   )
 
-  const speciesUniforms = useMemo(
-    () =>
-      SPECIES.reduce((accum, speciesName) => {
-        accum[speciesName] = species === speciesName ? 1 : 0
-        return accum
-      }, {}),
-    [species]
-  )
-
   const uniforms = {
     ...layerUniforms,
-    ...speciesUniforms,
     productsTarget: target === 'products' ? 1 : 0,
     sinkingTarget: target === 'sinking' ? 1 : 0,
     includeMask: mask ? 1 : 0,
   }
 
-  return { layer, uniforms, target, species }
+  return { layer, uniforms, target }
 }

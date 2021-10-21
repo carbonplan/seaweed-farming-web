@@ -44,16 +44,14 @@ export const TARGETS = ['sinking', 'products']
 export const GROWTH_MODELS = ['low', 'high']
 
 export const SPECIES = [
-  'preferred',
-  'sargassum',
   'eucheuma',
-  'macrocystis',
+  'sargassum',
   'porphyra',
-  // 'saccharina',
+  'saccharina',
+  'macrocystis',
 ]
 
 export const LINE_DENSITY_MAPPING = {
-  preferred: 5000000.0,
   eucheuma: 5000000.0,
   sargassum: 751880.0,
   porphyra: 20000000.0,
@@ -62,7 +60,6 @@ export const LINE_DENSITY_MAPPING = {
 }
 
 export const EQUIPMENT_MAPPING = {
-  preferred: 1231.87,
   eucheuma: 1231.87,
   sargassum: 185.24,
   porphyra: 4927.5,

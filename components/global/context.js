@@ -14,22 +14,12 @@ export const GlobalProvider = ({ children }) => {
         variable: [
           'harv_preferred',
           'nharv_preferred',
-          'harv_sargassum',
-          'nharv_sargassum',
-          'harv_eucheuma',
-          'nharv_eucheuma',
-          'harv_macrocystis',
-          'nharv_macrocystis',
-          'harv_porphyra',
-          'nharv_porphyra',
-          // 'harv_saccharina',
-          // 'nharv_saccharina',
           'elevation',
           'd2p',
           'wave_height',
           'fseq',
           'd2sink',
-          // 'mask',
+          'species_preferred',
         ],
       })
 

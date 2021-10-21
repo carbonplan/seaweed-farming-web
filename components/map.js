@@ -17,15 +17,13 @@ import {
 } from '../constants'
 
 const speciesDefinition = `
-float growth;
-float nharv;
+float growth = harv_preferred;
+float nharv = nharv_preferred;
 float equipment;
 float lineDensity;
 ${SPECIES.map(
-  (species) => `
-if (${species} == 1.0) {
-  growth = harv_${species};
-  nharv = nharv_${species};
+  (species, i) => `
+if (species_preferred == ${i.toFixed(1)}) {
   equipment = ${EQUIPMENT_MAPPING[species].toFixed(2)};
   lineDensity = ${LINE_DENSITY_MAPPING[species].toFixed(2)};
 }
@@ -90,27 +88,18 @@ const Viewer = ({ children }) => {
           variable: [
             'harv_preferred',
             'nharv_preferred',
-            'harv_sargassum',
-            'nharv_sargassum',
-            'harv_eucheuma',
-            'nharv_eucheuma',
-            'harv_macrocystis',
-            'nharv_macrocystis',
-            'harv_porphyra',
-            'nharv_porphyra',
-            // 'harv_saccharina',
-            // 'nharv_saccharina',
             'elevation',
             'd2p',
             'wave_height',
             'fseq',
             'd2sink',
+            'species_preferred',
             // 'mask',
           ],
         }}
         fillValue={NAN}
         source={
-          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.4'
+          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.5'
         }
         frag={`
               ${speciesDefinition}

@@ -7,7 +7,7 @@ import { averageData, valuesToBenefit, valuesToCost } from './utils'
 
 export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
-  const { target, species } = useLayers()
+  const { target } = useLayers()
 
   if (!data || data.loading) {
     return 'loading...'
@@ -18,14 +18,14 @@ export const DataDisplay = ({ data }) => {
       growth: growthEmissions,
       transport: transportEmissions,
       conversion: conversionEmissions,
-    } = valuesToBenefit(data.value.all_variables, target, species, parameters)
+    } = valuesToBenefit(data.value.all_variables, target, parameters)
 
     const benefit = averageData(netBenefit)
     const cost = averageData(
-      valuesToCost(data.value.all_variables, target, species, parameters)
+      valuesToCost(data.value.all_variables, target, parameters)
     )
     const elevation = averageData(data.value.all_variables.elevation)
-    const growth = averageData(data.value.all_variables[`harv_${species}`]) || 0
+    const growth = averageData(data.value.all_variables.harv_preferred) || 0
 
     return (
       <>

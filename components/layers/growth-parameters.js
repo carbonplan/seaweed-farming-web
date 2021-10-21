@@ -3,17 +3,10 @@ import { Group } from '@carbonplan/components'
 
 import Radio from '../radio'
 import { useRawUniformValues } from './context'
-import { GROWTH_MODELS, SPECIES } from '../../constants'
+import { GROWTH_MODELS } from '../../constants'
 
 const GrowthParameters = ({ sx }) => {
-  const {
-    species,
-    setSpecies,
-    growthModel,
-    setGrowthModel,
-    mask,
-    setMask,
-  } = useRawUniformValues()
+  const { growthModel, setGrowthModel, mask, setMask } = useRawUniformValues()
 
   return (
     <Group>
@@ -34,22 +27,6 @@ const GrowthParameters = ({ sx }) => {
           })}
         </Group>
       </Box>
-      <Box>
-        <Box sx={sx.label}>Seaweed species</Box>
-        <Group spacing='xs'>
-          {SPECIES.map((s) => (
-            <Radio
-              key={s}
-              label={s.charAt(0).toUpperCase() + s.slice(1)}
-              value={s}
-              name='species'
-              onChange={setSpecies}
-              checked={species === s}
-            />
-          ))}
-        </Group>
-      </Box>
-
       <Box>
         <Box sx={sx.label}>Sensitive areas</Box>
         <Group direction='horizontal'>
