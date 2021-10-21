@@ -9,6 +9,24 @@ export const averageData = (data) => {
   return filteredData.reduce((a, d) => a + d, 0) / filteredData.length
 }
 
+const LINE_DENSITY_MAPPING = {
+  preferred: 5000000.0,
+  eucheuma: 5000000.0,
+  sargassum: 751880.0,
+  porphyra: 20000000.0,
+  saccharina: 666667.0,
+  macrocystis: 666667.0,
+}
+
+const EQUIPMENT_MAPPING = {
+  preferred: 1231.87,
+  eucheuma: 1231.87,
+  sargassum: 185.24,
+  porphyra: 4927.5,
+  saccharina: 164.25,
+  macrocystis: 164.25,
+}
+
 export const valuesToCost = (values, target, species, parameters) => {
   const {
     capex,
@@ -27,6 +45,8 @@ export const valuesToCost = (values, target, species, parameters) => {
   } = parameters
   const growthVariable = `harv_${species}`
   const nharvVariable = `nharv_${species}`
+  const lineDensity = LINE_DENSITY_MAPPING[species]
+  const equipment = EQUIPMENT_MAPPING[species]
 
   return values.harv_preferred.map((_, i) => {
     const growth = values[growthVariable][i]
@@ -35,9 +55,6 @@ export const valuesToCost = (values, target, species, parameters) => {
     const nharv = values[nharvVariable][i]
     const wave_height = values.wave_height[i]
     const d2sink = values.d2sink[i]
-
-    // constants for forthcoming layers
-    const lineDensity = 714286.0
 
     // invert depth
     const depth = -1.0 * elevation
@@ -84,17 +101,17 @@ export const valuesToCost = (values, target, species, parameters) => {
       wavePremium * capex +
       lineCost * lineDensity
     const operations = opex + labor + insurance + license
-    const harvest = harvestCost * nharv
+    const harvest =
+      harvestCost +
+      growth * transportCost * nharv * d2p +
+      transportCost * equipment * d2p
 
     // combine terms
     const growthCost = (capital + operations + harvest) / growth
 
     if (target === 'products') {
       // calculate net product cost
-      return (
-        growthCost +
-        growth * (transportCost * d2p + conversionCost - productValue)
-      )
+      return growthCost + transportCost * d2p + conversionCost - productValue
     } else {
       // map to null null value for d2sink
       if (d2sink === NAN) {
@@ -102,7 +119,7 @@ export const valuesToCost = (values, target, species, parameters) => {
       }
 
       // calculate net sinking cost
-      return growthCost + growth * (transportCost * d2sink - sinkingValue)
+      return growthCost + transportCost * d2sink - sinkingValue
     }
   })
 }
@@ -119,6 +136,7 @@ export const valuesToBenefit = (values, target, species, parameters) => {
   } = parameters
   const growthVariable = `harv_${species}`
   const nharvVariable = `nharv_${species}`
+  const equipment = EQUIPMENT_MAPPING[species]
 
   return values.harv_preferred.reduce(
     (accum, _, i) => {
@@ -141,7 +159,9 @@ export const valuesToBenefit = (values, target, species, parameters) => {
       }
 
       const growthEmissions =
-        nharv * d2p * harvestTransportEmissions + setupEmissions * 2.0 * d2p
+        (growth * harvestTransportEmissions * nharv * d2p +
+          setupEmissions * equipment * d2p) /
+        growth
       let emissionsBenefit
       let transport = 0
       let conversion = 0

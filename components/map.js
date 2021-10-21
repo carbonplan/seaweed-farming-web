@@ -16,31 +16,48 @@ import {
 const speciesDefinition = `
 float growth;
 float nharv;
+float equipment;
+float lineDensity;
 
 if (preferred == 1.0) {
-    growth = harv_preferred;
-    nharv = nharv_preferred;
-}
-if (sargassum == 1.0) {
-    growth = harv_sargassum;
-    nharv = nharv_sargassum;
+  growth = harv_preferred;
+  nharv = nharv_preferred;
+  // todo: properly handle values for preferred maps
+  equipment = 1231.87;
+  lineDensity = 5000000.0;
 }
 if (eucheuma == 1.0) {
-    growth = harv_eucheuma;
-    nharv = nharv_eucheuma;
+  growth = harv_eucheuma;
+  nharv = nharv_eucheuma;
+  equipment = 1231.87;
+  lineDensity = 5000000.0;
 }
-if (macrocystis == 1.0) {
-    growth = harv_macrocystis;
-    nharv = nharv_macrocystis;
+if (sargassum == 1.0) {
+  growth = harv_sargassum;
+  nharv = nharv_sargassum;
+  equipment = 185.24;
+  lineDensity = 751880.0;
 }
 if (porphyra == 1.0) {
-    growth = harv_porphyra;
-    nharv = nharv_porphyra;
+  growth = harv_porphyra;
+  nharv = nharv_porphyra;
+  equipment = 4927.50;
+  lineDensity = 20000000.0;
 }
+
 // if (saccharina == 1.0) {
 //     growth = harv_saccharina;
 //     nharv = nharv_saccharina;
+// equipment = 164.25;
+// lineDensity = 666667.0;
 // }
+
+if (macrocystis == 1.0) {
+  growth = harv_macrocystis;
+  nharv = nharv_macrocystis;
+  equipment = 164.25;
+  lineDensity = 666667.0;
+}
 `
 
 const defaultLayers = LAYER_UNIFORMS.filter(
@@ -80,9 +97,6 @@ const Viewer = ({ children }) => {
           color={theme.colors.primary}
           backgroundColor={theme.colors.background}
           fontFamily={theme.fonts.monospace}
-          // initialRadius={initialRadius}
-          // minRadius={minRadius}
-          // maxRadius={maxRadius}
         />
       )}
       <Raster
@@ -132,9 +146,6 @@ const Viewer = ({ children }) => {
               // invert depth
               float depth = -1.0 * elevation;
 
-              // constants for forthcoming layers
-              float lineDensity = 714286.0;
-
               // constants
               float carbon_fraction = 0.248;
               float carbon_to_co2 = 3.67;
@@ -175,7 +186,7 @@ const Viewer = ({ children }) => {
                 // calculate primary terms
                 float capital = capex + depthPremium * capex + wavePremium * capex + lineCost * lineDensity;
                 float operations = opex + labor + insurance + license;
-                float harvest = harvestCost * nharv;
+                float harvest = harvestCost + growth * transportCost * nharv * d2p + transportCost * equipment * d2p;
 
                 // combine terms
                 float growthCost = (capital + operations + harvest) / growth;
@@ -190,7 +201,7 @@ const Viewer = ({ children }) => {
               }
 
               if (benefitLayer == 1.0) {
-                float growthEmissions = (nharv * d2p * harvestTransportEmissions + setupEmissions * 2.0 * d2p) / growth;
+                float growthEmissions = (nharv * d2p * harvestTransportEmissions * growth + setupEmissions * equipment * d2p) / growth;
 
                 if (productsTarget == 1.0) {
                   // calculate climate benefit of products
