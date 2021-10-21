@@ -22,6 +22,7 @@ const initInputs = {
   [LABEL_MAP['d2p']]: false,
   [LABEL_MAP['d2sink']]: false,
   [LABEL_MAP['fseq']]: false,
+  [LABEL_MAP['species_preferred']]: false,
 }
 
 const filterToValue = {
@@ -35,6 +36,7 @@ const filterToValue = {
   [LABEL_MAP['d2p']]: 'd2p',
   [LABEL_MAP['d2sink']]: 'd2sink',
   [LABEL_MAP['fseq']]: 'fseq',
+  [LABEL_MAP['species_preferred']]: 'species_preferred',
 }
 
 const LayerSwitcher = ({ sx }) => {

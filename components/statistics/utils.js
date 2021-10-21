@@ -39,7 +39,7 @@ export const valuesToCost = (values, target, parameters) => {
     const wave_height = values.wave_height[i]
     const d2sink = values.d2sink[i]
 
-    const species = SPECIES[values.species_preferred[i] + 1]
+    const species = SPECIES[values.species_preferred[i]]
     const lineDensity = LINE_DENSITY_MAPPING[species]
     const equipment = EQUIPMENT_MAPPING[species]
 
@@ -128,7 +128,7 @@ export const valuesToBenefit = (values, target, parameters) => {
       const fseq = values.fseq[i]
       const d2sink = values.d2sink[i]
 
-      const species = SPECIES[values.species_preferred[i] + 1]
+      const species = SPECIES[values.species_preferred[i]]
       const equipment = EQUIPMENT_MAPPING[species]
 
       // constants for forthcoming layers

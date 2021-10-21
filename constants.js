@@ -11,6 +11,7 @@ export const CLIM_MAP = {
   d2p: [0, 5000],
   d2sink: [0, 5000],
   fseq: [0, 1],
+  species_preferred: [0, 4],
 }
 
 export const UNITS_MAP = {
@@ -37,6 +38,7 @@ export const LABEL_MAP = {
   d2p: 'distance to port',
   d2sink: 'distance to sink',
   fseq: 'fraction sequestered',
+  species_preferred: 'preferred species',
 }
 
 export const TARGETS = ['sinking', 'products']

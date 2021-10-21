@@ -43,6 +43,7 @@ export const LAYER_UNIFORMS = [
   'd2pLayer',
   'd2sinkLayer',
   'fseqLayer',
+  'species_preferredLayer',
 ]
 
 export const useLayers = () => {
