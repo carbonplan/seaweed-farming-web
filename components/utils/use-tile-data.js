@@ -5,7 +5,7 @@ import DataArray from './data-array'
 
 const dimensions = ['variable', 'y', 'x']
 const pyramid =
-  'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.5'
+  'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.6'
 
 const useTileData = () => {
   const [data, setData] = useState()
