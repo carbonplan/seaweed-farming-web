@@ -2,9 +2,15 @@ import { Label, Radio as ThemeRadio } from 'theme-ui'
 
 const Radio = ({ name, checked, label, value, onChange, sx }) => {
   return (
-    <Label>
+    <Label sx={{ '&:hover': { cursor: 'pointer' } }}>
       <ThemeRadio
-        sx={{ 'input:focus ~ &': { background: 'none' }, ...sx }}
+        sx={{
+          color: 'muted',
+          transition: 'color 0.15s',
+          'input:hover ~ &': { color: 'primary' },
+          'input:focus ~ &': { background: 'none' },
+          ...sx,
+        }}
         name={name}
         value={value}
         checked={checked}
