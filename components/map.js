@@ -1,5 +1,5 @@
 import { Box, Flex, useColorMode, useThemeUI } from 'theme-ui'
-import { Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
+import { Fill, Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
 import { useColormap, Colorbar } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
@@ -61,6 +61,13 @@ const Viewer = ({ children }) => {
     <Map zoom={2} minZoom={2} center={[0, 0]} debug={false}>
       <Line
         color={theme.rawColors.primary}
+        source={
+          'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
+        }
+        variable={'land'}
+      />
+      <Fill
+        color={theme.rawColors.background}
         source={
           'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
         }
