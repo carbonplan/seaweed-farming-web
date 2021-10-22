@@ -29,7 +29,7 @@ export const Statistics = ({ sx }) => {
       label='Statistics'
       onClose={() => setShowRegionPicker(false)}
     >
-      <Group>
+      <Group spacing={4}>
         <Group direction='horizontal'>
           <Label sx={{ alignItems: 'center', gap: [2] }}>
             <IconButton

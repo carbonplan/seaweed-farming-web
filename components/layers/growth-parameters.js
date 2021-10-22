@@ -9,7 +9,7 @@ const GrowthParameters = ({ sx }) => {
   const { growthModel, setGrowthModel, mask, setMask } = useRawUniformValues()
 
   return (
-    <Group>
+    <Group spacing={4}>
       <Box>
         <Box sx={sx.label}>Growth model</Box>
         <Group direction='horizontal'>

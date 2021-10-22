@@ -65,7 +65,7 @@ const LayerSwitcher = ({ sx }) => {
   })
 
   return (
-    <Group sx={sxProps}>
+    <Group sx={sxProps} spacing={4}>
       <Box>
         <Group direction='horizontal'>
           <Radio

@@ -88,7 +88,7 @@ const Index = () => {
               expanded={expanded}
               setExpanded={setExpanded}
             >
-              <Group>
+              <Group spacing={4}>
                 <Box sx={sx.description}>
                   This is an interactive web tool for mapping the potential of
                   carbon removal with macroalgae.
@@ -105,7 +105,7 @@ const Index = () => {
                 <ControlPanelDivider />
 
                 <Section sx={sx.heading} label='Parameters'>
-                  <Group>
+                  <Group spacing={4}>
                     <GrowthParameters sx={sx} />
 
                     <Parameters sx={sx} />
