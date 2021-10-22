@@ -1,9 +1,10 @@
 import { Divider } from 'theme-ui'
 
-const ControlPanelDivider = () => {
+const ControlPanelDivider = ({ sx }) => {
   return (
     <Divider
       sx={{
+        ...sx,
         width: [
           'calc(100% + 64px)',
           'calc(100% + 64px)',
