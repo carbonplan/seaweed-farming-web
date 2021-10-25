@@ -12,57 +12,55 @@ export const DataDisplay = ({ data }) => {
   if (!data || data.loading) {
     return 'loading...'
   } else {
-    const {
-      net: netBenefit,
-      benefit: emissionsBenefit,
-      growth: growthEmissions,
-      transport: transportEmissions,
-      conversion: conversionEmissions,
-    } = valuesToBenefit(data.value.all_variables, target, parameters)
+    const { netBenefit, grossBenefit, grossEmissions } = valuesToBenefit(
+      data.value.all_variables,
+      target,
+      parameters
+    )
 
     const benefitUnits = target === 'products' ? 'tCO₂e' : 'tCO₂'
-    const benefit = averageData(netBenefit)
-    const cost = averageData(
-      valuesToCost(data.value.all_variables, target, parameters)
+    const { netCost, grossCost, grossIncome } = valuesToCost(
+      data.value.all_variables,
+      target,
+      parameters
     )
-    const elevation = averageData(data.value.all_variables.elevation)
+
     const growth = averageData(data.value.all_variables.harv_preferred) || 0
 
     return (
       <Group spacing={4}>
         <AverageDisplay
-          label='Net climate benefit'
+          label='Net carbon benefit'
           units={`${benefitUnits} / ton DW`}
           value={averageData(netBenefit)}
         />
         <AverageDisplay
-          label='Emissions benefit'
+          label='Gross carbon benefit'
           units={`${benefitUnits} / ton DW`}
-          value={averageData(emissionsBenefit)}
+          value={averageData(grossBenefit)}
         />
         <AverageDisplay
-          label='Production emissions'
-          units='tCO₂e / ton DW'
-          value={averageData(growthEmissions)}
-        />
-        <AverageDisplay
-          label='Transport emissions'
-          units='tCO₂e / ton DW'
-          value={averageData(transportEmissions)}
-        />
-        <AverageDisplay
-          label='Conversion emissions'
-          units='tCO₂e / ton DW'
-          value={averageData(conversionEmissions)}
+          label='Gross project emissions'
+          units={`tCO₂e / ton DW`}
+          value={averageData(grossEmissions)}
         />
         ------
         <AverageDisplay
-          label='Cost of avoided emissions'
-          units={`$ / ${benefitUnits}`}
-          value={benefit / cost}
+          label='Net project cost'
+          units='$ / ton DW'
+          value={averageData(netCost)}
         />
-        <AverageDisplay label='Net cost' units='$ / ton DW' value={cost} />
-        <AverageDisplay label='Depth' units='m' value={-1 * elevation} />
+        <AverageDisplay
+          label='Gross project income'
+          units='$ / ton DW'
+          value={averageData(grossIncome)}
+        />
+        <AverageDisplay
+          label='Gross project cost'
+          units='$ / ton DW'
+          value={averageData(grossCost)}
+        />
+        ------
         <AverageDisplay label='Growth' units='tons DW/km²' value={growth} />
       </Group>
     )
