@@ -51,7 +51,13 @@ const Viewer = ({ children }) => {
   const { uniforms: layerUniforms, layer, target } = useLayers()
 
   const speciesMap = layer === 'species_preferred'
-  const colormap = useColormap('cool', speciesMap ? 5 : 255)
+
+  let colormap
+  if (speciesMap) {
+    colormap = useColormap('cool', 10).slice(5, 10)
+  } else {
+    colormap = useColormap('cool')
+  }
 
   const { setRegionData, showRegionPicker } = useRegionContext()
 
