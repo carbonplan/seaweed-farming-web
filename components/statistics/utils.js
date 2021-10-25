@@ -7,7 +7,7 @@ import {
 
 export const averageData = (data) => {
   if (data.length === 0) {
-    return null
+    return NaN
   }
 
   const filteredData = data.filter((d) => d !== NAN)
