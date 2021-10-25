@@ -26,10 +26,8 @@ export const Section = ({ children, label, onClose, sx }) => {
         ...spacing,
         bg: 'transparent',
         transition: 'background-color 0.15s',
-        '@media (hover: hover) and (pointer: fine)': {
-          '&:hover > #expander': { stroke: 'primary' },
-          '&:hover': { bg: alpha('muted', 0.1) },
-        },
+        '&:hover #expander': { stroke: 'primary' },
+        '&:hover': { bg: alpha('muted', 0.1) },
       }}
     >
       <Box
