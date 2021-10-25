@@ -19,8 +19,8 @@ const AverageDisplay = ({ value, label, units }) => {
           {label}
         </Box>
       </Column>
-      <Column start={2} width={2}>
-        <Box sx={{ textAlign: 'right' }}>
+      <Column start={3} width={1}>
+        <Box>
           <Badge>{Number.isNaN(value) ? 'n/a' : value.toFixed(2)}</Badge>
           <br />
           <Box

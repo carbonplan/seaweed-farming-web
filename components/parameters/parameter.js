@@ -7,8 +7,10 @@ const Parameter = ({
   max,
   step,
   value,
+  units,
   setValue,
   onChange,
+  displayValue,
   sx,
 }) => {
   return (
@@ -28,7 +30,19 @@ const Parameter = ({
           />
         </Column>
         <Column start={3} width={1}>
-          <Badge>{value}</Badge>
+          <Badge>{displayValue || value}</Badge>
+          <br />
+          <Box
+            as='span'
+            sx={{
+              fontFamily: 'faux',
+              letterSpacing: 'faux',
+              fontSize: [0, 0, 0, 1],
+              color: 'secondary',
+            }}
+          >
+            {units}
+          </Box>
         </Column>
       </Row>
     </Box>

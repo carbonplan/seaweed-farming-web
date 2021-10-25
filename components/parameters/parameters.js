@@ -59,6 +59,7 @@ const useParameterInputs = ({ sx }) => {
           key='capex'
           setValue={setCapex}
           label={'Capex'}
+          units={'$ / km² / year'}
           sx={sx}
         />,
         <Parameter
@@ -69,6 +70,7 @@ const useParameterInputs = ({ sx }) => {
           key='lineCost'
           setValue={setLineCost}
           label={'Line cost'}
+          units={'$ / m'}
           sx={sx}
         />,
         <Parameter
@@ -79,6 +81,7 @@ const useParameterInputs = ({ sx }) => {
           key='opex'
           setValue={setOpex}
           label={'Opex'}
+          units={'$ / km² / year'}
           sx={sx}
         />,
         <Parameter
@@ -89,6 +92,7 @@ const useParameterInputs = ({ sx }) => {
           key='transportCost'
           setValue={setTransportCost}
           label={'Transport cost'}
+          units={'$ / ton / km'}
           sx={sx}
         />,
         <Parameter
@@ -99,6 +103,7 @@ const useParameterInputs = ({ sx }) => {
           key='labor'
           setValue={setLabor}
           label={'Labor'}
+          units={'$ / km² / year'}
           sx={sx}
         />,
         <Parameter
@@ -109,6 +114,7 @@ const useParameterInputs = ({ sx }) => {
           key='harvestCost'
           setValue={setHarvestCost}
           label={'Harvest costs'}
+          units={'$ / km² / harvest'}
           sx={sx}
         />,
         <Parameter
@@ -119,6 +125,7 @@ const useParameterInputs = ({ sx }) => {
           key='depthFactor'
           setValue={setDepthFactor}
           label={'Depth factor'}
+          units={'scaling factor'}
           sx={sx}
         />,
         <Parameter
@@ -129,6 +136,7 @@ const useParameterInputs = ({ sx }) => {
           key='waveFactor'
           setValue={setWaveFactor}
           label={'Wave factor'}
+          units={'scaling factor'}
           sx={sx}
         />,
         <Parameter
@@ -139,6 +147,7 @@ const useParameterInputs = ({ sx }) => {
           key='insurance'
           setValue={setInsurance}
           label={'Insurance'}
+          units={'$ / km² / year'}
           sx={sx}
         />,
         <Parameter
@@ -149,6 +158,7 @@ const useParameterInputs = ({ sx }) => {
           key='license'
           setValue={setLicense}
           label={'License'}
+          units={'$ / km² / year'}
           sx={sx}
         />,
       ],
@@ -161,6 +171,7 @@ const useParameterInputs = ({ sx }) => {
           key='conversionCost'
           setValue={setConversionCost}
           label={'Conversion cost'}
+          units={'$ / ton DW'}
           sx={sx}
         />,
 
@@ -172,6 +183,7 @@ const useParameterInputs = ({ sx }) => {
           key='productValue'
           setValue={setProductValue}
           label={'Product value'}
+          units={'$ / ton DW'}
           sx={sx}
         />,
       ],
@@ -184,6 +196,7 @@ const useParameterInputs = ({ sx }) => {
           key='sinkingValue'
           setValue={setSinkingValue}
           label={'Sinking value'}
+          units={'$ / ton'}
           sx={sx}
         />,
       ],
@@ -198,6 +211,7 @@ const useParameterInputs = ({ sx }) => {
           key='transportEmissions'
           setValue={setTransportEmissions}
           label={'Transport emissions'}
+          units={'tCO₂e / ton DW / km'}
           sx={sx}
         />,
       ],
@@ -210,6 +224,7 @@ const useParameterInputs = ({ sx }) => {
           key='conversionEmissions'
           setValue={setConversionEmissions}
           label={'Conversion emissions'}
+          units={'tCO₂e / ton DW'}
           sx={sx}
         />,
         <Parameter
@@ -220,6 +235,7 @@ const useParameterInputs = ({ sx }) => {
           key='avoidedEmissions'
           setValue={setAvoidedEmissions}
           label={'Avoided emissions'}
+          units={'tCO₂e / ton DW'}
           sx={sx}
         />,
       ],
@@ -229,9 +245,11 @@ const useParameterInputs = ({ sx }) => {
           max={1}
           step={0.01}
           value={sequestrationRate}
+          displayValue={sequestrationRate * 100}
           key='sequestrationRate'
           setValue={setSequestrationRate}
           label={'Sequestration rate'}
+          units={'%'}
           sx={sx}
         />,
 
@@ -240,9 +258,11 @@ const useParameterInputs = ({ sx }) => {
           max={1}
           step={0.05}
           value={removalRate}
+          displayValue={removalRate * 100}
           key='removalRate'
           setValue={setRemovalRate}
           label={'Removal rate'}
+          units={'%'}
           sx={sx}
         />,
       ],
