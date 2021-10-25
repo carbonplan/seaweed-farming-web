@@ -20,6 +20,7 @@ export const DataDisplay = ({ data }) => {
       conversion: conversionEmissions,
     } = valuesToBenefit(data.value.all_variables, target, parameters)
 
+    const benefitUnits = target === 'products' ? 'tCO₂e' : 'tCO₂'
     const benefit = averageData(netBenefit)
     const cost = averageData(
       valuesToCost(data.value.all_variables, target, parameters)
@@ -31,12 +32,12 @@ export const DataDisplay = ({ data }) => {
       <Group spacing={4}>
         <AverageDisplay
           label='Net climate benefit'
-          units='tCO₂e / ton DW'
+          units={`${benefitUnits} / ton DW`}
           value={averageData(netBenefit)}
         />
         <AverageDisplay
           label='Emissions benefit'
-          units='tCO₂e / ton DW'
+          units={`${benefitUnits} / ton DW`}
           value={averageData(emissionsBenefit)}
         />
         <AverageDisplay
@@ -57,7 +58,7 @@ export const DataDisplay = ({ data }) => {
         ------
         <AverageDisplay
           label='Cost of avoided emissions'
-          units='$ / ton CO₂e'
+          units={`$ / ${benefitUnits}`}
           value={benefit / cost}
         />
         <AverageDisplay label='Net cost' units='$ / ton DW' value={cost} />

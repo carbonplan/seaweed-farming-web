@@ -16,7 +16,10 @@ export const CLIM_MAP = {
 
 export const UNITS_MAP = {
   cost: '$ / ton DW',
-  benefit: 'tCO₂e / ton DW',
+  benefit: {
+    products: 'tCO₂e / ton DW',
+    sinking: 'tCO₂ / ton DW',
+  },
   depth: 'm',
   growth: 'tons DW / km²',
   nharv: 'count / year',

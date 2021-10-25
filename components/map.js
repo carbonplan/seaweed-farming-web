@@ -224,7 +224,11 @@ const Viewer = ({ children }) => {
             <Colorbar
               colormap={colormap}
               clim={clim}
-              units={UNITS_MAP[layer]}
+              units={
+                typeof UNITS_MAP[layer] === 'string'
+                  ? UNITS_MAP[layer]
+                  : UNITS_MAP[layer][target]
+              }
               label={LABEL_MAP[layer]}
               horizontal
             />
