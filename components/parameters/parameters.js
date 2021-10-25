@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { Box } from 'theme-ui'
 import AnimateHeight from 'react-animate-height'
 import { Expander } from '@carbonplan/components'
@@ -274,13 +274,13 @@ const useParameterInputs = ({ sx }) => {
   const secondLayer = layer === 'benefit' ? 'cost' : 'benefit'
 
   const secondTarget = target === 'sinking' ? 'products' : 'sinking'
-
-  return mapping[firstLayer][target]
-    .concat(mapping[firstLayer].shared)
-    .concat(mapping[secondLayer][target])
+  const active = mapping[firstLayer][target].concat(mapping[firstLayer].shared)
+  const inactive = mapping[secondLayer][target]
     .concat(mapping[secondLayer].shared)
     .concat(mapping[firstLayer][secondTarget])
     .concat(mapping[secondLayer][secondTarget])
+
+  return { active, inactive }
 }
 
 const Parameters = ({ sx }) => {
@@ -292,11 +292,11 @@ const Parameters = ({ sx }) => {
   } = sx
 
   const [expandedParameters, setExpandedParameters] = useState(false)
-  const parameterInputs = useParameterInputs(sxLabel)
+  const { active, inactive } = useParameterInputs(sxLabel)
 
   return (
     <Box sx={sxProps}>
-      {parameterInputs.slice(0, 5)}
+      {active}
       <>
         <Box
           sx={{
@@ -327,7 +327,7 @@ const Parameters = ({ sx }) => {
           height={expandedParameters ? 'auto' : 0}
           easing={'linear'}
         >
-          {expandedParameters && <Box mt={[3]}>{parameterInputs.slice(5)}</Box>}
+          {expandedParameters && <Box mt={[3]}>{inactive}</Box>}
         </AnimateHeight>
       </>
     </Box>
