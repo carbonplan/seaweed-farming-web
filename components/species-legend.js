@@ -17,6 +17,7 @@ const SpeciesLegend = ({ colormap }) => {
           />
           <Box
             sx={{
+              fontFamily: 'mono',
               fontSize: ['9px', 0, 0, 1],
               letterSpacing: 'smallcaps',
               textTransform: 'uppercase',

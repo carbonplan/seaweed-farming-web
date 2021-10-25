@@ -54,7 +54,7 @@ const Viewer = ({ children }) => {
 
   let colormap
   if (speciesMap) {
-    colormap = useColormap('cool', 10).slice(5, 10)
+    colormap = useColormap('cool', 6).slice(1)
   } else {
     colormap = useColormap('cool')
   }
