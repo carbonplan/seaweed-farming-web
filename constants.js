@@ -5,7 +5,7 @@ export const CLIM_MAP = {
   benefit: [0, 1],
   depth: [0, 10000],
   growth: [0, 5000],
-  nharv: [0, 5],
+  nharv: [1, 8],
   wave_height: [0, 5],
   lineDensity: [0, 1000000],
   d2p: [0, 5000],

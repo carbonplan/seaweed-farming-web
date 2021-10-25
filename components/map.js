@@ -4,8 +4,9 @@ import { useRegionContext } from './region'
 import { useColormap, Colorbar } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
-import SpeciesLegend from './species-legend'
+import Legend from './legend'
 import { useParameters } from './parameters'
+import { useCustomColormap } from './utils'
 import { LAYER_UNIFORMS, useLayers } from './layers'
 import {
   NAN,
@@ -49,16 +50,7 @@ const Viewer = ({ children }) => {
   const [mode] = useColorMode()
   const parameters = useParameters()
   const { uniforms: layerUniforms, layer, target } = useLayers()
-
-  const speciesMap = layer === 'species_preferred'
-
-  let colormap
-  if (speciesMap) {
-    colormap = useColormap('cool', 6).slice(1)
-  } else {
-    colormap = useColormap('cool')
-  }
-
+  const { colormap, legend } = useCustomColormap(layer)
   const { setRegionData, showRegionPicker } = useRegionContext()
 
   const clim = CLIM_MAP[layer]
@@ -223,10 +215,8 @@ const Viewer = ({ children }) => {
           bottom: [17, 17, 15, 15],
         }}
       >
-        <Flex sx={{ gap: [4], alignItems: speciesMap ? 'flex-end' : 'center' }}>
-          {speciesMap ? (
-            <SpeciesLegend colormap={colormap} />
-          ) : (
+        <Flex sx={{ gap: [4], alignItems: legend ? 'flex-end' : 'center' }}>
+          {legend || (
             <Colorbar
               colormap={colormap}
               clim={clim}
