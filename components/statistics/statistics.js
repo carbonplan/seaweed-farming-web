@@ -7,6 +7,7 @@ import { useGlobalContext } from '../global'
 import { RecenterButton } from '../region/recenter-button'
 import Section from '../section'
 import DataDisplay from './data-display'
+import IconRadio from '../icon-radio'
 
 export const Statistics = ({ sx }) => {
   const {
@@ -31,31 +32,21 @@ export const Statistics = ({ sx }) => {
     >
       <Group spacing={4}>
         <Group direction='horizontal'>
-          <Label sx={{ alignItems: 'center', gap: [2] }}>
-            <IconButton
-              aria-label='Global'
-              onClick={() => setShowRegionPicker(false)}
-              sx={{ ...sx, cursor: 'pointer' }}
-            >
-              <Globe
-                sx={{ stroke: !showRegionPicker ? 'primary' : 'secondary' }}
-              />
-            </IconButton>
-            <Box sx={{ height: '100%' }}>Global</Box>
-          </Label>
+          <IconRadio
+            onClick={() => setShowRegionPicker(false)}
+            sx={sx}
+            label='Global'
+            Icon={Globe}
+            checked={!showRegionPicker}
+          />
 
-          <Label sx={{ alignItems: 'center', gap: [2] }}>
-            <IconButton
-              aria-label='Regional'
-              onClick={() => setShowRegionPicker(true)}
-              sx={{ ...sx, cursor: 'pointer' }}
-            >
-              <Search
-                sx={{ stroke: showRegionPicker ? 'primary' : 'secondary' }}
-              />
-            </IconButton>
-            <Box sx={{ height: '100%' }}>Regional</Box>
-          </Label>
+          <IconRadio
+            onClick={() => setShowRegionPicker(true)}
+            sx={sx}
+            label='Regional'
+            Icon={Search}
+            checked={showRegionPicker}
+          />
         </Group>
         {showRegionPicker && (
           <Box
