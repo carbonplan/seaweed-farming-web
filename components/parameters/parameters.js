@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Box } from 'theme-ui'
 import AnimateHeight from 'react-animate-height'
 import { Expander } from '@carbonplan/components'
@@ -269,7 +269,7 @@ const useParameterInputs = ({ sx }) => {
     },
   }
 
-  // default to parameters for cost layer if other layer is active
+  // render parameters for cost layer first if layer other than cost or benefit is active
   const firstLayer = layer === 'benefit' ? 'benefit' : 'cost'
   const secondLayer = layer === 'benefit' ? 'cost' : 'benefit'
 
@@ -280,7 +280,11 @@ const useParameterInputs = ({ sx }) => {
     .concat(mapping[firstLayer][secondTarget])
     .concat(mapping[secondLayer][secondTarget])
 
-  return { active, inactive }
+  if (layer === 'benefit' || layer === 'cost') {
+    return { active, inactive }
+  } else {
+    return { active: [], inactive: active.concat(inactive) }
+  }
 }
 
 const Parameters = ({ sx }) => {
