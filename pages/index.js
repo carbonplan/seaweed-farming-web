@@ -99,10 +99,6 @@ const Index = () => {
 
                 <ControlPanelDivider />
 
-                <Statistics sx={sx} />
-
-                <ControlPanelDivider />
-
                 <Section sx={sx.heading} label='Parameters'>
                   <Group spacing={4}>
                     <GrowthParameters sx={sx} />
@@ -110,6 +106,10 @@ const Index = () => {
                     <Parameters sx={sx} />
                   </Group>
                 </Section>
+
+                <ControlPanelDivider />
+
+                <Statistics sx={sx} />
 
                 <ControlPanelDivider sx={{ mb: [-4] }} />
               </Group>
