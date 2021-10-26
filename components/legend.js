@@ -7,33 +7,16 @@ const sx = {
   letterSpacing: 'smallcaps',
   textTransform: 'uppercase',
 }
-const Legend = ({ colormap, label, labels, units }) => {
+const Legend = ({ colormap, label, labels }) => {
   return (
     <Flex
       sx={{
         flexDirection: 'row',
         alignItems: 'flex-end',
-        // justifyContent: 'flex-start',
         gap: [4],
       }}
     >
-      {(label || units) && (
-        <Box sx={sx}>
-          {label}{' '}
-          {units && (
-            <Box
-              as='span'
-              sx={{
-                textTransform: 'none',
-                color: 'secondary',
-                display: 'inline-block',
-              }}
-            >
-              {units}
-            </Box>
-          )}
-        </Box>
-      )}
+      {label && <Box sx={sx}>{label}</Box>}
 
       <Flex sx={{ flexDirection: 'column', gap: 0 }}>
         {colormap.map((d, i) => (

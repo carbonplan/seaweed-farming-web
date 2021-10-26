@@ -50,7 +50,7 @@ const Viewer = ({ children }) => {
   const [mode] = useColorMode()
   const parameters = useParameters()
   const { uniforms: layerUniforms, layer, target } = useLayers()
-  const { colormap, legend } = useCustomColormap(layer)
+  const { colormap, legend, discrete } = useCustomColormap(layer)
   const { setRegionData, showRegionPicker } = useRegionContext()
 
   const clim = CLIM_MAP[layer]
@@ -221,11 +221,14 @@ const Viewer = ({ children }) => {
               colormap={colormap}
               clim={clim}
               units={
-                typeof UNITS_MAP[layer] === 'string'
-                  ? UNITS_MAP[layer]
-                  : UNITS_MAP[layer][target]
+                <Box sx={{ color: 'primary' }}>
+                  {typeof UNITS_MAP[layer] === 'string'
+                    ? UNITS_MAP[layer]
+                    : UNITS_MAP[layer][target]}
+                </Box>
               }
               label={LABEL_MAP[layer]}
+              discrete={discrete}
               horizontal
             />
           )}
