@@ -107,7 +107,7 @@ const Viewer = ({ children }) => {
         }}
         fillValue={NAN}
         source={
-          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.7'
+          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.8'
         }
         frag={`
               ${speciesDefinition}
