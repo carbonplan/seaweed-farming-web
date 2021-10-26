@@ -273,12 +273,10 @@ const useParameterInputs = ({ sx }) => {
   const firstLayer = layer === 'benefit' ? 'benefit' : 'cost'
   const secondLayer = layer === 'benefit' ? 'cost' : 'benefit'
 
-  const secondTarget = target === 'sinking' ? 'products' : 'sinking'
   const active = mapping[firstLayer][target].concat(mapping[firstLayer].shared)
-  const inactive = mapping[secondLayer][target]
-    .concat(mapping[secondLayer].shared)
-    .concat(mapping[firstLayer][secondTarget])
-    .concat(mapping[secondLayer][secondTarget])
+  const inactive = mapping[secondLayer][target].concat(
+    mapping[secondLayer].shared
+  )
 
   if (layer === 'benefit' || layer === 'cost') {
     return { active, inactive }
