@@ -1,8 +1,8 @@
 export const NAN = 9.969209968386869e36
 
 export const CLIM_MAP = {
-  cost: [0, 750],
-  benefit: [0, 1],
+  cost: [0, 2000],
+  benefit: [0, 0.5],
   depth: [0, 10000],
   growth: [0, 5000],
   nharv: [1, 8],
