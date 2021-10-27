@@ -1,66 +1,44 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useState } from 'react'
 
-export const ParameterContext = createContext(null)
+const ParameterContext = createContext(null)
 
+const initialParameters = {
+  capex: 170630,
+  lineCost: 0.06,
+  opex: 63004,
+  labor: 37706,
+  harvestCost: 124485,
+  depthFactor: 0,
+  waveFactor: 0,
+  insurance: 35000,
+  license: 1409,
+  transportCost: 0.11,
+  conversionCost: 50,
+  productValue: 100,
+  transportEmissions: 0.00003,
+  conversionEmissions: 0.005,
+  avoidedEmissions: 0.5,
+  sequestrationRate: 0.95,
+  removalRate: 0.6,
+}
 export const ParameterProvider = ({ children }) => {
-  const [capex, setCapex] = useState(170630)
-  const [lineCost, setLineCost] = useState(0.06)
-  const [opex, setOpex] = useState(63004)
-  const [labor, setLabor] = useState(37706)
-  const [harvestCost, setHarvestCost] = useState(124485)
-  const [depthFactor, setDepthFactor] = useState(0)
-  const [waveFactor, setWaveFactor] = useState(0)
-  const [insurance, setInsurance] = useState(35000)
-  const [license, setLicense] = useState(1409)
-
-  const [transportCost, setTransportCost] = useState(0.11)
-  const [conversionCost, setConversionCost] = useState(50)
-  const [productValue, setProductValue] = useState(100)
-
-  const [transportEmissions, setTransportEmissions] = useState(0.00003)
-
-  const [conversionEmissions, setConversionEmissions] = useState(0.005)
-  const [avoidedEmissions, setAvoidedEmissions] = useState(0.5)
-  const [sequestrationRate, setSequestrationRate] = useState(0.95)
-  const [removalRate, setRemovalRate] = useState(0.6)
+  const [values, setValues] = useState(initialParameters)
+  const handleChange = useCallback(
+    (key, value) => {
+      setValues({ ...values, [key]: value })
+    },
+    [values]
+  )
+  const resetParameters = useCallback(() => {
+    setValues(initialParameters)
+  }, [])
 
   return (
     <ParameterContext.Provider
       value={{
-        capex,
-        setCapex,
-        lineCost,
-        setLineCost,
-        opex,
-        setOpex,
-        labor,
-        setLabor,
-        harvestCost,
-        setHarvestCost,
-        depthFactor,
-        setDepthFactor,
-        waveFactor,
-        setWaveFactor,
-        insurance,
-        setInsurance,
-        license,
-        setLicense,
-        transportCost,
-        setTransportCost,
-        conversionCost,
-        setConversionCost,
-        productValue,
-        setProductValue,
-        transportEmissions,
-        setTransportEmissions,
-        conversionEmissions,
-        setConversionEmissions,
-        avoidedEmissions,
-        setAvoidedEmissions,
-        sequestrationRate,
-        setSequestrationRate,
-        removalRate,
-        setRemovalRate,
+        ...values,
+        setParameter: handleChange,
+        resetParameters,
       }}
     >
       {children}
@@ -69,43 +47,5 @@ export const ParameterProvider = ({ children }) => {
 }
 
 export const useParameters = () => {
-  const {
-    capex,
-    lineCost,
-    opex,
-    labor,
-    harvestCost,
-    depthFactor,
-    waveFactor,
-    insurance,
-    license,
-    transportCost,
-    conversionCost,
-    productValue,
-    transportEmissions,
-    conversionEmissions,
-    avoidedEmissions,
-    sequestrationRate,
-    removalRate,
-  } = useContext(ParameterContext)
-
-  return {
-    capex,
-    lineCost,
-    opex,
-    labor,
-    harvestCost,
-    depthFactor,
-    waveFactor,
-    insurance,
-    license,
-    transportCost,
-    conversionCost,
-    productValue,
-    transportEmissions,
-    conversionEmissions,
-    avoidedEmissions,
-    sequestrationRate,
-    removalRate,
-  }
+  return useContext(ParameterContext)
 }

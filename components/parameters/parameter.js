@@ -9,8 +9,8 @@ const Parameter = ({
   value,
   units,
   setValue,
-  onChange,
   displayValue,
+  id,
   sx,
 }) => {
   return (
@@ -24,9 +24,7 @@ const Parameter = ({
             max={max}
             step={step}
             value={value}
-            onChange={
-              onChange ? onChange : (e) => setValue(parseFloat(e.target.value))
-            }
+            onChange={(e) => setValue(id, parseFloat(e.target.value))}
           />
         </Column>
         <Column start={3} width={1}>

@@ -4,46 +4,30 @@ import AnimateHeight from 'react-animate-height'
 import { Expander } from '@carbonplan/components'
 
 import Parameter from './parameter'
-import { ParameterContext } from './context'
+import { useParameters } from './context'
 import { useLayers } from '../layers'
 
 const useParameterInputs = ({ sx }) => {
   const {
     capex,
-    setCapex,
     lineCost,
-    setLineCost,
     opex,
-    setOpex,
     labor,
-    setLabor,
     harvestCost,
-    setHarvestCost,
     depthFactor,
-    setDepthFactor,
     waveFactor,
-    setWaveFactor,
     insurance,
-    setInsurance,
     license,
-    setLicense,
     transportCost,
-    setTransportCost,
     conversionCost,
-    setConversionCost,
     productValue,
-    setProductValue,
     transportEmissions,
-    setTransportEmissions,
     conversionEmissions,
-    setConversionEmissions,
     avoidedEmissions,
-    setAvoidedEmissions,
     sequestrationRate,
-    setSequestrationRate,
     removalRate,
-    setRemovalRate,
-  } = useContext(ParameterContext)
+    setParameter,
+  } = useParameters()
   const { target, layer } = useLayers()
 
   const mapping = {
@@ -55,7 +39,8 @@ const useParameterInputs = ({ sx }) => {
           step={10}
           value={capex}
           key='capex'
-          setValue={setCapex}
+          id='capex'
+          setValue={setParameter}
           label={'Capex'}
           units={'$ / km² / year'}
           sx={sx}
@@ -66,7 +51,8 @@ const useParameterInputs = ({ sx }) => {
           step={0.01}
           value={lineCost}
           key='lineCost'
-          setValue={setLineCost}
+          id='lineCost'
+          setValue={setParameter}
           label={'Line cost'}
           units={'$ / m'}
           sx={sx}
@@ -77,7 +63,8 @@ const useParameterInputs = ({ sx }) => {
           step={100}
           value={opex}
           key='opex'
-          setValue={setOpex}
+          id='opex'
+          setValue={setParameter}
           label={'Opex'}
           units={'$ / km² / year'}
           sx={sx}
@@ -88,7 +75,8 @@ const useParameterInputs = ({ sx }) => {
           step={0.01}
           value={transportCost}
           key='transportCost'
-          setValue={setTransportCost}
+          id='transportCost'
+          setValue={setParameter}
           label={'Transport cost'}
           units={'$ / ton / km'}
           sx={sx}
@@ -99,7 +87,8 @@ const useParameterInputs = ({ sx }) => {
           step={10}
           value={labor}
           key='labor'
-          setValue={setLabor}
+          id='labor'
+          setValue={setParameter}
           label={'Labor'}
           units={'$ / km² / year'}
           sx={sx}
@@ -110,7 +99,8 @@ const useParameterInputs = ({ sx }) => {
           step={100}
           value={harvestCost}
           key='harvestCost'
-          setValue={setHarvestCost}
+          id='harvestCost'
+          setValue={setParameter}
           label={'Harvest costs'}
           units={'$ / km² / harvest'}
           sx={sx}
@@ -121,7 +111,8 @@ const useParameterInputs = ({ sx }) => {
           step={0.1}
           value={depthFactor}
           key='depthFactor'
-          setValue={setDepthFactor}
+          id='depthFactor'
+          setValue={setParameter}
           label={'Depth factor'}
           units={'scaling factor'}
           sx={sx}
@@ -132,7 +123,8 @@ const useParameterInputs = ({ sx }) => {
           step={0.1}
           value={waveFactor}
           key='waveFactor'
-          setValue={setWaveFactor}
+          id='waveFactor'
+          setValue={setParameter}
           label={'Wave factor'}
           units={'scaling factor'}
           sx={sx}
@@ -143,7 +135,8 @@ const useParameterInputs = ({ sx }) => {
           step={1000}
           value={insurance}
           key='insurance'
-          setValue={setInsurance}
+          id='insurance'
+          setValue={setParameter}
           label={'Insurance'}
           units={'$ / km² / year'}
           sx={sx}
@@ -154,7 +147,8 @@ const useParameterInputs = ({ sx }) => {
           step={1}
           value={license}
           key='license'
-          setValue={setLicense}
+          id='license'
+          setValue={setParameter}
           label={'License'}
           units={'$ / km² / year'}
           sx={sx}
@@ -167,7 +161,8 @@ const useParameterInputs = ({ sx }) => {
           step={10}
           value={conversionCost}
           key='conversionCost'
-          setValue={setConversionCost}
+          id='conversionCost'
+          setValue={setParameter}
           label={'Conversion cost'}
           units={'$ / ton DW'}
           sx={sx}
@@ -179,7 +174,8 @@ const useParameterInputs = ({ sx }) => {
           step={10}
           value={productValue}
           key='productValue'
-          setValue={setProductValue}
+          id='productValue'
+          setValue={setParameter}
           label={'Product value'}
           units={'$ / ton DW'}
           sx={sx}
@@ -195,7 +191,8 @@ const useParameterInputs = ({ sx }) => {
           step={0.0000001}
           value={transportEmissions}
           key='transportEmissions'
-          setValue={setTransportEmissions}
+          id='transportEmissions'
+          setValue={setParameter}
           label={'Transport emissions'}
           units={'tCO₂e / ton DW / km'}
           sx={sx}
@@ -208,7 +205,8 @@ const useParameterInputs = ({ sx }) => {
           step={0.0001}
           value={conversionEmissions}
           key='conversionEmissions'
-          setValue={setConversionEmissions}
+          id='conversionEmissions'
+          setValue={setParameter}
           label={'Conversion emissions'}
           units={'tCO₂e / ton DW'}
           sx={sx}
@@ -219,7 +217,8 @@ const useParameterInputs = ({ sx }) => {
           step={0.05}
           value={avoidedEmissions}
           key='avoidedEmissions'
-          setValue={setAvoidedEmissions}
+          id='avoidedEmissions'
+          setValue={setParameter}
           label={'Avoided emissions'}
           units={'tCO₂e / ton DW'}
           sx={sx}
@@ -233,7 +232,8 @@ const useParameterInputs = ({ sx }) => {
           value={sequestrationRate}
           displayValue={sequestrationRate * 100}
           key='sequestrationRate'
-          setValue={setSequestrationRate}
+          id='sequestrationRate'
+          setValue={setParameter}
           label={'Sequestration rate'}
           units={'%'}
           sx={sx}
@@ -246,7 +246,8 @@ const useParameterInputs = ({ sx }) => {
           value={removalRate}
           displayValue={removalRate * 100}
           key='removalRate'
-          setValue={setRemovalRate}
+          id='removalRate'
+          setValue={setParameter}
           label={'Removal rate'}
           units={'%'}
           sx={sx}
