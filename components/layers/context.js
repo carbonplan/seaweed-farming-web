@@ -4,7 +4,7 @@ import { GROWTH_MODELS, SPECIES } from '../../constants'
 const LayersContext = createContext(null)
 
 export const LayersProvider = ({ children }) => {
-  const [layer, setLayer] = useState('benefit')
+  const [layer, setLayer] = useState('mitigationCost')
   const [target, setTarget] = useState('sinking')
   const [growthModel, setGrowthModel] = useState(GROWTH_MODELS[0])
   const [mask, setMask] = useState(false)

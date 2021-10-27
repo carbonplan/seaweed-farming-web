@@ -10,7 +10,7 @@ export const CLIM_MAP = {
   wave_height: [0, 5],
   lineDensity: [0, 1000000],
   d2p: [0, 5000],
-  d2sink: [0, 5000],
+  d2sink: [0, 2500],
   fseq: [0, 1],
   species_preferred: [0, 4],
 }

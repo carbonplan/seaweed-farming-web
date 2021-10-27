@@ -9,8 +9,8 @@ import { LABEL_MAP } from '../../constants'
 import Radio from '../radio'
 
 const initOutputs = {
-  [LABEL_MAP['mitigationCost']]: false,
-  [LABEL_MAP['benefit']]: true,
+  [LABEL_MAP['mitigationCost']]: true,
+  [LABEL_MAP['benefit']]: false,
   [LABEL_MAP['cost']]: false,
 }
 
