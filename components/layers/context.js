@@ -34,6 +34,7 @@ export const useRawUniformValues = () => {
 
 export const LAYER_UNIFORMS = [
   'costLayer',
+  'mitigationCostLayer',
   'benefitLayer',
   'depthLayer',
   'growthLayer',

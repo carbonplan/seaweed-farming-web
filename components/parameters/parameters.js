@@ -33,8 +33,6 @@ const useParameterInputs = ({ sx }) => {
     setConversionCost,
     productValue,
     setProductValue,
-    sinkingValue,
-    setSinkingValue,
     transportEmissions,
     setTransportEmissions,
     conversionEmissions,
@@ -187,19 +185,7 @@ const useParameterInputs = ({ sx }) => {
           sx={sx}
         />,
       ],
-      sinking: [
-        <Parameter
-          min={0}
-          max={100}
-          step={10}
-          value={sinkingValue}
-          key='sinkingValue'
-          setValue={setSinkingValue}
-          label={'Sinking value'}
-          units={'$ / ton'}
-          sx={sx}
-        />,
-      ],
+      sinking: [],
     },
     benefit: {
       shared: [
@@ -273,15 +259,17 @@ const useParameterInputs = ({ sx }) => {
   const firstLayer = layer === 'benefit' ? 'benefit' : 'cost'
   const secondLayer = layer === 'benefit' ? 'cost' : 'benefit'
 
-  const active = mapping[firstLayer][target].concat(mapping[firstLayer].shared)
-  const inactive = mapping[secondLayer][target].concat(
+  const first = mapping[firstLayer][target].concat(mapping[firstLayer].shared)
+  const second = mapping[secondLayer][target].concat(
     mapping[secondLayer].shared
   )
 
   if (layer === 'benefit' || layer === 'cost') {
-    return { active, inactive }
+    return { active: first, inactive: second }
+  } else if (layer === 'mitigationCost') {
+    return { active: first.concat(second), inactive: [] }
   } else {
-    return { active: [], inactive: active.concat(inactive) }
+    return { active: [], inactive: first.concat(second) }
   }
 }
 
@@ -299,39 +287,41 @@ const Parameters = ({ sx }) => {
   return (
     <Box sx={sxProps}>
       {active}
-      <>
-        <Box
-          sx={{
-            mt: [1, 1, 1, 2],
-            cursor: 'pointer',
-            '@media (hover: hover) and (pointer: fine)': {
-              '&:hover > #expander': { stroke: 'primary' },
-              '&:hover > #label': { color: 'primary' },
-            },
-          }}
-          onClick={() => setExpandedParameters(!expandedParameters)}
-        >
-          <Expander
-            value={expandedParameters}
-            id='expander'
-            sx={{ position: 'relative', top: ['2px'], left: ['-4px'] }}
-          />{' '}
+      {inactive.length > 0 && (
+        <>
           <Box
-            as='span'
-            id='label'
-            sx={{ color: 'secondary', transition: 'color 0.15s' }}
+            sx={{
+              mt: [1, 1, 1, 2],
+              cursor: 'pointer',
+              '@media (hover: hover) and (pointer: fine)': {
+                '&:hover > #expander': { stroke: 'primary' },
+                '&:hover > #label': { color: 'primary' },
+              },
+            }}
+            onClick={() => setExpandedParameters(!expandedParameters)}
           >
-            More parameters
+            <Expander
+              value={expandedParameters}
+              id='expander'
+              sx={{ position: 'relative', top: ['2px'], left: ['-4px'] }}
+            />{' '}
+            <Box
+              as='span'
+              id='label'
+              sx={{ color: 'secondary', transition: 'color 0.15s' }}
+            >
+              More parameters
+            </Box>
           </Box>
-        </Box>
-        <AnimateHeight
-          duration={150}
-          height={expandedParameters ? 'auto' : 0}
-          easing={'linear'}
-        >
-          {expandedParameters && <Box mt={[3]}>{inactive}</Box>}
-        </AnimateHeight>
-      </>
+          <AnimateHeight
+            duration={150}
+            height={expandedParameters ? 'auto' : 0}
+            easing={'linear'}
+          >
+            {expandedParameters && <Box mt={[3]}>{inactive}</Box>}
+          </AnimateHeight>
+        </>
+      )}
     </Box>
   )
 }

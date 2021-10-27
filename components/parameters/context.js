@@ -16,7 +16,6 @@ export const ParameterProvider = ({ children }) => {
   const [transportCost, setTransportCost] = useState(0.11)
   const [conversionCost, setConversionCost] = useState(50)
   const [productValue, setProductValue] = useState(100)
-  const [sinkingValue, setSinkingValue] = useState(0)
 
   const [transportEmissions, setTransportEmissions] = useState(0.00003)
 
@@ -52,8 +51,6 @@ export const ParameterProvider = ({ children }) => {
         setConversionCost,
         productValue,
         setProductValue,
-        sinkingValue,
-        setSinkingValue,
         transportEmissions,
         setTransportEmissions,
         conversionEmissions,
@@ -85,7 +82,6 @@ export const useParameters = () => {
     transportCost,
     conversionCost,
     productValue,
-    sinkingValue,
     transportEmissions,
     conversionEmissions,
     avoidedEmissions,
@@ -106,7 +102,6 @@ export const useParameters = () => {
     transportCost,
     conversionCost,
     productValue,
-    sinkingValue,
     transportEmissions,
     conversionEmissions,
     avoidedEmissions,

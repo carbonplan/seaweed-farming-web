@@ -3,7 +3,12 @@ import { Group } from '@carbonplan/components'
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
 import AverageDisplay from './average-display'
-import { averageData, valuesToBenefit, valuesToCost } from './utils'
+import {
+  averageData,
+  valuesToBenefit,
+  valuesToCost,
+  valuesToMitigationCost,
+} from './utils'
 
 export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
@@ -25,12 +30,20 @@ export const DataDisplay = ({ data }) => {
       target,
       parameters
     )
-    const avgCost = averageData(projectCost, area)
 
-    const growth = averageData(harv_preferred, area) || 0
+    const mitigationCost = valuesToMitigationCost(
+      data.value.all_variables,
+      target,
+      parameters
+    )
 
     return (
       <Group spacing={4}>
+        <AverageDisplay
+          label='Mitigation cost'
+          units={`$ / ${benefitUnits}`}
+          value={averageData(mitigationCost, area)}
+        />
         <AverageDisplay
           label='Net carbon benefit'
           units={`${benefitUnits} / ton DW`}
@@ -41,8 +54,6 @@ export const DataDisplay = ({ data }) => {
           units='$ / ton DW'
           value={averageData(projectCost, area)}
         />
-        ------
-        <AverageDisplay label='Growth' units='tons DW/km²' value={growth} />
       </Group>
     )
   }

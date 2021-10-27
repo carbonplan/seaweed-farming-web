@@ -1,6 +1,7 @@
 export const NAN = 9.969209968386869e36
 
 export const CLIM_MAP = {
+  mitigationCost: [0, 2000],
   cost: [0, 2000],
   benefit: [0, 0.5],
   depth: [0, 10000],
@@ -15,6 +16,10 @@ export const CLIM_MAP = {
 }
 
 export const UNITS_MAP = {
+  mitigationCost: {
+    products: '$ / tCO₂e',
+    sinking: '$ / tCO₂',
+  },
   cost: '$ / ton DW',
   benefit: {
     products: 'tCO₂e / ton DW',
@@ -31,7 +36,8 @@ export const UNITS_MAP = {
 }
 
 export const LABEL_MAP = {
-  cost: 'net cost',
+  mitigationCost: 'mitigation cost',
+  cost: 'project cost',
   benefit: 'climate benefit',
   depth: 'depth',
   growth: 'growth',

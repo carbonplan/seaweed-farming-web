@@ -181,3 +181,16 @@ export const valuesToBenefit = (values, target, parameters) => {
     return accum
   }, [])
 }
+
+export const valuesToMitigationCost = (values, target, parameters) => {
+  const netBenefit = valuesToBenefit(values, target, parameters)
+  const projectCost = valuesToCost(values, target, parameters)
+
+  return projectCost.map((c, i) => {
+    if (c === NAN || netBenefit[i] === NAN) {
+      return NAN
+    }
+    const netCost = target === 'products' ? c - parameters.productValue : c
+    return netCost / netBenefit[i]
+  })
+}

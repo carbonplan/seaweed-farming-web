@@ -9,6 +9,7 @@ import { LABEL_MAP } from '../../constants'
 import Radio from '../radio'
 
 const initOutputs = {
+  [LABEL_MAP['mitigationCost']]: false,
   [LABEL_MAP['benefit']]: true,
   [LABEL_MAP['cost']]: false,
 }
@@ -26,6 +27,7 @@ const initInputs = {
 }
 
 const filterToValue = {
+  [LABEL_MAP['mitigationCost']]: 'mitigationCost',
   [LABEL_MAP['cost']]: 'cost',
   [LABEL_MAP['benefit']]: 'benefit',
   [LABEL_MAP['depth']]: 'depth',
@@ -58,7 +60,11 @@ const LayerSwitcher = ({ sx }) => {
   })
 
   const handleInputChange = useCallback((res) => {
-    setOutputs({ 'climate benefit': false, 'net cost': false })
+    setOutputs({
+      'mitigation cost': false,
+      'climate benefit': false,
+      'project cost': false,
+    })
     setInputs(res)
     const selected = Object.keys(res).find((key) => res[key])
     setLayer(filterToValue[selected])

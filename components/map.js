@@ -1,10 +1,9 @@
 import { Box, Flex, useColorMode, useThemeUI } from 'theme-ui'
 import { Fill, Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
-import { useColormap, Colorbar } from '@carbonplan/colormaps'
+import { Colorbar } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
-import Legend from './legend'
 import { useParameters } from './parameters'
 import { useCustomColormap } from './utils'
 import { LAYER_UNIFORMS, useLayers } from './layers'
@@ -34,7 +33,7 @@ if (species_preferred == ${i.toFixed(1)}) {
 `
 
 const defaultLayers = LAYER_UNIFORMS.filter(
-  (u) => !['costLayer', 'benefitLayer'].includes(u)
+  (u) => !['mitigationCostLayer', 'costLayer', 'benefitLayer'].includes(u)
 )
   .map(
     (uniformName) => `
@@ -123,67 +122,10 @@ const Viewer = ({ children }) => {
 
               ${defaultLayers}
 
-              if (costLayer == 1.0) {
-                // parameters
-                float cheapDepth = 50.0;
-                float priceyDepth = 150.0;
-                float lowWaveDamage = 1.0;
-                float highWaveDamage = 2.0;
+              if (costLayer == 1.0 || benefitLayer == 1.0 || mitigationCostLayer == 1.0) {
+                float productionCost;
+                float netEmissions;
 
-                // calculate depth premium
-                float depthPremium;
-                if (depth <= cheapDepth) {
-                  depthPremium = 0.0;
-                }
-                if ((depth > cheapDepth) && (depth < priceyDepth)) {
-                  depthPremium = (depth / priceyDepth) * depthFactor;
-                }
-                if (depth >= priceyDepth) {
-                  depthPremium = depthFactor;
-                }
-
-                // calculate wave premium
-                float wavePremium;
-                if (wave_height <= lowWaveDamage) {
-                  wavePremium = 0.0;
-                }
-                if ((wave_height > lowWaveDamage) && (wave_height < highWaveDamage)) {
-                  wavePremium = (wave_height / highWaveDamage) * waveFactor;
-                }
-                if (wave_height >= highWaveDamage) {
-                  wavePremium = waveFactor;
-                }
-
-                // calculate primary terms
-                float capital = capex + depthPremium * capex + wavePremium * capex + lineCost * lineDensity;
-                float operations = opex + labor + insurance + license;
-                float harvest = harvestCost + growth * transportCost * nharv * d2p + transportCost * equipment * d2p;
-
-                // combine terms
-                float growthCost = (capital + operations + harvest) / growth;
-
-                if (productsTarget == 1.0) {
-                  // calculate product value
-                  value = growthCost + transportCost * d2p + conversionCost - productValue;
-                } else {
-                  // calculate sinking value
-                  value = growthCost + transportCost * d2sink - sinkingValue;
-                }
-              }
-
-              if (benefitLayer == 1.0) {
-                float growthEmissions = (nharv * d2p * transportEmissions * growth + transportEmissions * equipment * d2p) / growth;
-
-                if (productsTarget == 1.0) {
-                  // calculate climate benefit of products
-                  value = avoidedEmissions - transportEmissions * d2p - conversionEmissions - growthEmissions;
-                } else {
-                  // calculate climate benefit of sinking
-                  value = carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink - growthEmissions;
-                }
-              }
-
-              if (costLayer == 1.0 || benefitLayer == 1.0) {
                 // filter points
                 bool lowGrowth = growth == fillValue || growth < 0.2;
                 bool lowSink = sinkingTarget == 1.0 && d2sink == fillValue;
@@ -193,6 +135,80 @@ const Viewer = ({ children }) => {
                   gl_FragColor = vec4(empty, empty, empty, opacity);
                   gl_FragColor.rgb *= gl_FragColor.a;
                   return;
+                }
+
+                if (costLayer == 1.0 || mitigationCostLayer == 1.0) {
+                  // parameters
+                  float cheapDepth = 50.0;
+                  float priceyDepth = 150.0;
+                  float lowWaveDamage = 1.0;
+                  float highWaveDamage = 2.0;
+
+                  // calculate depth premium
+                  float depthPremium;
+                  if (depth <= cheapDepth) {
+                    depthPremium = 0.0;
+                  }
+                  if ((depth > cheapDepth) && (depth < priceyDepth)) {
+                    depthPremium = (depth / priceyDepth) * depthFactor;
+                  }
+                  if (depth >= priceyDepth) {
+                    depthPremium = depthFactor;
+                  }
+
+                  // calculate wave premium
+                  float wavePremium;
+                  if (wave_height <= lowWaveDamage) {
+                    wavePremium = 0.0;
+                  }
+                  if ((wave_height > lowWaveDamage) && (wave_height < highWaveDamage)) {
+                    wavePremium = (wave_height / highWaveDamage) * waveFactor;
+                  }
+                  if (wave_height >= highWaveDamage) {
+                    wavePremium = waveFactor;
+                  }
+
+                  // calculate primary terms
+                  float capital = capex + depthPremium * capex + wavePremium * capex + lineCost * lineDensity;
+                  float operations = opex + labor + insurance + license;
+                  float harvest = harvestCost + growth * transportCost * nharv * d2p + transportCost * equipment * d2p;
+
+                  // combine terms
+                  float growthCost = (capital + operations + harvest) / growth;
+                  if (productsTarget == 1.0) {
+                    // calculate product value
+                    productionCost = growthCost + transportCost * d2p + conversionCost;
+                  } else {
+                    // calculate sinking value
+                    productionCost = growthCost + transportCost * d2sink;
+                  }
+                }
+
+                if (benefitLayer == 1.0 || mitigationCostLayer == 1.0) {
+                  float growthEmissions = (nharv * d2p * transportEmissions * growth + transportEmissions * equipment * d2p) / growth;
+                  if (productsTarget == 1.0) {
+                    // calculate climate benefit of products
+                    netEmissions = avoidedEmissions - transportEmissions * d2p - conversionEmissions - growthEmissions;
+                  } else {
+                    // calculate climate benefit of sinking
+                    netEmissions = carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink - growthEmissions;
+                  }
+                }
+
+                if (mitigationCostLayer == 1.0) {
+                  float cost = productionCost;
+                  if (productsTarget == 1.0) {
+                    cost -= productValue;
+                  }
+                  value = cost / netEmissions;
+                }
+
+                if (costLayer == 1.0) {
+                  value = productionCost;
+                }
+
+                if (benefitLayer == 1.0) {
+                  value = netEmissions;
                 }
               }
 
