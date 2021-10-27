@@ -1,5 +1,5 @@
-import { Colorbar, useColormap } from '@carbonplan/colormaps'
-import { LABEL_MAP, SPECIES, UNITS_MAP } from '../../constants'
+import { useColormap } from '@carbonplan/colormaps'
+import { SPECIES } from '../../constants'
 import Legend from '../legend'
 
 const useCustomColormap = (layer) => {

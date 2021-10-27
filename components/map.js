@@ -102,6 +102,7 @@ const Viewer = ({ children }) => {
             'fseq',
             'd2sink',
             'species_preferred',
+            'area',
             // 'mask',
           ],
         }}
@@ -137,7 +138,7 @@ const Viewer = ({ children }) => {
                 if ((depth > cheapDepth) && (depth < priceyDepth)) {
                   depthPremium = (depth / priceyDepth) * depthFactor;
                 }
-                if (depth > priceyDepth) {
+                if (depth >= priceyDepth) {
                   depthPremium = depthFactor;
                 }
 
@@ -149,7 +150,7 @@ const Viewer = ({ children }) => {
                 if ((wave_height > lowWaveDamage) && (wave_height < highWaveDamage)) {
                   wavePremium = (wave_height / highWaveDamage) * waveFactor;
                 }
-                if (wave_height > highWaveDamage) {
+                if (wave_height >= highWaveDamage) {
                   wavePremium = waveFactor;
                 }
 

@@ -12,53 +12,34 @@ export const DataDisplay = ({ data }) => {
   if (!data || data.loading) {
     return 'loading...'
   } else {
-    const { netBenefit, grossBenefit, grossEmissions } = valuesToBenefit(
+    const { harv_preferred, area } = data.value.all_variables
+    const netBenefit = valuesToBenefit(
       data.value.all_variables,
       target,
       parameters
     )
 
     const benefitUnits = target === 'products' ? 'tCO₂e' : 'tCO₂'
-    const { netCost, grossCost, grossIncome } = valuesToCost(
+    const projectCost = valuesToCost(
       data.value.all_variables,
       target,
       parameters
     )
+    const avgCost = averageData(projectCost, area)
 
-    const growth = averageData(data.value.all_variables.harv_preferred) || 0
+    const growth = averageData(harv_preferred, area) || 0
 
     return (
       <Group spacing={4}>
         <AverageDisplay
           label='Net carbon benefit'
           units={`${benefitUnits} / ton DW`}
-          value={averageData(netBenefit)}
+          value={averageData(netBenefit, area)}
         />
         <AverageDisplay
-          label='Gross carbon benefit'
-          units={`${benefitUnits} / ton DW`}
-          value={averageData(grossBenefit)}
-        />
-        <AverageDisplay
-          label='Gross project emissions'
-          units={`tCO₂e / ton DW`}
-          value={averageData(grossEmissions)}
-        />
-        ------
-        <AverageDisplay
-          label='Net project cost'
+          label='Project cost'
           units='$ / ton DW'
-          value={averageData(netCost)}
-        />
-        <AverageDisplay
-          label='Gross project income'
-          units='$ / ton DW'
-          value={averageData(grossIncome)}
-        />
-        <AverageDisplay
-          label='Gross project cost'
-          units='$ / ton DW'
-          value={averageData(grossCost)}
+          value={averageData(projectCost, area)}
         />
         ------
         <AverageDisplay label='Growth' units='tons DW/km²' value={growth} />

@@ -20,6 +20,7 @@ export const GlobalProvider = ({ children }) => {
           'fseq',
           'd2sink',
           'species_preferred',
+          'area',
         ],
       })
 
