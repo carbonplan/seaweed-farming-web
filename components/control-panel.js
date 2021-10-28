@@ -94,7 +94,7 @@ const ControlPanel = ({
             pt: [5],
           }}
         >
-          {children}
+          {expanded && children}
         </Tray>
         {!hasExpanded && <Row>{overview}</Row>}
       </>

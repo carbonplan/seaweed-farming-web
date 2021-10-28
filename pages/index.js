@@ -107,9 +107,9 @@ const Index = () => {
                   </Group>
                 </Section>
 
-                <ControlPanelDivider />
+                {!isNarrow && <ControlPanelDivider />}
 
-                <Statistics sx={sx} />
+                {!isNarrow && <Statistics sx={sx} />}
 
                 <ControlPanelDivider sx={{ mb: [-4] }} />
               </Group>
