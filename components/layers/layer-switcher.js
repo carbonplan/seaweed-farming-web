@@ -8,23 +8,18 @@ import { useRawUniformValues } from './context'
 import { LABEL_MAP } from '../../constants'
 import Radio from '../radio'
 
-const initOutputs = {
-  [LABEL_MAP['mitigationCost']]: true,
-  [LABEL_MAP['benefit']]: false,
-  [LABEL_MAP['cost']]: false,
-}
-
-const initInputs = {
-  [LABEL_MAP['growth']]: false,
-  [LABEL_MAP['nharv']]: false,
-  [LABEL_MAP['depth']]: false,
-  [LABEL_MAP['wave_height']]: false,
-  [LABEL_MAP['lineDensity']]: false,
-  [LABEL_MAP['d2p']]: false,
-  [LABEL_MAP['d2sink']]: false,
-  [LABEL_MAP['fseq']]: false,
-  [LABEL_MAP['species_preferred']]: false,
-}
+const OUTPUT_LAYERS = ['mitigationCost', 'benefit', 'cost']
+const INPUT_LAYERS = [
+  'growth',
+  'nharv',
+  'depth',
+  'wave_height',
+  'lineDensity',
+  'd2p',
+  'd2sink',
+  'fseq',
+  'species_preferred',
+]
 
 const filterToValue = {
   [LABEL_MAP['mitigationCost']]: 'mitigationCost',
@@ -41,6 +36,13 @@ const filterToValue = {
   [LABEL_MAP['species_preferred']]: 'species_preferred',
 }
 
+const getFilter = (layers, activeLayer) => {
+  return layers.reduce((accum, layer) => {
+    accum[LABEL_MAP[layer]] = layer === activeLayer
+
+    return accum
+  }, {})
+}
 const LayerSwitcher = ({ sx }) => {
   const {
     heading: sxHeading,
@@ -48,25 +50,21 @@ const LayerSwitcher = ({ sx }) => {
     description: sxDescription,
     ...sxProps
   } = sx
-  const [outputs, setOutputs] = useState(initOutputs)
-  const [inputs, setInputs] = useState(initInputs)
-  const { setLayer, setTarget, target } = useRawUniformValues()
+  const { layer, setLayer, setTarget, target } = useRawUniformValues()
+  const [outputs, setOutputs] = useState(() => getFilter(OUTPUT_LAYERS, layer))
+  const [inputs, setInputs] = useState(() => getFilter(INPUT_LAYERS, layer))
 
   const handleOutputChange = useCallback((res) => {
-    setOutputs(res)
-    setInputs(initInputs)
     const selected = Object.keys(res).find((key) => res[key])
+    setOutputs(res)
+    setInputs(getFilter(INPUT_LAYERS, selected))
     setLayer(filterToValue[selected])
   })
 
   const handleInputChange = useCallback((res) => {
-    setOutputs({
-      'mitigation cost': false,
-      'climate benefit': false,
-      'project cost': false,
-    })
-    setInputs(res)
     const selected = Object.keys(res).find((key) => res[key])
+    setOutputs(getFilter(OUTPUT_LAYERS, selected))
+    setInputs(res)
     setLayer(filterToValue[selected])
   })
 

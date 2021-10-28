@@ -203,7 +203,7 @@ const ControlPanel = ({
                   opacity: expanded ? 1 : 0,
                 }}
               >
-                {children}
+                {expanded && children}
               </Box>
             </Box>
           </Box>
