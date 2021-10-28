@@ -17,7 +17,7 @@ export const DataDisplay = ({ data }) => {
   if (!data || data.loading) {
     return 'loading...'
   } else {
-    const { harv_preferred, area } = data.value.all_variables
+    const { area } = data.value.all_variables
     const netBenefit = valuesToBenefit(
       data.value.all_variables,
       target,

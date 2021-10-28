@@ -6,7 +6,7 @@ const AverageDisplay = ({ value, label, units }) => {
     <Row columns={3}>
       <Column
         start={1}
-        width={1}
+        width={2}
         sx={{ display: 'flex', alignItems: 'center' }}
       >
         <Box

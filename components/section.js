@@ -10,15 +10,16 @@ const spacing = {
   px: [4, 5, 5, 6],
   mx: [-4, -5, -5, -6],
 }
-export const Section = ({ children, label, onClose, sx }) => {
+export const Section = ({ children, label, onClose, onOpen, sx }) => {
   const [showSection, setShowSection] = useState(false)
 
   const handleClick = useCallback(() => {
     setShowSection((previouslyShown) => {
       if (previouslyShown && onClose) onClose()
+      if (!previouslyShown && onOpen) onOpen()
       return !previouslyShown
     })
-  }, [onClose])
+  }, [onClose, onOpen])
 
   return (
     <Box

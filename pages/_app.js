@@ -4,7 +4,6 @@ import '@carbonplan/components/fonts.css'
 import '@carbonplan/components/globals.css'
 import theme from '@carbonplan/theme'
 import { RegionProvider } from '../components/region'
-import { GlobalProvider } from '../components/global'
 import { ParameterProvider } from '../components/parameters'
 import { LayersProvider } from '../components/layers'
 
@@ -14,9 +13,7 @@ const App = ({ Component, pageProps }) => {
       <LayersProvider>
         <ParameterProvider>
           <RegionProvider>
-            <GlobalProvider>
-              <Component {...pageProps} />
-            </GlobalProvider>
+            <Component {...pageProps} />
           </RegionProvider>
         </ParameterProvider>
       </LayersProvider>
