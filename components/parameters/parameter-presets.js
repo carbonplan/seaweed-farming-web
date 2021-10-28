@@ -17,7 +17,7 @@ const ParameterPresets = ({ sx }) => {
     Object.keys(values).every((k) => parameters[k] === values[k])
   ).label
 
-  const [custom, setCustom] = useState(() => !!matchingProduct)
+  const [custom, setCustom] = useState(() => matchingProduct === 'Custom')
 
   const handleChange = (label) => {
     if (label === 'Custom') {
