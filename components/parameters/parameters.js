@@ -33,6 +33,24 @@ const useParameterInputs = ({ sx }) => {
   const { target, layer } = useLayers()
 
   const mapping = {
+    mitigationCost: {
+      products: [
+        <Parameter
+          min={100}
+          max={500}
+          step={10}
+          value={productValue}
+          key='productValue'
+          id='productValue'
+          setValue={setParameters}
+          label={'Product value'}
+          units={'$ / ton DW'}
+          sx={sx}
+        />,
+      ],
+      sinking: [],
+      shared: [],
+    },
     cost: {
       shared: [
         <Parameter
@@ -169,19 +187,6 @@ const useParameterInputs = ({ sx }) => {
           units={'$ / ton DW'}
           sx={sx}
         />,
-
-        <Parameter
-          min={100}
-          max={500}
-          step={10}
-          value={productValue}
-          key='productValue'
-          id='productValue'
-          setValue={setParameters}
-          label={'Product value'}
-          units={'$ / ton DW'}
-          sx={sx}
-        />,
       ],
       sinking: [],
     },
@@ -270,7 +275,10 @@ const useParameterInputs = ({ sx }) => {
   if (layer === 'benefit' || layer === 'cost') {
     return { active: first, inactive: second }
   } else if (layer === 'mitigationCost') {
-    return { active: first.concat(second), inactive: [] }
+    return {
+      active: mapping.mitigationCost[target].concat(first).concat(second),
+      inactive: [],
+    }
   } else {
     return { active: [], inactive: first.concat(second) }
   }
