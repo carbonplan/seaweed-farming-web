@@ -23,9 +23,9 @@ const initialParameters = {
 }
 export const ParameterProvider = ({ children }) => {
   const [values, setValues] = useState(initialParameters)
-  const handleChange = useCallback(
-    (key, value) => {
-      setValues({ ...values, [key]: value })
+  const setParameters = useCallback(
+    (obj) => {
+      setValues({ ...values, ...obj })
     },
     [values]
   )
@@ -37,7 +37,7 @@ export const ParameterProvider = ({ children }) => {
     <ParameterContext.Provider
       value={{
         ...values,
-        setParameter: handleChange,
+        setParameters,
         resetParameters,
       }}
     >
