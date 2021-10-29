@@ -56,15 +56,15 @@ const Viewer = ({ children }) => {
 
   return (
     <Map zoom={2} minZoom={2} center={[0, 0]} debug={false}>
-      <Line
-        color={theme.rawColors.primary}
+      <Fill
+        color={theme.rawColors.background}
         source={
           'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
         }
         variable={'land'}
       />
-      <Fill
-        color={theme.rawColors.background}
+      <Line
+        color={theme.rawColors.primary}
         source={
           'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
         }
