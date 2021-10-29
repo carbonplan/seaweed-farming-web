@@ -92,6 +92,9 @@ const ControlPanel = ({
           sx={{
             pb: [4],
             pt: [5],
+            overflowX: 'hidden',
+            overflowY: 'scroll',
+            height: '100%',
           }}
         >
           {expanded && children}
