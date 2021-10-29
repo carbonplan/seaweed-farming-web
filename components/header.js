@@ -5,7 +5,8 @@ import {
   Guide,
   Header as HeaderComponent,
 } from '@carbonplan/components'
-import { Settings, X } from '@carbonplan/icons'
+import { X } from '@carbonplan/icons'
+import Settings from './icons/settings'
 
 const Header = ({ expanded, setExpanded, headerMode }) => {
   if (!['pure', 'expander', 'sparse'].includes(headerMode)) {
