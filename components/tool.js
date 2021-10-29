@@ -1,6 +1,5 @@
-import { Box, Container, IconButton } from 'theme-ui'
-import { Group, Logo, Meta, Guide, Header } from '@carbonplan/components'
-import { Settings } from '@carbonplan/icons'
+import { Box, Container } from 'theme-ui'
+import { Group } from '@carbonplan/components'
 import { useState } from 'react'
 
 import ControlPanel from '../components/control-panel'
@@ -10,6 +9,7 @@ import ControlPanelDivider from '../components/control-panel-divider'
 import Section from '../components/section'
 import Parameters from '../components/parameters'
 import Statistics from '../components/statistics'
+import Header from './header'
 
 const sx = {
   heading: {
@@ -29,65 +29,22 @@ const sx = {
   },
 }
 
-const Tool = ({ header, controlPanelMode }) => {
+const Tool = ({ headerMode }) => {
   const [expanded, setExpanded] = useState(false)
 
-  if (!['header', 'settings', 'side'].includes(controlPanelMode)) {
+  if (!['pure', 'expander', 'sparse'].includes(headerMode)) {
     throw new Error(
-      `Unexpected controlPanelMode: ${controlPanelMode}. Must be one of header, settings, side.`
+      `Unexpected headerMode: ${headerMode}. Must be one of 'pure', 'expander', 'sparse'.`
     )
   }
 
   return (
     <>
-      <Meta />
-      <Container>
-        <Guide color='teal' />
-      </Container>
-      <Box sx={{ position: 'absolute', top: 0, width: '100%', zIndex: 5000 }}>
-        {header && (
-          <Box
-            as='header'
-            sx={
-              controlPanelMode === 'header'
-                ? {
-                    width: '100%',
-                    borderStyle: 'solid',
-                    borderColor: 'muted',
-                    borderWidth: '0px',
-                    borderBottomWidth: '1px',
-                    position: 'sticky',
-                    top: 0,
-                    bg: 'background',
-                    height: '56px',
-                    zIndex: 2000,
-                  }
-                : {}
-            }
-          >
-            <Container>
-              <Header
-                dimmer={'none'}
-                settings={{
-                  expanded,
-                  onClick: () => setExpanded((prev) => !prev),
-                }}
-              />
-            </Container>
-          </Box>
-        )}
-        {controlPanelMode === 'settings' && (
-          <>
-            <Logo sx={{ float: 'left', m: [3] }} />
-            <IconButton
-              onClick={() => setExpanded((prev) => !prev)}
-              sx={{ cursor: 'pointer', float: 'right', m: [3], strokeWidth: 2 }}
-            >
-              <Settings />
-            </IconButton>
-          </>
-        )}
-      </Box>
+      <Header
+        expanded={expanded}
+        setExpanded={setExpanded}
+        headerMode={headerMode}
+      />
       <Box
         sx={{
           position: 'absolute',
@@ -103,7 +60,7 @@ const Tool = ({ header, controlPanelMode }) => {
               title='Mapping macroalgae'
               expanded={expanded}
               setExpanded={setExpanded}
-              mode={controlPanelMode}
+              headerMode={headerMode}
             >
               <Group spacing={4}>
                 <Box sx={sx.description}>
@@ -125,9 +82,9 @@ const Tool = ({ header, controlPanelMode }) => {
                   </Group>
                 </Section>
 
-                {controlPanelMode === 'side' && <ControlPanelDivider />}
+                {headerMode === 'sparse' && <ControlPanelDivider />}
 
-                {controlPanelMode === 'side' && <Statistics sx={sx} />}
+                {headerMode === 'sparse' && <Statistics sx={sx} />}
 
                 <ControlPanelDivider sx={{ mb: [-4] }} />
               </Group>

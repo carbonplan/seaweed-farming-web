@@ -11,7 +11,7 @@ const ControlPanel = ({
   description,
   expanded,
   setExpanded,
-  mode,
+  headerMode,
 }) => {
   const { showRegionPicker, setShowRegionPicker } = useRegionContext()
   const [hasExpanded, setHasExpanded] = useState(expanded)
@@ -83,7 +83,7 @@ const ControlPanel = ({
     </Column>
   )
 
-  if (mode === 'header') {
+  if (headerMode === 'expander') {
     return (
       <>
         <Tray
@@ -98,7 +98,7 @@ const ControlPanel = ({
         {!hasExpanded && <Row>{overview}</Row>}
       </>
     )
-  } else if (mode === 'settings') {
+  } else if (headerMode === 'sparse') {
     return (
       <>
         <Box

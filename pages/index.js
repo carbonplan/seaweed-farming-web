@@ -6,7 +6,7 @@ const Index = () => {
   const index = useBreakpointIndex({ defaultIndex: 2 })
   const isNarrow = index < 2
 
-  return <Tool header controlPanelMode={isNarrow ? 'header' : 'side'} />
+  return <Tool header headerMode={isNarrow ? 'expander' : 'pure'} />
 }
 
 export default Index
