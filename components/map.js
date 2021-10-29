@@ -124,7 +124,7 @@ const Viewer = ({ children }) => {
 
               if (costLayer == 1.0 || benefitLayer == 1.0 || mitigationCostLayer == 1.0) {
                 float productionCost;
-                float netEmissions;
+                float netBenefit;
 
                 // filter points
                 bool lowGrowth = growth == fillValue || growth < 0.2;
@@ -188,10 +188,16 @@ const Viewer = ({ children }) => {
                   float growthEmissions = (nharv * d2p * transportEmissions * growth + transportEmissions * equipment * d2p) / growth;
                   if (productsTarget == 1.0) {
                     // calculate climate benefit of products
-                    netEmissions = avoidedEmissions - transportEmissions * d2p - conversionEmissions - growthEmissions;
+                    netBenefit = avoidedEmissions - transportEmissions * d2p - conversionEmissions - growthEmissions;
                   } else {
                     // calculate climate benefit of sinking
-                    netEmissions = carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink - growthEmissions;
+                    netBenefit = carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate - transportEmissions * d2sink - growthEmissions;
+                  }
+
+                  if (netBenefit < 0.0) {
+                    gl_FragColor = vec4(empty, empty, empty, opacity);
+                    gl_FragColor.rgb *= gl_FragColor.a;
+                    return;
                   }
                 }
 
@@ -200,7 +206,7 @@ const Viewer = ({ children }) => {
                   if (productsTarget == 1.0) {
                     cost -= productValue;
                   }
-                  value = cost / netEmissions;
+                  value = cost / netBenefit;
                 }
 
                 if (costLayer == 1.0) {
@@ -208,7 +214,7 @@ const Viewer = ({ children }) => {
                 }
 
                 if (benefitLayer == 1.0) {
-                  value = netEmissions;
+                  value = netBenefit;
                 }
               }
 

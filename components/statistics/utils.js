@@ -176,8 +176,13 @@ export const valuesToBenefit = (values, target, parameters) => {
     }
 
     const grossEmissions = growthEmissions + transport + conversion
+    const netBenefit = grossBenefit - grossEmissions
 
-    accum.push(grossBenefit - grossEmissions)
+    if (netBenefit < 0) {
+      accum.push(NAN)
+    } else {
+      accum.push(netBenefit)
+    }
     return accum
   }, [])
 }
