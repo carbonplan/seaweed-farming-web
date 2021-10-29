@@ -1,18 +1,18 @@
 export const NAN = 9.969209968386869e36
 
-export const CLIM_MAP = {
-  mitigationCost: [0, 2000],
-  cost: [0, 2000],
-  benefit: [0, 0.5],
-  depth: [0, 10000],
-  growth: [0, 5000],
-  nharv: [1, 8],
-  wave_height: [0, 5],
-  lineDensity: [0, 1000000],
-  d2p: [0, 5000],
-  d2sink: [0, 2500],
-  fseq: [0, 1],
-  species_preferred: [0, 4],
+export const COLORMAPS_MAP = {
+  mitigationCost: { clim: [250, 2000], reversed: true },
+  cost: { clim: [250, 2000], reversed: true },
+  benefit: { clim: [0, 0.45], reversed: false },
+  depth: { clim: [0, 10000], reversed: false },
+  growth: { clim: [0, 5000], reversed: false },
+  nharv: { clim: [1, 8], reversed: false },
+  wave_height: { clim: [0, 5], reversed: false },
+  lineDensity: { clim: [0, 1000000], reversed: false },
+  d2p: { clim: [0, 5000], reversed: false },
+  d2sink: { clim: [0, 2500], reversed: false },
+  fseq: { clim: [0, 1], reversed: false },
+  species_preferred: { clim: [0, 4], reversed: false },
 }
 
 export const UNITS_MAP = {

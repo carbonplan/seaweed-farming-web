@@ -1,5 +1,5 @@
 import { useColormap } from '@carbonplan/colormaps'
-import { SPECIES } from '../../constants'
+import { COLORMAPS_MAP, SPECIES } from '../../constants'
 import Legend from '../legend'
 
 const useCustomColormap = (layer) => {
@@ -15,6 +15,10 @@ const useCustomColormap = (layer) => {
     discrete = true
   } else {
     colormap = useColormap('cool')
+  }
+
+  if (COLORMAPS_MAP[layer].reversed) {
+    colormap = [...colormap].reverse()
   }
 
   return { colormap, legend, discrete }

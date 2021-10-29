@@ -10,7 +10,7 @@ import { LAYER_UNIFORMS, useLayers } from './layers'
 import {
   NAN,
   LABEL_MAP,
-  CLIM_MAP,
+  COLORMAPS_MAP,
   UNITS_MAP,
   SPECIES,
   LINE_DENSITY_MAPPING,
@@ -51,8 +51,7 @@ const Viewer = ({ children }) => {
   const { uniforms: layerUniforms, layer, target } = useLayers()
   const { colormap, legend, discrete } = useCustomColormap(layer)
   const { setRegionData, showRegionPicker } = useRegionContext()
-
-  const clim = CLIM_MAP[layer]
+  const { clim } = COLORMAPS_MAP[layer]
 
   return (
     <Map zoom={2} minZoom={2} center={[0, 0]} debug={false}>
@@ -242,6 +241,7 @@ const Viewer = ({ children }) => {
           {legend || (
             <Colorbar
               colormap={colormap}
+              format={(d) => (d === clim[0] && d > 1 ? `< ${d}` : d)}
               clim={clim}
               units={
                 <Box sx={{ color: 'primary' }}>
