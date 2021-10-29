@@ -40,9 +40,7 @@ const ParameterPresets = ({ sx }) => {
               value={label}
               name='productPreset'
               onChange={handleChange}
-              checked={
-                (label === 'Custom' && custom) || label === matchingProduct
-              }
+              checked={custom ? label === 'Custom' : label === matchingProduct}
             />
           )
         })}
