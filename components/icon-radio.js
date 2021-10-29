@@ -12,7 +12,9 @@ const IconRadio = ({ onClick, checked, label, sx, Icon }) => {
           sx={{
             stroke: checked ? 'primary' : 'secondary',
             transition: 'stroke 0.15s',
-            '&:hover': { stroke: 'primary' },
+            '@media (hover: hover) and (pointer: fine)': {
+              '&:hover': { stroke: 'primary' },
+            },
           }}
         />
       </IconButton>

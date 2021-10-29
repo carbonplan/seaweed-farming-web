@@ -27,8 +27,10 @@ export const Section = ({ children, label, onClose, onOpen, sx }) => {
         ...spacing,
         bg: 'transparent',
         transition: 'background-color 0.15s',
-        '&:hover #expander': { stroke: 'primary' },
-        '&:hover': { bg: alpha('muted', 0.1) },
+        '@media (hover: hover) and (pointer: fine)': {
+          '&:hover #section-expander': { stroke: 'primary' },
+          '&:hover': { bg: alpha('muted', 0.1) },
+        },
       }}
     >
       <Box
@@ -46,7 +48,7 @@ export const Section = ({ children, label, onClose, onOpen, sx }) => {
         </Box>
         <Expander
           value={showSection}
-          id='expander'
+          id='section-expander'
           sx={{
             position: 'relative',
             stroke: 'secondary',

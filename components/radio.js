@@ -7,8 +7,10 @@ const Radio = ({ name, checked, label, value, onChange, sx }) => {
         sx={{
           color: 'muted',
           transition: 'color 0.15s',
-          'input:hover ~ &': { color: 'primary' },
-          'input:focus ~ &': { background: 'none' },
+          '@media (hover: hover) and (pointer: fine)': {
+            'input:hover ~ &': { color: 'primary' },
+            'input:focus ~ &': { background: 'none' },
+          },
           ...sx,
         }}
         name={name}

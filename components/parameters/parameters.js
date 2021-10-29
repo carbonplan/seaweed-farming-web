@@ -339,7 +339,7 @@ const Parameters = ({ sx }) => {
             <Box
               as='span'
               id='label'
-              sx={{ color: 'secondary', transition: 'color 0.15s' }}
+              sx={{ color: 'secondary', transition: 'color 0.25s' }}
             >
               More parameters
             </Box>
