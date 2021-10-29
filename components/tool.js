@@ -82,9 +82,9 @@ const Tool = ({ headerMode }) => {
                   </Group>
                 </Section>
 
-                {headerMode === 'sparse' && <ControlPanelDivider />}
+                {headerMode === 'pure' && <ControlPanelDivider />}
 
-                {headerMode === 'sparse' && <Statistics sx={sx} />}
+                {headerMode === 'pure' && <Statistics sx={sx} />}
 
                 <ControlPanelDivider sx={{ mb: [-4] }} />
               </Group>
