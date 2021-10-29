@@ -67,6 +67,12 @@ const Test = () => {
               cursus. Lorem mollis aliquam ut porttitor.
             </Paragraph>
 
+            <Box
+              as='iframe'
+              src='/embed'
+              sx={{ width: '100%', height: '500px', border: 'none' }}
+            />
+
             <Paragraph>
               Accumsan sit amet nulla facilisi morbi tempus iaculis. Volutpat
               blandit aliquam etiam erat velit. Et pharetra pharetra massa massa
