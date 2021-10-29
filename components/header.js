@@ -5,7 +5,7 @@ import {
   Guide,
   Header as HeaderComponent,
 } from '@carbonplan/components'
-import { Settings } from '@carbonplan/icons'
+import { Settings, X } from '@carbonplan/icons'
 
 const Header = ({ expanded, setExpanded, headerMode }) => {
   if (!['pure', 'expander', 'sparse'].includes(headerMode)) {
@@ -59,7 +59,7 @@ const Header = ({ expanded, setExpanded, headerMode }) => {
               onClick={() => setExpanded((prev) => !prev)}
               sx={{ cursor: 'pointer', float: 'right', m: [3], strokeWidth: 2 }}
             >
-              <Settings />
+              {expanded ? <X /> : <Settings />}
             </IconButton>
           </>
         )}

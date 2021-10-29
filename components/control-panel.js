@@ -4,6 +4,7 @@ import { Row, Column, Tray } from '@carbonplan/components'
 import { ArrowThin } from '@carbonplan/icons'
 
 import { useRegionContext } from './region'
+import ControlPanelDivider from './control-panel-divider'
 
 const ControlPanel = ({
   children,
@@ -116,17 +117,19 @@ const ControlPanel = ({
             overflowY: 'scroll',
             backgroundColor: 'background',
             zIndex: 4000,
-            pt: ['79px'],
+            pt: ['56px'],
             transition: 'opacity 0.25s',
           }}
         >
           <Container>
             <Row>
               <Column start={[1]} width={[12]}>
+                <ControlPanelDivider />
+
                 <Box
                   sx={{
                     display: expanded ? 'inherit' : 'none',
-                    mt: [5, 5, 5, 6],
+                    mt: [4],
                   }}
                 >
                   {expanded && children}
