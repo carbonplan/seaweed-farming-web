@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box, IconButton } from 'theme-ui'
+import { Box, Container, IconButton } from 'theme-ui'
 import { Row, Column, Tray } from '@carbonplan/components'
 import { ArrowThin } from '@carbonplan/icons'
-import { useBreakpointIndex } from '@theme-ui/match-media'
 
 import { useRegionContext } from './region'
 
@@ -12,8 +11,8 @@ const ControlPanel = ({
   description,
   expanded,
   setExpanded,
+  mode,
 }) => {
-  const index = useBreakpointIndex()
   const { showRegionPicker, setShowRegionPicker } = useRegionContext()
   const [hasExpanded, setHasExpanded] = useState(expanded)
   const [tooltip, setTooltip] = useState(false)
@@ -84,7 +83,7 @@ const ControlPanel = ({
     </Column>
   )
 
-  if (index < 2) {
+  if (mode === 'header') {
     return (
       <>
         <Tray
@@ -96,6 +95,46 @@ const ControlPanel = ({
         >
           {expanded && children}
         </Tray>
+        {!hasExpanded && <Row>{overview}</Row>}
+      </>
+    )
+  } else if (mode === 'settings') {
+    return (
+      <>
+        <Box
+          sx={{
+            opacity: expanded ? 1 : 0,
+            pointerEvents: expanded ? 'all' : 'none',
+            position: 'fixed',
+            top: '0px',
+            right: '0px',
+            bottom: '0px',
+            minWidth: '0px',
+            maxHeight: '100vh',
+            width: '100vw',
+            overflowX: 'hidden',
+            overflowY: 'scroll',
+            backgroundColor: 'background',
+            zIndex: 4000,
+            pt: ['79px'],
+            transition: 'opacity 0.25s',
+          }}
+        >
+          <Container>
+            <Row>
+              <Column start={[1]} width={[12]}>
+                <Box
+                  sx={{
+                    display: expanded ? 'inherit' : 'none',
+                    mt: [5, 5, 5, 6],
+                  }}
+                >
+                  {expanded && children}
+                </Box>
+              </Column>
+            </Row>
+          </Container>
+        </Box>
         {!hasExpanded && <Row>{overview}</Row>}
       </>
     )
