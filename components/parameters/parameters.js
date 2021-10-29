@@ -263,9 +263,9 @@ const useParameterInputs = ({ sx }) => {
     },
   }
 
-  // render parameters for cost layer first if layer other than cost or benefit is active
-  const firstLayer = layer === 'benefit' ? 'benefit' : 'cost'
-  const secondLayer = layer === 'benefit' ? 'cost' : 'benefit'
+  // render parameters for benefit layer first if layer other than benefit or cost is active
+  const firstLayer = layer === 'cost' ? 'cost' : 'benefit'
+  const secondLayer = layer === 'cost' ? 'benefit' : 'cost'
 
   const first = mapping[firstLayer][target].concat(mapping[firstLayer].shared)
   const second = mapping[secondLayer][target].concat(
