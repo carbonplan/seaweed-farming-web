@@ -14,12 +14,9 @@ const useParameterInputs = ({ sx }) => {
     capex,
     lineCost,
     opex,
-    labor,
     harvestCost,
     depthFactor,
     waveFactor,
-    insurance,
-    license,
     transportCost,
     conversionCost,
     productValue,
@@ -78,8 +75,8 @@ const useParameterInputs = ({ sx }) => {
           sx={sx}
         />,
         <Parameter
-          min={63004}
-          max={69316}
+          min={137119}
+          max={295532}
           step={100}
           value={opex}
           key='opex'
@@ -99,18 +96,6 @@ const useParameterInputs = ({ sx }) => {
           setValue={setParameters}
           label={'Transport cost'}
           units={'$ / ton / km'}
-          sx={sx}
-        />,
-        <Parameter
-          min={37706}
-          max={119579}
-          step={10}
-          value={labor}
-          key='labor'
-          id='labor'
-          setValue={setParameters}
-          label={'Labor'}
-          units={'$ / km² / year'}
           sx={sx}
         />,
         <Parameter
@@ -147,30 +132,6 @@ const useParameterInputs = ({ sx }) => {
           setValue={setParameters}
           label={'Wave factor'}
           units={'scaling factor'}
-          sx={sx}
-        />,
-        <Parameter
-          min={35000}
-          max={105000}
-          step={1000}
-          value={insurance}
-          key='insurance'
-          id='insurance'
-          setValue={setParameters}
-          label={'Insurance'}
-          units={'$ / km² / year'}
-          sx={sx}
-        />,
-        <Parameter
-          min={1409}
-          max={1637}
-          step={1}
-          value={license}
-          key='license'
-          id='license'
-          setValue={setParameters}
-          label={'License'}
-          units={'$ / km² / year'}
           sx={sx}
         />,
       ],

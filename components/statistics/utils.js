@@ -26,9 +26,6 @@ export const valuesToCost = (values, target, parameters) => {
     capex,
     depthFactor,
     harvestCost,
-    insurance,
-    labor,
-    license,
     lineCost,
     opex,
     waveFactor,
@@ -93,14 +90,13 @@ export const valuesToCost = (values, target, parameters) => {
       depthPremium * capex +
       wavePremium * capex +
       lineCost * lineDensity
-    const operations = opex + labor + insurance + license
     const harvest =
       harvestCost +
       growth * transportCost * nharv * d2p +
       transportCost * equipment * d2p
 
     // combine terms
-    const growthCost = (capital + operations + harvest) / growth
+    const growthCost = (capital + opex + harvest) / growth
 
     let grossCost
     if (target === 'products') {

@@ -169,11 +169,10 @@ const Viewer = ({ children }) => {
 
                   // calculate primary terms
                   float capital = capex + depthPremium * capex + wavePremium * capex + lineCost * lineDensity;
-                  float operations = opex + labor + insurance + license;
                   float harvest = harvestCost + growth * transportCost * nharv * d2p + transportCost * equipment * d2p;
 
                   // combine terms
-                  float growthCost = (capital + operations + harvest) / growth;
+                  float growthCost = (capital + opex + harvest) / growth;
                   if (productsTarget == 1.0) {
                     // calculate product value
                     productionCost = growthCost + transportCost * d2p + conversionCost;
