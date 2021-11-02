@@ -46,7 +46,7 @@ const Header = ({ expanded, setExpanded, headerMode }) => {
               <HeaderComponent
                 dimmer={'none'}
                 settings={{
-                  expanded,
+                  value: expanded,
                   onClick: () => setExpanded((prev) => !prev),
                 }}
               />
