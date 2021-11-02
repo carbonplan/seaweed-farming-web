@@ -52,6 +52,7 @@ const Tool = ({ headerMode }) => {
           bottom: 0,
           width: '100%',
           left: 0,
+          overflow: 'clip',
         }}
       >
         <Map>

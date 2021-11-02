@@ -54,7 +54,13 @@ const Viewer = ({ children }) => {
   const { clim } = COLORMAPS_MAP[layer]
 
   return (
-    <Map zoom={2} minZoom={2} center={[0, 0]} debug={false}>
+    <Map
+      zoom={2}
+      minZoom={2}
+      center={[0, 0]}
+      debug={false}
+      style={{ overflow: 'inherit' }}
+    >
       <Fill
         color={theme.rawColors.background}
         source={
