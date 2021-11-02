@@ -4,9 +4,8 @@ import {
   Meta,
   Guide,
   Header as HeaderComponent,
+  Settings,
 } from '@carbonplan/components'
-import { X } from '@carbonplan/icons'
-import Settings from './icons/settings'
 
 const Header = ({ expanded, setExpanded, headerMode }) => {
   if (!['pure', 'expander', 'sparse'].includes(headerMode)) {
@@ -56,12 +55,11 @@ const Header = ({ expanded, setExpanded, headerMode }) => {
         {headerMode === 'sparse' && (
           <>
             <Logo sx={{ float: 'left', m: [3] }} />
-            <IconButton
+            <Settings
+              sx={{ float: 'right', m: [3] }}
               onClick={() => setExpanded((prev) => !prev)}
-              sx={{ cursor: 'pointer', float: 'right', m: [3], strokeWidth: 2 }}
-            >
-              {expanded ? <X /> : <Settings />}
-            </IconButton>
+              value={expanded}
+            />
           </>
         )}
       </Box>
