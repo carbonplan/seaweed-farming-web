@@ -37,20 +37,20 @@ export const UNITS_MAP = {
 
 export const LABEL_MAP = {
   mitigationCost: {
-    products: 'mitigation cost',
-    sinking: 'removal cost',
+    products: 'Mitigation cost',
+    sinking: 'Removal cost',
   },
-  cost: 'project cost',
-  benefit: 'climate benefit',
-  depth: 'depth',
-  growth: 'growth',
-  nharv: 'harvests',
-  wave_height: 'wave height',
-  lineDensity: 'line density',
-  d2p: 'distance to port',
-  d2sink: 'distance to sink',
-  fseq: 'fraction sequestered',
-  species_preferred: 'preferred species',
+  cost: 'Project cost',
+  benefit: 'Climate benefit',
+  depth: 'Depth',
+  growth: 'Growth',
+  nharv: 'Harvests',
+  wave_height: 'Wave height',
+  lineDensity: 'Line density',
+  d2p: 'Distance to port',
+  d2sink: 'Distance to sink',
+  fseq: 'Fraction sequestered',
+  species_preferred: 'Preferred species',
 }
 
 export const TARGETS = ['sinking', 'products']

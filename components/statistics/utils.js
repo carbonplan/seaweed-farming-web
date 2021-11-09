@@ -21,6 +21,23 @@ export const averageData = (data, area) => {
   }, 0)
 }
 
+export const weightedData = (data, area) => {
+  const totalArea = area
+    .filter((a) => a !== NAN)
+    .reduce((accum, a) => a + accum, 0)
+
+  return data.reduce((a, d, i) => {
+    const dArea = area[i]
+    if (d === NAN || dArea === NAN) {
+      return a
+    } else {
+      a[d] = a[d] || 0
+      a[d] += dArea / totalArea
+      return a
+    }
+  }, {})
+}
+
 export const valuesToCost = (values, target, parameters) => {
   const {
     capex,
