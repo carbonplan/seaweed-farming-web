@@ -122,7 +122,6 @@ export const valuesToBenefit = (values, target, parameters) => {
     avoidedEmissions,
     transportEmissions,
     conversionEmissions,
-    sequestrationRate,
     removalRate,
   } = parameters
 
@@ -166,8 +165,7 @@ export const valuesToBenefit = (values, target, parameters) => {
       }
 
       // calculate climate benefit of sinking
-      grossBenefit =
-        carbon_fraction * carbon_to_co2 * fseq * sequestrationRate * removalRate
+      grossBenefit = carbon_fraction * carbon_to_co2 * fseq * removalRate
       transport = transportEmissions * d2sink
     }
 

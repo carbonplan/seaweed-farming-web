@@ -23,7 +23,6 @@ const useParameterInputs = ({ sx }) => {
     transportEmissions,
     conversionEmissions,
     avoidedEmissions,
-    sequestrationRate,
     removalRate,
     setParameters,
   } = useParameters()
@@ -193,20 +192,6 @@ const useParameterInputs = ({ sx }) => {
         />,
       ],
       sinking: [
-        <Parameter
-          min={0.9}
-          max={1}
-          step={0.01}
-          value={sequestrationRate}
-          displayValue={sequestrationRate * 100}
-          key='sequestrationRate'
-          id='sequestrationRate'
-          setValue={setParameters}
-          label={'Sequestration rate'}
-          units={'%'}
-          sx={sx}
-        />,
-
         <Parameter
           min={0.5}
           max={1}

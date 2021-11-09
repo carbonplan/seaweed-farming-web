@@ -15,7 +15,6 @@ const initialParameters = {
   transportEmissions: 0.00003,
   conversionEmissions: 0.005,
   avoidedEmissions: 0.5,
-  sequestrationRate: 0.95,
   removalRate: 0.6,
 }
 export const ParameterProvider = ({ children }) => {
