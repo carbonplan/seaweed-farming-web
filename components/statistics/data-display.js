@@ -45,7 +45,7 @@ export const DataDisplay = ({ data }) => {
           value={averageData(mitigationCost, area)}
         />
         <AverageDisplay
-          label='Net carbon benefit'
+          label='Climate benefit'
           units={`${benefitUnits} / ton DW`}
           value={averageData(netBenefit, area)}
         />
