@@ -26,7 +26,7 @@ ${SPECIES.map(
   (species, i) => `
 if (species_preferred == ${i.toFixed(1)}) {
   equipment = ${EQUIPMENT_MAPPING[species].toFixed(2)};
-  lineDensity = ${LINE_DENSITY_MAPPING[species].toFixed(2)};
+  lineDensity = ${(LINE_DENSITY_MAPPING[species] / 1000000).toFixed(2)};
 }
 `
 ).join('')}
