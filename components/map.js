@@ -255,7 +255,11 @@ const Viewer = ({ children }) => {
                     : UNITS_MAP[layer][target]}
                 </Box>
               }
-              label={LABEL_MAP[layer]}
+              label={
+                typeof LABEL_MAP[layer] === 'string'
+                  ? LABEL_MAP[layer]
+                  : LABEL_MAP[layer][target]
+              }
               discrete={discrete}
               horizontal
             />

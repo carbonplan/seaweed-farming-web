@@ -36,7 +36,10 @@ export const UNITS_MAP = {
 }
 
 export const LABEL_MAP = {
-  mitigationCost: 'mitigation cost',
+  mitigationCost: {
+    products: 'mitigation cost',
+    sinking: 'removal cost',
+  },
   cost: 'project cost',
   benefit: 'climate benefit',
   depth: 'depth',
