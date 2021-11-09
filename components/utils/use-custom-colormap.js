@@ -14,7 +14,7 @@ const useCustomColormap = (layer) => {
     colormap = useColormap('cool', 9).slice(1)
     discrete = true
   } else {
-    colormap = useColormap('cool')
+    colormap = useColormap('cool', 255).slice(20)
   }
 
   if (COLORMAPS_MAP[layer].reversed) {
