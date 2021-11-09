@@ -99,7 +99,7 @@ const LayerSwitcher = ({ sx }) => {
           </Box>
 
           <Box>
-            <Box sx={sxLabel}>Biophysical inputs</Box>
+            <Box sx={sxLabel}>Inputs</Box>
             <Filter values={inputs} setValues={handleInputChange} />
           </Box>
         </Group>
