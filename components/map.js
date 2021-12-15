@@ -44,6 +44,20 @@ const defaultLayers = LAYER_UNIFORMS.filter(
   )
   .join('')
 
+const VARIABLES = [
+  'harv_preferred',
+  'nharv_preferred',
+  'elevation',
+  'd2p',
+  'wave_height',
+  'fseq',
+  'd2sink',
+  'species_preferred',
+  'area',
+  'sensitive_areas',
+  // 'mask',
+]
+
 const Viewer = ({ children }) => {
   const { theme } = useThemeUI()
   const [mode] = useColorMode()
@@ -94,25 +108,12 @@ const Viewer = ({ children }) => {
           target,
           empty: mode == 'dark' ? 0.25 : 0.75,
         }}
-        setRegionData={setRegionData}
+        regionOptions={{ setData: setRegionData }}
         variable={'all_variables'}
-        selector={{
-          variable: [
-            'harv_preferred',
-            'nharv_preferred',
-            'elevation',
-            'd2p',
-            'wave_height',
-            'fseq',
-            'd2sink',
-            'species_preferred',
-            'area',
-            // 'mask',
-          ],
-        }}
+        selector={{ variable: VARIABLES }}
         fillValue={NAN}
         source={
-          'https://storage.googleapis.com/carbonplan-research/macroalgae/data/processed/zarr-pyramid-0.9'
+          'https://storage.googleapis.com/carbonplan-macroalgae/data/processed/zarr-pyramid-0.11'
         }
         frag={`
               ${speciesDefinition}

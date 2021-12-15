@@ -22,7 +22,7 @@ export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
   const { layer, target } = useLayers()
 
-  if (!data || data.loading) {
+  if (!data || !data.value) {
     return 'loading...'
   } else {
     const { area } = data.value.all_variables
