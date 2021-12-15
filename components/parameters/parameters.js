@@ -24,6 +24,7 @@ const useParameterInputs = ({ sx }) => {
     conversionEmissions,
     avoidedEmissions,
     removalRate,
+    maintenanceEmissions,
     setParameters,
   } = useParameters()
   const { target, layer } = useLayers()
@@ -162,6 +163,18 @@ const useParameterInputs = ({ sx }) => {
           setValue={setParameters}
           label={'Transport emissions'}
           units={'tCO₂e / ton DW / km'}
+          sx={sx}
+        />,
+        <Parameter
+          min={0.0}
+          max={0.005229}
+          step={0.000001}
+          value={maintenanceEmissions}
+          key='maintenanceEmissions'
+          id='maintenanceEmissions'
+          setValue={setParameters}
+          label={'Maintenance emissions'}
+          units={'tCO₂e / km'}
           sx={sx}
         />,
       ],

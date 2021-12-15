@@ -16,6 +16,7 @@ const initialParameters = {
   conversionEmissions: 0.005,
   avoidedEmissions: 0.5,
   removalRate: 0.6,
+  maintenanceEmissions: 0.0009075,
 }
 export const ParameterProvider = ({ children }) => {
   const [values, setValues] = useState(initialParameters)

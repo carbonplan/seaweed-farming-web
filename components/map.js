@@ -18,7 +18,8 @@ import {
 } from '../constants'
 
 const speciesDefinition = `
-float growth = harv_preferred;
+float seaweed_dw = harv_preferred;
+float seaweed_ww = seaweed_dw / 0.1;
 float nharv = nharv_preferred;
 float equipment;
 float lineDensity;
@@ -38,7 +39,11 @@ const defaultLayers = LAYER_UNIFORMS.filter(
   .map(
     (uniformName) => `
   if (${uniformName} == 1.0) {
-    value = ${uniformName.replace('Layer', '')};
+    value = ${
+      uniformName === 'growthLayer'
+        ? 'seaweed_dw'
+        : uniformName.replace('Layer', '')
+    };
   }
 `
   )
@@ -133,7 +138,7 @@ const Viewer = ({ children }) => {
                 float netBenefit;
 
                 // filter points
-                bool lowGrowth = growth == fillValue || growth < 0.2;
+                bool lowGrowth = seaweed_dw == fillValue || seaweed_dw < 0.2;
                 bool lowSink = sinkingTarget == 1.0 && d2sink == fillValue;
                 // bool masked = includeMask == 0.0 && mask == 1.0;
 
@@ -176,27 +181,27 @@ const Viewer = ({ children }) => {
 
                   // calculate primary terms
                   float capital = capex + depthPremium * capex + wavePremium * capex + lineCost * lineDensity;
-                  float harvest = harvestCost + growth * transportCost * nharv * d2p + transportCost * equipment * d2p;
+                  float harvest = harvestCost * nharv + transportCost * equipment * d2p;
 
                   // combine terms
-                  float growthCost = (capital + opex + harvest) / growth;
+                  float growthCost = (capital + opex + harvest) / seaweed_dw;
                   if (productsTarget == 1.0) {
                     // calculate product value
-                    productionCost = growthCost + transportCost * d2p + conversionCost;
+                    productionCost = growthCost + conversionCost + transportCost * d2p * seaweed_ww / seaweed_dw;
                   } else {
                     // calculate sinking value
-                    productionCost = growthCost + transportCost * d2sink;
+                    productionCost = growthCost + transportCost * (d2sink * seaweed_ww + 2.0 * d2sink * equipment) / seaweed_dw;
                   }
                 }
 
                 if (benefitLayer == 1.0 || mitigationCostLayer == 1.0) {
-                  float growthEmissions = (nharv * d2p * transportEmissions * growth + transportEmissions * equipment * d2p) / growth;
+                  float growthEmissions = (transportEmissions * equipment * d2p + d2p * 24.0 * maintenanceEmissions + 50.0 * maintenanceEmissions) / seaweed_dw;
                   if (productsTarget == 1.0) {
                     // calculate climate benefit of products
-                    netBenefit = avoidedEmissions - transportEmissions * d2p - conversionEmissions - growthEmissions;
+                    netBenefit = avoidedEmissions - transportEmissions * d2p * seaweed_ww / seaweed_dw - conversionEmissions - growthEmissions;
                   } else {
                     // calculate climate benefit of sinking
-                    netBenefit = carbon_fraction * carbon_to_co2 * fseq * removalRate - transportEmissions * d2sink - growthEmissions;
+                    netBenefit = carbon_fraction * carbon_to_co2 * fseq * removalRate - transportEmissions * (d2sink * seaweed_ww + 2.0 * d2sink * equipment) / seaweed_dw - growthEmissions;
                   }
 
                   if (netBenefit < 0.0) {

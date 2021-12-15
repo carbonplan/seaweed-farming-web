@@ -51,7 +51,8 @@ export const valuesToCost = (values, target, parameters) => {
   } = parameters
 
   return values.harv_preferred.reduce((accum, _, i) => {
-    const growth = values.harv_preferred[i]
+    const seaweed_dw = values.harv_preferred[i]
+    const seaweed_ww = seaweed_dw / 0.1
     const elevation = values.elevation[i]
     const d2p = values.d2p[i]
     const nharv = values.nharv_preferred[i]
@@ -65,8 +66,8 @@ export const valuesToCost = (values, target, parameters) => {
     // invert depth
     const depth = -1.0 * elevation
 
-    // map to null if we have low or null value for growth
-    if (growth === NAN || growth < 0.2) {
+    // map to null if we have low or null value for seaweed growth
+    if (seaweed_dw === NAN || seaweed_dw < 0.2) {
       accum.push(NAN)
       return accum
     }
@@ -107,17 +108,17 @@ export const valuesToCost = (values, target, parameters) => {
       depthPremium * capex +
       wavePremium * capex +
       lineCost * lineDensity
-    const harvest =
-      harvestCost +
-      growth * transportCost * nharv * d2p +
-      transportCost * equipment * d2p
+    const harvest = harvestCost * nharv + transportCost * equipment * d2p
 
     // combine terms
-    const growthCost = (capital + opex + harvest) / growth
+    const growthCost = (capital + opex + harvest) / seaweed_dw
 
     let grossCost
     if (target === 'products') {
-      grossCost = growthCost + transportCost * d2p + conversionCost
+      grossCost =
+        growthCost +
+        conversionCost +
+        (transportCost * d2p * seaweed_ww) / seaweed_dw
     } else {
       // map to null value for d2sink
       if (d2sink === NAN) {
@@ -125,7 +126,10 @@ export const valuesToCost = (values, target, parameters) => {
         return accum
       }
 
-      grossCost = growthCost + transportCost * d2sink
+      grossCost =
+        growthCost +
+        (transportCost * (d2sink * seaweed_ww + 2.0 * d2sink * equipment)) /
+          seaweed_dw
     }
 
     accum.push(grossCost)
@@ -139,12 +143,13 @@ export const valuesToBenefit = (values, target, parameters) => {
     avoidedEmissions,
     transportEmissions,
     conversionEmissions,
+    maintenanceEmissions,
     removalRate,
   } = parameters
 
   return values.harv_preferred.reduce((accum, _, i) => {
-    const growth = values.harv_preferred[i]
-    const nharv = values.nharv_preferred[i]
+    const seaweed_dw = values.harv_preferred[i]
+    const seaweed_ww = seaweed_dw / 0.1
     const d2p = values.d2p[i]
     const fseq = values.fseq[i]
     const d2sink = values.d2sink[i]
@@ -156,23 +161,24 @@ export const valuesToBenefit = (values, target, parameters) => {
     const carbon_fraction = 0.248
     const carbon_to_co2 = 3.67
 
-    // map to null if we have low or null value for growth
-    if (growth === NAN || growth < 0.2) {
+    // map to null if we have low or null value for seaweed growth
+    if (seaweed_dw === NAN || seaweed_dw < 0.2) {
       accum.push(NAN)
       return accum
     }
 
     const growthEmissions =
-      (growth * transportEmissions * nharv * d2p +
-        transportEmissions * equipment * d2p) /
-      growth
+      (transportEmissions * equipment * d2p +
+        d2p * 24.0 * maintenanceEmissions +
+        50.0 * maintenanceEmissions) /
+      seaweed_dw
     let grossBenefit
     let transport = 0
     let conversion = 0
     if (target === 'products') {
       // calculate climate benefit of products
       grossBenefit = avoidedEmissions
-      transport = transportEmissions * d2p
+      transport = (transportEmissions * d2p * seaweed_ww) / seaweed_dw
       conversion = conversionEmissions
     } else {
       // map to null when null value for d2sink
@@ -183,7 +189,10 @@ export const valuesToBenefit = (values, target, parameters) => {
 
       // calculate climate benefit of sinking
       grossBenefit = carbon_fraction * carbon_to_co2 * fseq * removalRate
-      transport = transportEmissions * d2sink
+      transport =
+        (transportEmissions *
+          (d2sink * seaweed_ww + 2.0 * d2sink * equipment)) /
+        seaweed_dw
     }
 
     const grossEmissions = growthEmissions + transport + conversion
