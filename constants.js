@@ -2,17 +2,17 @@ import { format } from 'd3-format'
 export const NAN = 9.969209968386869e36
 
 export const COLORMAPS_MAP = {
-  mitigationCost: { clim: [250, 2000], reversed: true },
-  cost: { clim: [250, 2000], reversed: true },
-  benefit: { clim: [0, 2], reversed: false },
-  depth: { clim: [0, 6000], reversed: false },
-  growth: { clim: [0, 5000], reversed: false },
-  nharv: { clim: [1, 8], reversed: false },
-  wave_height: { clim: [0, 5], reversed: false },
-  d2p: { clim: [0, 2000], reversed: false },
-  d2sink: { clim: [0, 1000], reversed: false },
-  fseq: { clim: [0.7, 1], reversed: false },
-  species_preferred: { clim: [0, 4], reversed: false },
+  mitigationCost: { clim: [250, 2000], colormapName: 'warm' },
+  cost: { clim: [250, 2000], colormapName: 'warm' },
+  benefit: { clim: [0, 2], colormapName: 'cool' },
+  depth: { clim: [0, 6000], colormapName: 'cool' },
+  growth: { clim: [0, 5000], colormapName: 'cool' },
+  nharv: { clim: [1, 8], colormapName: 'cool' },
+  wave_height: { clim: [0, 5], colormapName: 'cool' },
+  d2p: { clim: [0, 2000], colormapName: 'cool' },
+  d2sink: { clim: [0, 1000], colormapName: 'cool' },
+  fseq: { clim: [0.7, 1], colormapName: 'cool' },
+  species_preferred: { clim: [0, 4], colormapName: 'cool' },
 }
 
 export const UNITS_MAP = {
