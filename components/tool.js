@@ -1,5 +1,5 @@
 import { Box, Container } from 'theme-ui'
-import { Group } from '@carbonplan/components'
+import { Group, Link } from '@carbonplan/components'
 import { useState } from 'react'
 
 import ControlPanel from '../components/control-panel'
@@ -58,6 +58,13 @@ const Tool = ({ headerMode }) => {
           <Container>
             <ControlPanel
               title='Mapping macroalgae'
+              description={
+                <Box>
+                  Read the <Link href='#'>preprint</Link>. Explore the{' '}
+                  <Link onClick={() => setExpanded(true)}>map</Link>. Built in
+                  collaboration with UCI, NCAR, and S3.
+                </Box>
+              }
               expanded={expanded}
               setExpanded={setExpanded}
               headerMode={headerMode}
