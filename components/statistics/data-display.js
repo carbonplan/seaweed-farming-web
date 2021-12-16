@@ -87,8 +87,6 @@ export const DataDisplay = ({ data }) => {
         area
       )
 
-      console.log(ratios)
-
       return (
         <Group spacing={2}>
           {Object.keys(ratios).map((k) => (
