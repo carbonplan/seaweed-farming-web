@@ -1,32 +1,20 @@
 import { Box } from 'theme-ui'
 import { Group } from '@carbonplan/components'
-import { useState } from 'react'
 
 import Radio from '../radio'
 import { useParameters } from './context'
 
 const PRODUCT_PRESETS = [
-  { label: 'Feed', values: { productValue: 100 } },
-  { label: 'Fuel', values: { productValue: 500 } },
-  { label: 'Custom', values: {} },
+  { label: 'Fuels', values: { avoidedEmissions: 0.8, productValue: 500 } },
+  { label: 'Food', values: { avoidedEmissions: 3.6, productValue: 600 } },
+  { label: 'Feed', values: { avoidedEmissions: 2.5, productValue: 525 } },
 ]
 
 const ParameterPresets = ({ sx }) => {
   const { setParameters, ...parameters } = useParameters()
   const matchingProduct = PRODUCT_PRESETS.find(({ values }) =>
     Object.keys(values).every((k) => parameters[k] === values[k])
-  ).label
-
-  const [custom, setCustom] = useState(() => matchingProduct === 'Custom')
-
-  const handleChange = (label) => {
-    if (label === 'Custom') {
-      setCustom(true)
-    } else {
-      setCustom(false)
-      setParameters(PRODUCT_PRESETS.find((p) => p.label === label).values)
-    }
-  }
+  )?.label
 
   return (
     <Box>
@@ -39,8 +27,12 @@ const ParameterPresets = ({ sx }) => {
               label={label}
               value={label}
               name='productPreset'
-              onChange={handleChange}
-              checked={custom ? label === 'Custom' : label === matchingProduct}
+              onChange={(label) =>
+                setParameters(
+                  PRODUCT_PRESETS.find((p) => p.label === label).values
+                )
+              }
+              checked={label === matchingProduct}
             />
           )
         })}

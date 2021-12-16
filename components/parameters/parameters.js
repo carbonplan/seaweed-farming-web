@@ -167,7 +167,7 @@ const useParameterInputs = ({ sx }) => {
         />,
         <Parameter
           min={0.1}
-          max={1}
+          max={6.25}
           step={0.05}
           value={avoidedEmissions}
           key='avoidedEmissions'
