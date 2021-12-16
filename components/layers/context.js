@@ -7,7 +7,7 @@ export const LayersProvider = ({ children }) => {
   const [layer, setLayer] = useState('mitigationCost')
   const [target, setTarget] = useState('sinking')
   const [growthModel, setGrowthModel] = useState(GROWTH_MODELS[0])
-  const [sensitiveAreaMask, setSensitiveAreaMask] = useState(3)
+  const [sensitiveAreaMask, setSensitiveAreaMask] = useState(0)
 
   return (
     <LayersContext.Provider
