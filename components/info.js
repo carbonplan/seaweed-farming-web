@@ -39,7 +39,7 @@ const Info = ({ children, sx }) => {
           }}
         />
       </IconButton>
-      <Box sx={{ pt: [2], mb: [-2], display: 'inline-block' }}>
+      <Box sx={{ pt: [2], mb: [-2] }}>
         <AnimateHeight
           duration={100}
           height={expanded ? 'auto' : 0}
