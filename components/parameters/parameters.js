@@ -1,14 +1,13 @@
-import { useState } from 'react'
 import { Box } from 'theme-ui'
-import AnimateHeight from 'react-animate-height'
 import { Reset } from '@carbonplan/icons'
-import { Button, Group, Expander, Row, Column } from '@carbonplan/components'
+import { Button, Group, Row, Column } from '@carbonplan/components'
 
 import Parameter from './parameter'
 import ParameterPresets from './parameter-presets'
 import { useParameters } from './context'
 import { useLayers } from '../layers'
 import { PARAMETER_MAPPING } from '../../constants'
+import { useMemo } from 'react'
 
 const LAYER_MAPPING = {
   mitigationCost: {
@@ -28,32 +27,6 @@ const LAYER_MAPPING = {
   },
 }
 
-const useParameterInputs = ({ sx }) => {
-  const { target, layer } = useLayers()
-
-  // render parameters for benefit layer first if layer other than benefit or cost is active
-  const firstLayer = layer === 'cost' ? 'cost' : 'benefit'
-  const secondLayer = layer === 'cost' ? 'benefit' : 'cost'
-
-  const first = LAYER_MAPPING[firstLayer][target].concat(
-    LAYER_MAPPING[firstLayer].shared
-  )
-  const second = LAYER_MAPPING[secondLayer][target].concat(
-    LAYER_MAPPING[secondLayer].shared
-  )
-
-  if (layer === 'benefit' || layer === 'cost') {
-    return { active: first, inactive: second }
-  } else if (layer === 'mitigationCost') {
-    return {
-      active: LAYER_MAPPING.mitigationCost[target].concat(first).concat(second),
-      inactive: [],
-    }
-  } else {
-    return { active: [], inactive: first.concat(second) }
-  }
-}
-
 const Parameters = ({ sx }) => {
   const {
     heading: sxHeading,
@@ -63,10 +36,25 @@ const Parameters = ({ sx }) => {
   } = sx
 
   const { setParameters, resetParameters, ...parameters } = useParameters()
+  const { target, layer } = useLayers()
 
-  const [expandedParameters, setExpandedParameters] = useState(false)
-  const { target } = useLayers()
-  const { active, inactive } = useParameterInputs(sxLabel)
+  const active = useMemo(() => {
+    if (!LAYER_MAPPING[layer]) {
+      return []
+    }
+    let result = LAYER_MAPPING[layer][target].concat(
+      LAYER_MAPPING[layer].shared
+    )
+
+    if (layer === 'mitigationCost') {
+      const { cost, benefit } = LAYER_MAPPING
+      result = result
+        .concat(benefit[target].concat(benefit.shared))
+        .concat(cost[target].concat(cost.shared))
+    }
+
+    return result
+  }, [target, layer])
 
   return (
     <Box sx={sxProps}>
@@ -91,59 +79,12 @@ const Parameters = ({ sx }) => {
               key={id}
               value={parameters[id]}
               setValue={setParameters}
-              sx={sx}
+              sx={sxLabel}
               {...PARAMETER_MAPPING[id]}
             />
           ))}
         </Box>
       </Group>
-      {inactive.length > 0 && (
-        <>
-          <Box
-            sx={{
-              mt: [1, 1, 1, 2],
-              cursor: 'pointer',
-              '@media (hover: hover) and (pointer: fine)': {
-                '&:hover > #expander': { stroke: 'primary' },
-                '&:hover > #label': { color: 'primary' },
-              },
-            }}
-            onClick={() => setExpandedParameters(!expandedParameters)}
-          >
-            <Expander
-              value={expandedParameters}
-              id='expander'
-              sx={{ position: 'relative', top: ['2px'], left: ['-4px'] }}
-            />{' '}
-            <Box
-              as='span'
-              id='label'
-              sx={{ color: 'secondary', transition: 'color 0.25s' }}
-            >
-              More parameters
-            </Box>
-          </Box>
-          <AnimateHeight
-            duration={150}
-            height={expandedParameters ? 'auto' : 0}
-            easing={'linear'}
-          >
-            {expandedParameters && (
-              <Box mt={[3]}>
-                {inactive.map((id) => (
-                  <Parameter
-                    key={id}
-                    value={parameters[id]}
-                    setValue={setParameters}
-                    sx={sx}
-                    {...PARAMETER_MAPPING[id]}
-                  />
-                ))}
-              </Box>
-            )}
-          </AnimateHeight>
-        </>
-      )}
     </Box>
   )
 }

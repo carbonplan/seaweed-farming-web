@@ -4,9 +4,8 @@ import { useState } from 'react'
 
 import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
-import { GrowthParameters, LayerSwitcher } from '../components/layers'
+import { LayerSwitcher } from '../components/layers'
 import ControlPanelDivider from '../components/control-panel-divider'
-import Section from '../components/section'
 import Parameters from '../components/parameters'
 import Statistics from '../components/statistics'
 import Header from './header'
@@ -75,13 +74,7 @@ const Tool = ({ headerMode }) => {
 
                 <ControlPanelDivider />
 
-                <Section sx={sx.heading} label='Parameters'>
-                  <Group spacing={4}>
-                    <GrowthParameters sx={sx} />
-
-                    <Parameters sx={sx} />
-                  </Group>
-                </Section>
+                <Parameters sx={sx} />
 
                 {headerMode === 'pure' && <ControlPanelDivider />}
 
