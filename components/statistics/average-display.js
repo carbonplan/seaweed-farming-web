@@ -1,5 +1,6 @@
 import { Box } from 'theme-ui'
 import { Badge, Row, Column } from '@carbonplan/components'
+import { formatValue } from '../utils'
 
 const AverageDisplay = ({ value, label, units }) => {
   return (
@@ -28,7 +29,7 @@ const AverageDisplay = ({ value, label, units }) => {
       </Column>
       <Column start={3} width={1}>
         <Box>
-          <Badge>{Number.isNaN(value) ? 'n/a' : value.toFixed(2)}</Badge>
+          <Badge>{Number.isNaN(value) ? 'n/a' : formatValue(value)}</Badge>
         </Box>
       </Column>
     </Row>

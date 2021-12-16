@@ -1,3 +1,4 @@
+import { format } from 'd3-format'
 export const NAN = 9.969209968386869e36
 
 export const COLORMAPS_MAP = {
@@ -181,9 +182,8 @@ export const PARAMETER_MAPPING = {
     id: 'removalRate',
     min: 0.4,
     max: 1,
-    step: 0.05,
-    format: (d) => d * 100,
+    step: 0.01,
     label: 'Removal rate',
-    units: '%',
+    units: 'fraction',
   },
 }
