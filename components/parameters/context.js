@@ -1,23 +1,17 @@
 import { createContext, useCallback, useContext, useState } from 'react'
+import { PARAMETER_MAPPING } from '../../constants'
 
 const ParameterContext = createContext(null)
 
-const initialParameters = {
-  capex: 170630,
-  lineCost: 0.06,
-  opex: 137119,
-  harvestCost: 124485,
-  transportCost: 0.11,
-  conversionCost: 50,
-  productValue: 100,
-  transportEmissions: 0.00003,
-  conversionEmissions: 0.005,
-  avoidedEmissions: 0.5,
-  removalRate: 0.6,
-  maintenanceEmissions: 0.0009075,
-}
+const getInitialParameters = () =>
+  Object.keys(PARAMETER_MAPPING).reduce((accum, key) => {
+    const { min, max } = PARAMETER_MAPPING[key]
+    accum[key] = (min + max) / 2
+    return accum
+  }, {})
+
 export const ParameterProvider = ({ children }) => {
-  const [values, setValues] = useState(initialParameters)
+  const [values, setValues] = useState(getInitialParameters)
   const setParameters = useCallback(
     (obj) => {
       setValues({ ...values, ...obj })
@@ -25,7 +19,7 @@ export const ParameterProvider = ({ children }) => {
     [values]
   )
   const resetParameters = useCallback(() => {
-    setValues(initialParameters)
+    setValues(getInitialParameters())
   }, [])
 
   return (

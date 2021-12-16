@@ -8,208 +8,45 @@ import Parameter from './parameter'
 import ParameterPresets from './parameter-presets'
 import { useParameters } from './context'
 import { useLayers } from '../layers'
+import { PARAMETER_MAPPING } from '../../constants'
+
+const LAYER_MAPPING = {
+  mitigationCost: {
+    products: ['productValue'],
+    sinking: [],
+    shared: [],
+  },
+  cost: {
+    shared: ['capex', 'lineCost', 'opex', 'transportCost', 'harvestCost'],
+    products: ['conversionCost'],
+    sinking: [],
+  },
+  benefit: {
+    shared: ['transportEmissions', 'maintenanceEmissions'],
+    products: ['conversionEmissions', 'avoidedEmissions'],
+    sinking: ['removalRate'],
+  },
+}
 
 const useParameterInputs = ({ sx }) => {
-  const {
-    capex,
-    lineCost,
-    opex,
-    harvestCost,
-    transportCost,
-    conversionCost,
-    productValue,
-    transportEmissions,
-    conversionEmissions,
-    avoidedEmissions,
-    removalRate,
-    maintenanceEmissions,
-    setParameters,
-  } = useParameters()
   const { target, layer } = useLayers()
-
-  const mapping = {
-    mitigationCost: {
-      products: [
-        <Parameter
-          min={100}
-          max={500}
-          step={10}
-          value={productValue}
-          key='productValue'
-          id='productValue'
-          setValue={setParameters}
-          label={'Product value'}
-          units={'$ / ton DW'}
-          sx={sx}
-        />,
-      ],
-      sinking: [],
-      shared: [],
-    },
-    cost: {
-      shared: [
-        <Parameter
-          min={170630}
-          max={969626}
-          step={10}
-          value={capex}
-          key='capex'
-          id='capex'
-          setValue={setParameters}
-          label={'Capex'}
-          units={'$ / km² / year'}
-          sx={sx}
-        />,
-        <Parameter
-          min={0.06}
-          max={1.45}
-          step={0.01}
-          value={lineCost}
-          key='lineCost'
-          id='lineCost'
-          setValue={setParameters}
-          label={'Line cost'}
-          units={'$ / m'}
-          sx={sx}
-        />,
-        <Parameter
-          min={137119}
-          max={295532}
-          step={100}
-          value={opex}
-          key='opex'
-          id='opex'
-          setValue={setParameters}
-          label={'Opex'}
-          units={'$ / km² / year'}
-          sx={sx}
-        />,
-        <Parameter
-          min={0.11}
-          max={0.34}
-          step={0.01}
-          value={transportCost}
-          key='transportCost'
-          id='transportCost'
-          setValue={setParameters}
-          label={'Transport cost'}
-          units={'$ / ton / km'}
-          sx={sx}
-        />,
-        <Parameter
-          min={124485}
-          max={394780}
-          step={100}
-          value={harvestCost}
-          key='harvestCost'
-          id='harvestCost'
-          setValue={setParameters}
-          label={'Harvest costs'}
-          units={'$ / km² / harvest'}
-          sx={sx}
-        />,
-      ],
-      products: [
-        <Parameter
-          min={50}
-          max={200}
-          step={10}
-          value={conversionCost}
-          key='conversionCost'
-          id='conversionCost'
-          setValue={setParameters}
-          label={'Conversion cost'}
-          units={'$ / ton DW'}
-          sx={sx}
-        />,
-      ],
-      sinking: [],
-    },
-    benefit: {
-      shared: [
-        <Parameter
-          min={0.0000142}
-          max={0.0000426}
-          step={0.0000001}
-          value={transportEmissions}
-          key='transportEmissions'
-          id='transportEmissions'
-          setValue={setParameters}
-          label={'Transport emissions'}
-          units={'tCO₂e / ton DW / km'}
-          sx={sx}
-        />,
-        <Parameter
-          min={0.0}
-          max={0.005229}
-          step={0.000001}
-          value={maintenanceEmissions}
-          key='maintenanceEmissions'
-          id='maintenanceEmissions'
-          setValue={setParameters}
-          label={'Maintenance emissions'}
-          units={'tCO₂e / km'}
-          sx={sx}
-        />,
-      ],
-      products: [
-        <Parameter
-          min={0.0011}
-          max={0.0085}
-          step={0.0001}
-          value={conversionEmissions}
-          key='conversionEmissions'
-          id='conversionEmissions'
-          setValue={setParameters}
-          label={'Conversion emissions'}
-          units={'tCO₂e / ton DW'}
-          sx={sx}
-        />,
-        <Parameter
-          min={0.1}
-          max={6.25}
-          step={0.05}
-          value={avoidedEmissions}
-          key='avoidedEmissions'
-          id='avoidedEmissions'
-          setValue={setParameters}
-          label={'Avoided emissions'}
-          units={'tCO₂e / ton DW'}
-          sx={sx}
-        />,
-      ],
-      sinking: [
-        <Parameter
-          min={0.5}
-          max={1}
-          step={0.05}
-          value={removalRate}
-          displayValue={removalRate * 100}
-          key='removalRate'
-          id='removalRate'
-          setValue={setParameters}
-          label={'Removal rate'}
-          units={'%'}
-          sx={sx}
-        />,
-      ],
-    },
-  }
 
   // render parameters for benefit layer first if layer other than benefit or cost is active
   const firstLayer = layer === 'cost' ? 'cost' : 'benefit'
   const secondLayer = layer === 'cost' ? 'benefit' : 'cost'
 
-  const first = mapping[firstLayer][target].concat(mapping[firstLayer].shared)
-  const second = mapping[secondLayer][target].concat(
-    mapping[secondLayer].shared
+  const first = LAYER_MAPPING[firstLayer][target].concat(
+    LAYER_MAPPING[firstLayer].shared
+  )
+  const second = LAYER_MAPPING[secondLayer][target].concat(
+    LAYER_MAPPING[secondLayer].shared
   )
 
   if (layer === 'benefit' || layer === 'cost') {
     return { active: first, inactive: second }
   } else if (layer === 'mitigationCost') {
     return {
-      active: mapping.mitigationCost[target].concat(first).concat(second),
+      active: LAYER_MAPPING.mitigationCost[target].concat(first).concat(second),
       inactive: [],
     }
   } else {
@@ -224,7 +61,8 @@ const Parameters = ({ sx }) => {
     label: sxLabel,
     ...sxProps
   } = sx
-  const { resetParameters } = useParameters()
+
+  const { setParameters, resetParameters, ...parameters } = useParameters()
 
   const [expandedParameters, setExpandedParameters] = useState(false)
   const { target } = useLayers()
@@ -248,7 +86,15 @@ const Parameters = ({ sx }) => {
               </Button>
             </Column>
           </Row>
-          {active}
+          {active.map((id) => (
+            <Parameter
+              key={id}
+              value={parameters[id]}
+              setValue={setParameters}
+              sx={sx}
+              {...PARAMETER_MAPPING[id]}
+            />
+          ))}
         </Box>
       </Group>
       {inactive.length > 0 && (
@@ -282,7 +128,19 @@ const Parameters = ({ sx }) => {
             height={expandedParameters ? 'auto' : 0}
             easing={'linear'}
           >
-            {expandedParameters && <Box mt={[3]}>{inactive}</Box>}
+            {expandedParameters && (
+              <Box mt={[3]}>
+                {inactive.map((id) => (
+                  <Parameter
+                    key={id}
+                    value={parameters[id]}
+                    setValue={setParameters}
+                    sx={sx}
+                    {...PARAMETER_MAPPING[id]}
+                  />
+                ))}
+              </Box>
+            )}
           </AnimateHeight>
         </>
       )}
