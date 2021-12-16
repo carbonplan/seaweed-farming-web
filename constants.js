@@ -2,8 +2,8 @@ import { format } from 'd3-format'
 export const NAN = 9.969209968386869e36
 
 export const COLORMAPS_MAP = {
-  mitigationCost: { clim: [250, 2000], colormapName: 'warm' },
-  cost: { clim: [250, 2000], colormapName: 'warm' },
+  mitigationCost: { clim: [250, 2000], colormapName: 'cool' },
+  cost: { clim: [250, 2000], colormapName: 'cool' },
   benefit: { clim: [0, 2], colormapName: 'cool' },
   depth: { clim: [0, 6000], colormapName: 'cool' },
   growth: { clim: [0, 5000], colormapName: 'cool' },
