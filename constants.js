@@ -31,7 +31,7 @@ export const UNITS_MAP = {
   wave_height: 'm',
   d2p: 'km',
   d2sink: 'km',
-  fseq: '%',
+  fseq: '',
 }
 
 export const LABEL_MAP = {
