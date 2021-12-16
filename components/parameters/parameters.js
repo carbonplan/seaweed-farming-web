@@ -23,7 +23,7 @@ const LAYER_MAPPING = {
   },
   benefit: {
     shared: ['transportEmissions', 'maintenanceEmissions'],
-    products: ['conversionEmissions', 'avoidedEmissions'],
+    products: ['avoidedEmissions', 'conversionEmissions'],
     sinking: ['removalRate'],
   },
 }
