@@ -1,5 +1,6 @@
 import { Box } from 'theme-ui'
 import { Slider, Badge, Row, Column } from '@carbonplan/components'
+import Info from '../info'
 
 const Parameter = ({
   label,
@@ -9,7 +10,8 @@ const Parameter = ({
   value,
   units,
   setValue,
-  displayValue,
+  format,
+  tooltip,
   id,
   sx,
 }) => {
@@ -29,6 +31,17 @@ const Parameter = ({
         >
           {units}
         </Box>
+
+        {tooltip && (
+          <Info
+            sx={{
+              display: 'inline-block',
+              ml: [2],
+            }}
+          >
+            {tooltip}
+          </Info>
+        )}
       </Box>
 
       <Row columns={3}>
@@ -43,7 +56,7 @@ const Parameter = ({
           />
         </Column>
         <Column start={3} width={1}>
-          <Badge>{displayValue || value}</Badge>
+          <Badge>{format ? format(value) : value}</Badge>
         </Column>
       </Row>
     </Box>

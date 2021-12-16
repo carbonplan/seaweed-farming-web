@@ -117,7 +117,9 @@ export const PARAMETER_MAPPING = {
     max: 0.34,
     step: 0.01,
     label: 'Transport cost',
-    units: '$ / ton / km',
+    tooltip:
+      'The cost of transporting a ton of macroalgae (dry weight) one km. Applied to either the distance to port or distance to sink.',
+    units: '$ / ton DW / km',
   },
   harvestCost: {
     id: 'harvestCost',
@@ -125,6 +127,8 @@ export const PARAMETER_MAPPING = {
     max: 394780,
     step: 100,
     label: 'Harvest costs',
+    tooltip:
+      'The cost of converting a ton of macroalgae (dry weight) into a valuable product.',
     units: '$ / km² / harvest',
   },
   conversionCost: {
@@ -141,6 +145,8 @@ export const PARAMETER_MAPPING = {
     max: 0.0000427,
     step: 0.0000001,
     label: 'Transport emissions',
+    tooltip:
+      'The emissions associated with transporting a ton of macroalgae (dry weight) one km. Applied to either the distance to port or distance to sink. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW / km',
   },
   maintenanceEmissions: {
@@ -157,6 +163,8 @@ export const PARAMETER_MAPPING = {
     max: 0.0085,
     step: 0.0001,
     label: 'Conversion emissions',
+    tooltip:
+      'The emissions associated with converting a ton of macroalgae (dry weight) into a valuable product. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW',
   },
   avoidedEmissions: {
@@ -165,6 +173,8 @@ export const PARAMETER_MAPPING = {
     max: 6.25,
     step: 0.05,
     label: 'Avoided emissions',
+    tooltip:
+      'The emissions displaced by the use of a macroalgae-derived product. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW',
   },
   removalRate: {
