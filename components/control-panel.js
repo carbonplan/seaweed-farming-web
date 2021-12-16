@@ -16,7 +16,6 @@ const ControlPanel = ({
 }) => {
   const { showRegionPicker, setShowRegionPicker } = useRegionContext()
   const [hasExpanded, setHasExpanded] = useState(expanded)
-  const [tooltip, setTooltip] = useState(false)
 
   const handleToggleExpanded = useCallback(() => {
     // Always allow opening of panel
@@ -151,10 +150,6 @@ const ControlPanel = ({
       <IconButton
         aria-label='Toggle settings'
         onClick={handleToggleExpanded}
-        onMouseOver={() => {
-          if (!expanded) setTooltip(true)
-        }}
-        onMouseOut={() => setTooltip(false)}
         role='checkbox'
         sx={{
           width: 32,
@@ -186,8 +181,8 @@ const ControlPanel = ({
           display: ['none', 'none', 'inline-block', 'inline-block'],
           color: 'primary',
           position: 'absolute',
-          opacity: tooltip ? 1 : 0,
-          transition: 'opacity 0.15s ease-out',
+          opacity: expanded ? 0 : 1,
+          transition: 'opacity 0.15s',
           pointerEvents: 'none',
           left: '54px',
           bottom: ['18px', '18px', '18px', '14px'],
