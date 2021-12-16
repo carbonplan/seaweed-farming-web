@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useState } from 'react'
-import { GROWTH_MODELS, SPECIES } from '../../constants'
+import { GROWTH_MODELS } from '../../constants'
 
 const LayersContext = createContext(null)
 

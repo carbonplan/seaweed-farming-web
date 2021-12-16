@@ -1,9 +1,7 @@
 import { Box, Checkbox, Label } from 'theme-ui'
 import { Group } from '@carbonplan/components'
 
-import Radio from '../radio'
 import { useRawUniformValues } from './context'
-import { GROWTH_MODELS } from '../../constants'
 
 const checkboxSx = {
   'input:focus ~ &': {
@@ -12,31 +10,14 @@ const checkboxSx = {
 }
 const GrowthParameters = ({ sx }) => {
   const {
-    growthModel,
-    setGrowthModel,
+    // growthModel,
+    // setGrowthModel,
     sensitiveAreaMask,
     setSensitiveAreaMask,
   } = useRawUniformValues()
 
   return (
     <Group spacing={4}>
-      <Box>
-        <Box sx={sx.label}>Growth model</Box>
-        <Group direction='horizontal'>
-          {GROWTH_MODELS.map((m) => {
-            return (
-              <Radio
-                key={m}
-                label={m.charAt(0).toUpperCase() + m.slice(1)}
-                value={m}
-                name='growth'
-                onChange={setGrowthModel}
-                checked={growthModel === m}
-              />
-            )
-          })}
-        </Group>
-      </Box>
       <Box>
         <Box sx={sx.label}>Exclude sensitive areas</Box>
         <Group direction='vertical' spacing='sm'>
