@@ -180,10 +180,10 @@ const Viewer = ({ children }) => {
                   float growthCost = (capital + opex + harvest) / seaweed_dw;
                   if (productsTarget == 1.0) {
                     // calculate product value
-                    productionCost = growthCost + conversionCost + transportCost * d2p * seaweed_ww / seaweed_dw;
+                    productionCost = growthCost + conversionCost + transportCost * d2p * (seaweed_ww + equipment) / seaweed_dw;
                   } else {
                     // calculate sinking value
-                    productionCost = growthCost + transportCost * (d2sink * seaweed_ww + 2.0 * d2sink * equipment) / seaweed_dw;
+                    productionCost = growthCost + transportCost * (d2sink * seaweed_ww + 2.0 * d2sink * equipment + d2p * equipment) / seaweed_dw;
                   }
                 }
 
@@ -191,10 +191,10 @@ const Viewer = ({ children }) => {
                   float growthEmissions = (transportEmissions * equipment * d2p + d2p * 24.0 * maintenanceEmissions + 50.0 * maintenanceEmissions) / seaweed_dw;
                   if (productsTarget == 1.0) {
                     // calculate climate benefit of products
-                    netBenefit = avoidedEmissions - transportEmissions * d2p * seaweed_ww / seaweed_dw - conversionEmissions - growthEmissions;
+                    netBenefit = avoidedEmissions - transportEmissions * d2p * (seaweed_ww + equipment) / seaweed_dw - conversionEmissions - growthEmissions;
                   } else {
                     // calculate climate benefit of sinking
-                    netBenefit = carbon_fraction * carbon_to_co2 * fseq * removalRate - transportEmissions * (d2sink * seaweed_ww + 2.0 * d2sink * equipment) / seaweed_dw - growthEmissions;
+                    netBenefit = carbon_fraction * carbon_to_co2 * fseq * removalRate - transportEmissions * (d2sink * seaweed_ww + 2.0 * d2sink * equipment + d2p * equipment) / seaweed_dw - growthEmissions;
                   }
 
                   if (netBenefit < 0.0) {

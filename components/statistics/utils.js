@@ -92,13 +92,13 @@ export const valuesToCost = (values, target, parameters, sensitiveAreaMask) => {
     const highWaveDamage = 3.0
 
     // calculate depth premium
-    const depthPremium = 0.0
+    let depthPremium = 0.0
     if (depth >= priceyDepth) {
       depthPremium = depth / priceyDepth
     }
 
     // calculate wave premium
-    const wavePremium = 0.0
+    let wavePremium = 0.0
     if (wave_height >= highWaveDamage) {
       wavePremium = wave_height / highWaveDamage
     }
@@ -119,7 +119,7 @@ export const valuesToCost = (values, target, parameters, sensitiveAreaMask) => {
       grossCost =
         growthCost +
         conversionCost +
-        (transportCost * d2p * seaweed_ww) / seaweed_dw
+        (transportCost * d2p * (seaweed_ww + equipment)) / seaweed_dw
     } else {
       // map to null value for d2sink
       if (d2sink === NAN) {
@@ -129,7 +129,8 @@ export const valuesToCost = (values, target, parameters, sensitiveAreaMask) => {
 
       grossCost =
         growthCost +
-        (transportCost * (d2sink * seaweed_ww + 2.0 * d2sink * equipment)) /
+        (transportCost *
+          (d2sink * seaweed_ww + 2.0 * d2sink * equipment + d2p * equipment)) /
           seaweed_dw
     }
 
@@ -184,7 +185,8 @@ export const valuesToBenefit = (
     if (target === 'products') {
       // calculate climate benefit of products
       grossBenefit = avoidedEmissions
-      transport = (transportEmissions * d2p * seaweed_ww) / seaweed_dw
+      transport =
+        (transportEmissions * d2p * (seaweed_ww + equipment)) / seaweed_dw
       conversion = conversionEmissions
     } else {
       // map to null when null value for d2sink
@@ -197,7 +199,7 @@ export const valuesToBenefit = (
       grossBenefit = carbon_fraction * carbon_to_co2 * fseq * removalRate
       transport =
         (transportEmissions *
-          (d2sink * seaweed_ww + 2.0 * d2sink * equipment)) /
+          (d2sink * seaweed_ww + 2.0 * d2sink * equipment + d2p * equipment)) /
         seaweed_dw
     }
 
