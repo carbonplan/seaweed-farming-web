@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box, Container, IconButton } from 'theme-ui'
-import { Row, Column, Tray } from '@carbonplan/components'
-import { ArrowThin } from '@carbonplan/icons'
+import { Box, Container } from 'theme-ui'
+import { Button, Row, Column, Tray } from '@carbonplan/components'
+import { Arrow } from '@carbonplan/icons'
 
 import { useRegionContext } from './region'
 import ControlPanelDivider from './control-panel-divider'
@@ -147,13 +147,20 @@ const ControlPanel = ({
 
   return (
     <>
-      <IconButton
-        aria-label='Toggle settings'
+      <Button
         onClick={handleToggleExpanded}
-        role='checkbox'
+        prefix={
+          <Arrow
+            id='arrow'
+            sx={{
+              transform: expanded
+                ? 'scaleX(-1) rotate(45deg) '
+                : 'rotate(45deg)',
+            }}
+          />
+        }
+        size='md'
         sx={{
-          width: 32,
-          height: 32,
           display: ['none', 'none', 'inline-block', 'inline-block'],
           cursor: 'pointer',
           color: 'primary',
@@ -169,29 +176,11 @@ const ControlPanel = ({
               ]
             : '12px',
           bottom: '13px',
-          transform: expanded ? 'scaleX(-1)' : '',
           zIndex: 1001,
         }}
       >
-        <ArrowThin sx={{ strokeWidth: 2, width: 24, height: 24 }} />
-      </IconButton>
-      <Box
-        id='open-tooltip'
-        sx={{
-          display: ['none', 'none', 'inline-block', 'inline-block'],
-          color: 'primary',
-          position: 'absolute',
-          opacity: expanded ? 0 : 1,
-          transition: 'opacity 0.15s',
-          pointerEvents: 'none',
-          left: '54px',
-          bottom: ['18px', '18px', '18px', '14px'],
-          zIndex: 1001,
-          fontSize: [3, 3, 3, 4],
-        }}
-      >
-        Show controls
-      </Box>
+        {expanded ? null : 'Show controls'}
+      </Button>
       <Row>
         <Column width={3} start={1}>
           <Box
