@@ -7,7 +7,7 @@ export const LayersProvider = ({ children }) => {
   const [layer, setLayer] = useState('mitigationCost')
   const [target, setTarget] = useState('sinking')
   const [growthModel, setGrowthModel] = useState(GROWTH_MODELS[0])
-  const [mask, setMask] = useState(false)
+  const [sensitiveAreaMask, setSensitiveAreaMask] = useState(3)
 
   return (
     <LayersContext.Provider
@@ -18,8 +18,8 @@ export const LayersProvider = ({ children }) => {
         setTarget,
         growthModel,
         setGrowthModel,
-        mask,
-        setMask,
+        sensitiveAreaMask,
+        setSensitiveAreaMask,
       }}
     >
       {children}
@@ -48,7 +48,12 @@ export const LAYER_UNIFORMS = [
 ]
 
 export const useLayers = () => {
-  const { layer, target, growthModel, mask } = useRawUniformValues()
+  const {
+    layer,
+    target,
+    growthModel,
+    sensitiveAreaMask,
+  } = useRawUniformValues()
 
   const layerUniforms = useMemo(
     () =>
@@ -61,10 +66,10 @@ export const useLayers = () => {
 
   const uniforms = {
     ...layerUniforms,
+    sensitiveAreaMask,
     productsTarget: target === 'products' ? 1 : 0,
     sinkingTarget: target === 'sinking' ? 1 : 0,
-    includeMask: mask ? 1 : 0,
   }
 
-  return { layer, uniforms, target }
+  return { layer, uniforms, target, sensitiveAreaMask }
 }

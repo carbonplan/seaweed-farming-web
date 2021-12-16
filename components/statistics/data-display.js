@@ -20,7 +20,7 @@ import {
 
 export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
-  const { layer, target } = useLayers()
+  const { layer, target, sensitiveAreaMask } = useLayers()
 
   if (!data || !data.value) {
     return 'loading...'
@@ -33,19 +33,22 @@ export const DataDisplay = ({ data }) => {
       const netBenefit = valuesToBenefit(
         data.value.all_variables,
         target,
-        parameters
+        parameters,
+        sensitiveAreaMask
       )
 
       const projectCost = valuesToCost(
         data.value.all_variables,
         target,
-        parameters
+        parameters,
+        sensitiveAreaMask
       )
 
       const mitigationCost = valuesToMitigationCost(
         data.value.all_variables,
         target,
-        parameters
+        parameters,
+        sensitiveAreaMask
       )
 
       return (

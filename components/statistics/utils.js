@@ -38,7 +38,24 @@ export const weightedData = (data, area) => {
   }, {})
 }
 
-export const valuesToCost = (values, target, parameters) => {
+const isMasked = ({ seaweed_dw, sensitive_areas }, sensitiveAreaMask) => {
+  // map to null if we have low or null value for seaweed growth
+  if (seaweed_dw === NAN || seaweed_dw < 0.2) {
+    return true
+  }
+
+  // map to null if sensitiveAreaMask exactly matches value
+  if (sensitiveAreaMask > 0.0 && sensitiveAreaMask === sensitive_areas) {
+    return true
+  }
+
+  // map to null if all sensitive areas are masked (sensitiveAreaMask=3) and sensitive in some way
+  if (sensitiveAreaMask === 3 && sensitive_areas > 0.0) {
+    return true
+  }
+}
+
+export const valuesToCost = (values, target, parameters, sensitiveAreaMask) => {
   const {
     capex,
     depthFactor,
@@ -58,6 +75,7 @@ export const valuesToCost = (values, target, parameters) => {
     const nharv = values.nharv_preferred[i]
     const wave_height = values.wave_height[i]
     const d2sink = values.d2sink[i]
+    const sensitive_areas = values.sensitive_areas[i]
 
     const species = SPECIES[values.species_preferred[i]]
     const lineDensity = LINE_DENSITY_MAPPING[species]
@@ -66,8 +84,7 @@ export const valuesToCost = (values, target, parameters) => {
     // invert depth
     const depth = -1.0 * elevation
 
-    // map to null if we have low or null value for seaweed growth
-    if (seaweed_dw === NAN || seaweed_dw < 0.2) {
+    if (isMasked({ seaweed_dw, sensitive_areas }, sensitiveAreaMask)) {
       accum.push(NAN)
       return accum
     }
@@ -138,7 +155,12 @@ export const valuesToCost = (values, target, parameters) => {
   }, [])
 }
 
-export const valuesToBenefit = (values, target, parameters) => {
+export const valuesToBenefit = (
+  values,
+  target,
+  parameters,
+  sensitiveAreaMask
+) => {
   const {
     avoidedEmissions,
     transportEmissions,
@@ -153,6 +175,7 @@ export const valuesToBenefit = (values, target, parameters) => {
     const d2p = values.d2p[i]
     const fseq = values.fseq[i]
     const d2sink = values.d2sink[i]
+    const sensitive_areas = values.sensitive_areas[i]
 
     const species = SPECIES[values.species_preferred[i]]
     const equipment = EQUIPMENT_MAPPING[species]
@@ -161,8 +184,7 @@ export const valuesToBenefit = (values, target, parameters) => {
     const carbon_fraction = 0.248
     const carbon_to_co2 = 3.67
 
-    // map to null if we have low or null value for seaweed growth
-    if (seaweed_dw === NAN || seaweed_dw < 0.2) {
+    if (isMasked({ seaweed_dw, sensitive_areas }, sensitiveAreaMask)) {
       accum.push(NAN)
       return accum
     }
@@ -207,9 +229,24 @@ export const valuesToBenefit = (values, target, parameters) => {
   }, [])
 }
 
-export const valuesToMitigationCost = (values, target, parameters) => {
-  const netBenefit = valuesToBenefit(values, target, parameters)
-  const projectCost = valuesToCost(values, target, parameters)
+export const valuesToMitigationCost = (
+  values,
+  target,
+  parameters,
+  sensitiveAreaMask
+) => {
+  const netBenefit = valuesToBenefit(
+    values,
+    target,
+    parameters,
+    sensitiveAreaMask
+  )
+  const projectCost = valuesToCost(
+    values,
+    target,
+    parameters,
+    sensitiveAreaMask
+  )
 
   return projectCost.map((c, i) => {
     if (c === NAN || netBenefit[i] === NAN) {

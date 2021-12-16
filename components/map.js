@@ -60,7 +60,6 @@ const VARIABLES = [
   'species_preferred',
   'area',
   'sensitive_areas',
-  // 'mask',
 ]
 
 const Viewer = ({ children }) => {
@@ -140,9 +139,17 @@ const Viewer = ({ children }) => {
                 // filter points
                 bool lowGrowth = seaweed_dw == fillValue || seaweed_dw < 0.2;
                 bool lowSink = sinkingTarget == 1.0 && d2sink == fillValue;
-                // bool masked = includeMask == 0.0 && mask == 1.0;
 
-                if (lowGrowth || lowSink) {
+                bool sensitiveAreaMasked = false;
+                if (sensitiveAreaMask > 0.0 && sensitiveAreaMask == sensitive_areas) {
+                  sensitiveAreaMasked = true;
+                }
+                if (sensitiveAreaMask == 3.0 && sensitive_areas > 0.0) {
+                  sensitiveAreaMasked = true;
+                }
+
+
+                if (lowGrowth || lowSink || sensitiveAreaMasked) {
                   gl_FragColor = vec4(empty, empty, empty, opacity);
                   gl_FragColor.rgb *= gl_FragColor.a;
                   return;
