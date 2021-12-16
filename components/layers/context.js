@@ -40,7 +40,6 @@ export const LAYER_UNIFORMS = [
   'growthLayer',
   'nharvLayer',
   'wave_heightLayer',
-  'lineDensityLayer',
   'd2pLayer',
   'd2sinkLayer',
   'fseqLayer',

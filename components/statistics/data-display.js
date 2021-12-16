@@ -10,13 +10,7 @@ import {
   valuesToCost,
   valuesToMitigationCost,
 } from './utils'
-import {
-  LABEL_MAP,
-  UNITS_MAP,
-  LINE_DENSITY_MAPPING,
-  SPECIES,
-  NAN,
-} from '../../constants'
+import { LABEL_MAP, UNITS_MAP, SPECIES, NAN } from '../../constants'
 
 export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
@@ -115,10 +109,6 @@ export const DataDisplay = ({ data }) => {
         )
       } else if (layer === 'growth') {
         values = data.value.all_variables['harv_preferred']
-      } else if (layer === 'lineDensity') {
-        values = data.value.all_variables['species_preferred'].map((s) =>
-          SPECIES[s] ? LINE_DENSITY_MAPPING[SPECIES[s]] / 1000000 : NAN
-        )
       }
       return (
         <AverageDisplay
