@@ -4,13 +4,13 @@ export const COLORMAPS_MAP = {
   mitigationCost: { clim: [250, 2000], reversed: true },
   cost: { clim: [250, 2000], reversed: true },
   benefit: { clim: [0, 0.45], reversed: false },
-  depth: { clim: [0, 10000], reversed: false },
+  depth: { clim: [0, 6000], reversed: false },
   growth: { clim: [0, 5000], reversed: false },
   nharv: { clim: [1, 8], reversed: false },
   wave_height: { clim: [0, 5], reversed: false },
-  d2p: { clim: [0, 5000], reversed: false },
-  d2sink: { clim: [0, 2500], reversed: false },
-  fseq: { clim: [0, 1], reversed: false },
+  d2p: { clim: [0, 2000], reversed: false },
+  d2sink: { clim: [0, 1000], reversed: false },
+  fseq: { clim: [0.7, 1], reversed: false },
   species_preferred: { clim: [0, 4], reversed: false },
 }
 
