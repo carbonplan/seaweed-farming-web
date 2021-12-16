@@ -157,33 +157,19 @@ const Viewer = ({ children }) => {
 
                 if (costLayer == 1.0 || mitigationCostLayer == 1.0) {
                   // parameters
-                  float cheapDepth = 50.0;
-                  float priceyDepth = 150.0;
-                  float lowWaveDamage = 1.0;
-                  float highWaveDamage = 2.0;
+                  float priceyDepth = 500.0;
+                  float highWaveDamage = 3.0;
 
                   // calculate depth premium
-                  float depthPremium;
-                  if (depth <= cheapDepth) {
-                    depthPremium = 0.0;
-                  }
-                  if ((depth > cheapDepth) && (depth < priceyDepth)) {
-                    depthPremium = (depth / priceyDepth) * depthFactor;
-                  }
+                  float depthPremium = 0.0;
                   if (depth >= priceyDepth) {
-                    depthPremium = depthFactor;
+                    depthPremium = depth / priceyDepth;
                   }
 
                   // calculate wave premium
-                  float wavePremium;
-                  if (wave_height <= lowWaveDamage) {
-                    wavePremium = 0.0;
-                  }
-                  if ((wave_height > lowWaveDamage) && (wave_height < highWaveDamage)) {
-                    wavePremium = (wave_height / highWaveDamage) * waveFactor;
-                  }
+                  float wavePremium = 0.0;
                   if (wave_height >= highWaveDamage) {
-                    wavePremium = waveFactor;
+                    wavePremium = wave_height / highWaveDamage;
                   }
 
                   // calculate primary terms

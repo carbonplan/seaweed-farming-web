@@ -58,11 +58,9 @@ const isMasked = ({ seaweed_dw, sensitive_areas }, sensitiveAreaMask) => {
 export const valuesToCost = (values, target, parameters, sensitiveAreaMask) => {
   const {
     capex,
-    depthFactor,
     harvestCost,
     lineCost,
     opex,
-    waveFactor,
     transportCost,
     conversionCost,
   } = parameters
@@ -90,33 +88,19 @@ export const valuesToCost = (values, target, parameters, sensitiveAreaMask) => {
     }
 
     // parameters
-    const cheapDepth = 50.0
-    const priceyDepth = 150.0
-    const lowWaveDamage = 1.0
-    const highWaveDamage = 2.0
+    const priceyDepth = 500.0
+    const highWaveDamage = 3.0
 
     // calculate depth premium
-    let depthPremium
-    if (depth <= cheapDepth) {
-      depthPremium = 0.0
-    }
-    if (depth > cheapDepth && depth < priceyDepth) {
-      depthPremium = (depth / priceyDepth) * depthFactor
-    }
+    const depthPremium = 0.0
     if (depth >= priceyDepth) {
-      depthPremium = depthFactor
+      depthPremium = depth / priceyDepth
     }
 
     // calculate wave premium
-    let wavePremium
-    if (wave_height <= lowWaveDamage) {
-      wavePremium = 0.0
-    }
-    if (wave_height > lowWaveDamage && wave_height < highWaveDamage) {
-      wavePremium = (wave_height / highWaveDamage) * waveFactor
-    }
+    const wavePremium = 0.0
     if (wave_height >= highWaveDamage) {
-      wavePremium = waveFactor
+      wavePremium = wave_height / highWaveDamage
     }
 
     // calculate primary terms

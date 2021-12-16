@@ -7,8 +7,6 @@ const initialParameters = {
   lineCost: 0.06,
   opex: 137119,
   harvestCost: 124485,
-  depthFactor: 0,
-  waveFactor: 0,
   transportCost: 0.11,
   conversionCost: 50,
   productValue: 100,

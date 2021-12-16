@@ -15,8 +15,6 @@ const useParameterInputs = ({ sx }) => {
     lineCost,
     opex,
     harvestCost,
-    depthFactor,
-    waveFactor,
     transportCost,
     conversionCost,
     productValue,
@@ -108,30 +106,6 @@ const useParameterInputs = ({ sx }) => {
           setValue={setParameters}
           label={'Harvest costs'}
           units={'$ / km² / harvest'}
-          sx={sx}
-        />,
-        <Parameter
-          min={0}
-          max={3}
-          step={0.1}
-          value={depthFactor}
-          key='depthFactor'
-          id='depthFactor'
-          setValue={setParameters}
-          label={'Depth factor'}
-          units={'scaling factor'}
-          sx={sx}
-        />,
-        <Parameter
-          min={0}
-          max={2}
-          step={0.1}
-          value={waveFactor}
-          key='waveFactor'
-          id='waveFactor'
-          setValue={setParameters}
-          label={'Wave factor'}
-          units={'scaling factor'}
           sx={sx}
         />,
       ],
