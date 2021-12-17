@@ -9,6 +9,7 @@ import ControlPanelDivider from '../components/control-panel-divider'
 import Parameters from '../components/parameters'
 import Statistics from '../components/statistics'
 import Header from './header'
+import About from './about'
 
 const sx = {
   heading: {
@@ -71,8 +72,10 @@ const Tool = ({ headerMode }) => {
             >
               <Group spacing={4}>
                 <Box sx={sx.description}>
-                  This is an interactive web tool for mapping the potential of
-                  carbon removal with macroalgae.
+                  This is an interactive tool for exploring the costs of growing
+                  macroalgae alongside its potential climate benefits. Read the{' '}
+                  <Link href='#'>preprint</Link> or check out the{' '}
+                  <Link href='#'>Jupyter notebooks</Link> for more details.
                 </Box>
 
                 <ControlPanelDivider />
@@ -86,6 +89,10 @@ const Tool = ({ headerMode }) => {
                 {headerMode === 'pure' && <ControlPanelDivider />}
 
                 {headerMode === 'pure' && <Statistics sx={sx} />}
+
+                <ControlPanelDivider sx={{ mb: [-4] }} />
+
+                <About sx={sx} />
 
                 <ControlPanelDivider sx={{ mb: [-4] }} />
               </Group>
