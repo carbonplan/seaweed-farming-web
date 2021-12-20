@@ -90,8 +90,8 @@ export const PARAMETER_MAPPING = {
   },
   capex: {
     id: 'capex',
-    min: 170630,
-    max: 969626,
+    min: 10000,
+    max: 1000000,
     step: 10,
     label: 'Capex',
     units: '$ / km² / year',
