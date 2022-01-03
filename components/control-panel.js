@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Box, Container } from 'theme-ui'
 import { Button, Row, Column, Tray } from '@carbonplan/components'
-import { Arrow } from '@carbonplan/icons'
+import { ArrowThin } from '@carbonplan/icons'
 
 import { useRegionContext } from './region'
 import ControlPanelDivider from './control-panel-divider'
@@ -150,16 +150,18 @@ const ControlPanel = ({
       <Button
         onClick={handleToggleExpanded}
         prefix={
-          <Arrow
+          <ArrowThin
             id='arrow'
             sx={{
-              transform: expanded
-                ? 'scaleX(-1) rotate(45deg) '
-                : 'rotate(45deg)',
+              strokeWidth: 2,
+              width: 24,
+              height: 24,
+              transform: expanded ? 'scaleX(-1)' : null,
+              mb: -1,
             }}
           />
         }
-        size='md'
+        size='sm'
         sx={{
           display: ['none', 'none', 'inline-block', 'inline-block'],
           cursor: 'pointer',
@@ -175,7 +177,7 @@ const ControlPanel = ({
                 'calc(3 * 100vw / 12 + 54px)',
               ]
             : '12px',
-          bottom: '13px',
+          bottom: '17px',
           zIndex: 1001,
         }}
       >
