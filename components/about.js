@@ -1,12 +1,14 @@
 import { Box } from 'theme-ui'
-import { Group, Link, Logo } from '@carbonplan/components'
+import { Group, Link, Logo, Row, Column } from '@carbonplan/components'
 
 import Section from './section'
 import { ClimateWorks, NCAR, S3, UCI } from './logos'
 
 const logo = {
-  maxHeight: '60px',
-  mr: 3,
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  mb: 3,
 }
 const About = ({ sx }) => {
   return (
@@ -35,13 +37,28 @@ const About = ({ sx }) => {
         </Box>
       </Group>
 
-      <Box sx={{ mt: 3, textAlign: 'center' }}>
-        <UCI sx={logo} />
-        <S3 sx={logo} />
-        <NCAR sx={logo} />
-        <ClimateWorks sx={logo} />
-        <Logo sx={logo} />
-      </Box>
+      <Row
+        columns={[2, 3, 2, 2]}
+        sx={{
+          mt: 3,
+        }}
+      >
+        <Column sx={logo} width={1}>
+          <UCI sx={{ width: '100%' }} />
+        </Column>
+        <Column sx={logo} width={1}>
+          <S3 sx={{ width: '50%' }} />
+        </Column>
+        <Column sx={logo} width={1}>
+          <ClimateWorks sx={{ width: '100%', ml: -1 }} />
+        </Column>
+        <Column sx={logo} width={1}>
+          <NCAR sx={{ width: '70%' }} />
+        </Column>
+        <Column sx={logo} width={1}>
+          <Logo sx={{ width: '100%', ml: '-2px' }} />
+        </Column>
+      </Row>
     </Section>
   )
 }
