@@ -158,7 +158,7 @@ export const valuesToBenefit = (
     const seaweed_dw = values.harv_preferred[i]
     const seaweed_ww = seaweed_dw / 0.1
     const d2p = values.d2p[i]
-    const fseq = values.fseq[i]
+    const fseq = values.fseq_transport[i]
     const d2sink = values.d2sink[i]
     const sensitive_areas = values.sensitive_areas[i]
 

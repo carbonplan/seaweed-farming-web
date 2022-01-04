@@ -56,6 +56,7 @@ const VARIABLES = [
   'd2p',
   'wave_height',
   'fseq',
+  'fseq_transport',
   'd2sink',
   'species_preferred',
   'area',
@@ -117,7 +118,7 @@ const Viewer = ({ children }) => {
         selector={{ variable: VARIABLES }}
         fillValue={NAN}
         source={
-          'https://storage.googleapis.com/carbonplan-macroalgae/data/processed/zarr-pyramid-0.12'
+          'https://storage.googleapis.com/carbonplan-macroalgae/data/processed/zarr-pyramid-0.13'
         }
         frag={`
               ${speciesDefinition}
