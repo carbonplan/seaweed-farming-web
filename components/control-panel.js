@@ -150,16 +150,18 @@ const ControlPanel = ({
       <Button
         onClick={handleToggleExpanded}
         prefix={
-          <ArrowThin
-            id='arrow'
-            sx={{
-              strokeWidth: 2,
-              width: 24,
-              height: 24,
-              transform: expanded ? 'scaleX(-1)' : null,
-              mb: -1,
-            }}
-          />
+          <Box sx={{ p: 1, mr: ['29px', '29px', '29px', '24px'] }}>
+            <ArrowThin
+              id='arrow'
+              sx={{
+                strokeWidth: 2,
+                width: 24,
+                height: 24,
+                transform: expanded ? 'scaleX(-1)' : null,
+                mb: ['-6px', '-6px', '-6px', '-4px'],
+              }}
+            />
+          </Box>
         }
         size='sm'
         sx={{
@@ -177,7 +179,7 @@ const ControlPanel = ({
                 'calc(3 * 100vw / 12 + 54px)',
               ]
             : '12px',
-          bottom: '17px',
+          bottom: ['20px', '20px', '20px', '18px'],
           zIndex: 1001,
         }}
       >
