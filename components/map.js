@@ -195,7 +195,7 @@ const Viewer = ({ children }) => {
                     netBenefit = avoidedEmissions - transportEmissions * d2p * (seaweed_ww + equipment) / seaweed_dw - conversionEmissions - growthEmissions;
                   } else {
                     // calculate climate benefit of sinking
-                    netBenefit = carbon_fraction * carbon_to_co2 * fseq * removalRate - transportEmissions * (d2sink * seaweed_ww + 2.0 * d2sink * equipment + d2p * equipment) / seaweed_dw - growthEmissions;
+                    netBenefit = carbon_fraction * carbon_to_co2 * fseq_transport * removalRate - transportEmissions * (d2sink * seaweed_ww + 2.0 * d2sink * equipment + d2p * equipment) / seaweed_dw - growthEmissions;
                   }
 
                   if (netBenefit < 0.0) {
