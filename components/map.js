@@ -4,6 +4,7 @@ import { useRegionContext } from './region'
 import { Colorbar } from '@carbonplan/colormaps'
 import { Dimmer } from '@carbonplan/components'
 
+import Ruler from './ruler'
 import { useParameters } from './parameters'
 import { useCustomColormap } from './utils'
 import { LAYER_UNIFORMS, useLayers } from './layers'
@@ -264,6 +265,7 @@ const Viewer = ({ children }) => {
               horizontal
             />
           )}
+          <Ruler />
           <Dimmer
             sx={{
               display: ['none', 'none', 'initial', 'initial'],
