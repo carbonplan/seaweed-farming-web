@@ -3,7 +3,7 @@ import { Group } from '@carbonplan/components'
 
 import { useRawUniformValues } from './context'
 
-const checkboxSx = (checked) => {
+const sxCheckbox = (checked) => {
   return {
     mt: ['-3px', '-3px', '-3px', '-1px'],
     cursor: 'pointer',
@@ -22,6 +22,14 @@ const checkboxSx = (checked) => {
   }
 }
 
+const sxLabel = {
+  fontFamily: 'mono',
+  letterSpacing: 'mono',
+  fontSize: [1, 1, 1, 2],
+  textTransform: 'uppercase',
+  cursor: 'pointer',
+}
+
 const GrowthParameters = ({ sx }) => {
   const {
     // growthModel,
@@ -37,17 +45,9 @@ const GrowthParameters = ({ sx }) => {
           Exclude sensitive areas
         </Box>
         <Group direction='horizontal' spacing='md'>
-          <Label
-            sx={{
-              fontFamily: 'mono',
-              letterSpacing: 'mono',
-              fontSize: [1, 1, 1, 2],
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-            }}
-          >
+          <Label sx={sxLabel}>
             <Checkbox
-              sx={checkboxSx(
+              sx={sxCheckbox(
                 sensitiveAreaMask === 1 || sensitiveAreaMask === 3
               )}
               checked={sensitiveAreaMask === 1 || sensitiveAreaMask === 3}
@@ -65,17 +65,9 @@ const GrowthParameters = ({ sx }) => {
             />
             Shipping
           </Label>
-          <Label
-            sx={{
-              fontFamily: 'mono',
-              letterSpacing: 'mono',
-              fontSize: [1, 1, 1, 2],
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-            }}
-          >
+          <Label sx={sxLabel}>
             <Checkbox
-              sx={checkboxSx(
+              sx={sxCheckbox(
                 sensitiveAreaMask === 2 || sensitiveAreaMask === 3
               )}
               checked={sensitiveAreaMask === 2 || sensitiveAreaMask === 3}
