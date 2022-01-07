@@ -148,54 +148,72 @@ const LayerSwitcher = ({ sx }) => {
           Select an target end-use for cultivated macroalgae, either sinking it
           for carbon removal or converting it into a product.
         </Box>
-        <Group direction='horizontal'>
-          <Radio
-            label='Sinking'
-            value='sinking'
-            name='target'
-            onChange={setTarget}
-            checked={target === 'sinking'}
-          />
-          <Radio
-            label='Products'
-            value='products'
-            name='target'
-            onChange={setTarget}
-            checked={target === 'products'}
-          />
-        </Group>
+        <Box>
+          <Box sx={{ display: 'inline-block', mr: [3] }}>
+            <Radio
+              label='Sinking'
+              value='sinking'
+              name='target'
+              onChange={setTarget}
+              checked={target === 'sinking'}
+            />
+          </Box>
+          <Box sx={{ display: 'inline-block' }}>
+            <Radio
+              label='Products'
+              value='products'
+              name='target'
+              onChange={setTarget}
+              checked={target === 'products'}
+            />
+          </Box>
+        </Box>
       </Group>
 
       <ControlPanelDivider />
 
       <Section sx={sxHeading} label='Display'>
-        <Group>
-          <Box>
-            <Box sx={{ ...sxLabel, display: 'inline-block', mr: [2] }}>
-              Derived outputs
-            </Box>
-            <Info
-              sx={{ ...sxDescription, display: 'inline-block', float: 'right' }}
-            >
-              <Box sx={{ mb: [3] }}>{getOutputDescription(layer, target)}</Box>
-            </Info>
-
-            <Filter values={outputs} setValues={handleOutputChange} />
+        <Box sx={{ mb: ['22px'] }}>
+          <Box sx={{ ...sxLabel, display: 'inline-block' }}>
+            Derived outputs
           </Box>
-
-          <Box>
-            <Box sx={{ ...sxLabel, display: 'inline-block', mr: [2] }}>
-              Inputs
+          <Info
+            sx={{
+              ...sxDescription,
+              display: 'inline-block',
+              position: 'relative',
+              ml: ['12px'],
+              top: '-1px',
+            }}
+            sxInner={{ pb: ['6px'] }}
+          >
+            <Box sx={{ mt: [-1], mb: [3] }}>
+              {getOutputDescription(layer, target)}
             </Box>
-            <Info
-              sx={{ ...sxDescription, display: 'inline-block', float: 'right' }}
-            >
-              <Box sx={{ mb: [3] }}>{getInputDescription(layer, target)}</Box>
-            </Info>
+          </Info>
 
-            <Filter values={inputs} setValues={handleInputChange} />
-          </Box>
-        </Group>
+          <Filter values={outputs} setValues={handleOutputChange} />
+        </Box>
+
+        <Box>
+          <Box sx={{ ...sxLabel, display: 'inline-block' }}>Inputs</Box>
+          <Info
+            sx={{
+              ...sxDescription,
+              display: 'inline-block',
+              position: 'relative',
+              ml: ['12px'],
+              top: '-1px',
+            }}
+            sxInner={{ pb: ['6px'] }}
+          >
+            <Box sx={{ mt: [-1], mb: [3] }}>
+              {getInputDescription(layer, target)}
+            </Box>
+          </Info>
+
+          <Filter values={inputs} setValues={handleInputChange} />
+        </Box>
       </Section>
     </Group>
   )

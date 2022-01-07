@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Box, Container } from 'theme-ui'
 import { Button, Row, Column, Tray } from '@carbonplan/components'
 import { ArrowThin } from '@carbonplan/icons'
-
+import { useParameters } from './parameters/context'
 import { useRegionContext } from './region'
 import ControlPanelDivider from './control-panel-divider'
 
@@ -181,6 +181,8 @@ const ControlPanel = ({
             : '12px',
           bottom: ['20px', '20px', '20px', '18px'],
           zIndex: 1001,
+          pb: [2],
+          mb: [-2],
         }}
       >
         {expanded ? null : 'Show controls'}

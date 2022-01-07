@@ -16,28 +16,32 @@ const Parameter = ({
   sx,
 }) => {
   return (
-    <Box sx={{ mt: [2], mb: [3] }}>
-      <Box sx={{ ...sx, mb: [1] }}>
-        {label}
-        <Box
-          as='span'
-          sx={{
-            fontFamily: 'faux',
-            letterSpacing: 'faux',
-            fontSize: [0, 0, 0, 1],
-            color: 'secondary',
-            ml: [2],
-          }}
-        >
-          {units}
+    <Box sx={{ mt: [2], mb: ['16px'] }}>
+      <Box sx={{ ...sx, mb: [0] }}>
+        <Box sx={{ display: 'inline-block' }}>
+          {label}
+          <Box
+            sx={{
+              fontFamily: 'faux',
+              letterSpacing: 'faux',
+              fontSize: [0, 0, 0, 1],
+              color: 'secondary',
+              ml: [0],
+              mt: [0],
+            }}
+          >
+            {units}
+          </Box>
         </Box>
-
         {tooltip && (
           <Info
             sx={{
               display: 'inline-block',
-              ml: [2],
+              position: 'relative',
+              top: ['-19px', '-19px', '-19px', '-20px'],
+              ml: ['12px'],
             }}
+            sxInner={{ pb: [3] }}
           >
             {tooltip}
           </Info>
@@ -47,6 +51,7 @@ const Parameter = ({
       <Row columns={3}>
         <Column start={1} width={2}>
           <Box sx={{ height: ['3px'] }} />
+
           <Slider
             min={min}
             max={max}
@@ -56,7 +61,7 @@ const Parameter = ({
           />
         </Column>
         <Column start={3} width={1}>
-          <Badge>{formatValue(value)}</Badge>
+          <Badge sx={{ width: 'max-content' }}>{formatValue(value)}</Badge>
         </Column>
       </Row>
     </Box>

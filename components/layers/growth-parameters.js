@@ -3,11 +3,33 @@ import { Group } from '@carbonplan/components'
 
 import { useRawUniformValues } from './context'
 
-const checkboxSx = {
-  'input:focus ~ &': {
-    bg: 'inherit',
-  },
+const sxCheckbox = (checked) => {
+  return {
+    mt: ['-3px', '-3px', '-3px', '-1px'],
+    cursor: 'pointer',
+    color: 'muted',
+    transition: 'color 0.15s',
+    'input:active ~ &': { bg: 'background', color: 'primary' },
+    'input:focus ~ &': {
+      bg: 'background',
+      color: checked ? 'primary' : 'muted',
+    },
+    'input:hover ~ &': { bg: 'background', color: 'primary' },
+    'input:focus-visible ~ &': {
+      outline: 'dashed 1px rgb(110, 110, 110, 0.625)',
+      background: 'rgb(110, 110, 110, 0.625)',
+    },
+  }
 }
+
+const sxLabel = {
+  fontFamily: 'mono',
+  letterSpacing: 'mono',
+  fontSize: [1, 1, 1, 2],
+  textTransform: 'uppercase',
+  cursor: 'pointer',
+}
+
 const GrowthParameters = ({ sx }) => {
   const {
     // growthModel,
@@ -19,11 +41,15 @@ const GrowthParameters = ({ sx }) => {
   return (
     <Group spacing={4}>
       <Box>
-        <Box sx={sx.label}>Exclude sensitive areas</Box>
-        <Group direction='vertical' spacing='sm'>
-          <Label>
+        <Box sx={{ ...sx.label, mt: ['6px'], mb: ['14px'] }}>
+          Exclude sensitive areas
+        </Box>
+        <Group direction='horizontal' spacing='md'>
+          <Label sx={sxLabel}>
             <Checkbox
-              sx={checkboxSx}
+              sx={sxCheckbox(
+                sensitiveAreaMask === 1 || sensitiveAreaMask === 3
+              )}
               checked={sensitiveAreaMask === 1 || sensitiveAreaMask === 3}
               onChange={() => {
                 if (sensitiveAreaMask === 0) {
@@ -39,9 +65,11 @@ const GrowthParameters = ({ sx }) => {
             />
             Shipping
           </Label>
-          <Label>
+          <Label sx={sxLabel}>
             <Checkbox
-              sx={checkboxSx}
+              sx={sxCheckbox(
+                sensitiveAreaMask === 2 || sensitiveAreaMask === 3
+              )}
               checked={sensitiveAreaMask === 2 || sensitiveAreaMask === 3}
               onChange={() => {
                 if (sensitiveAreaMask === 0) {
@@ -55,7 +83,7 @@ const GrowthParameters = ({ sx }) => {
                 }
               }}
             />
-            Marine protected
+            Marine
           </Label>
         </Group>
       </Box>

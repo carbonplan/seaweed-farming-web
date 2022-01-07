@@ -55,7 +55,7 @@ const Tool = ({ headerMode }) => {
           overflow: 'clip',
         }}
       >
-        <Map>
+        <Map expanded={expanded}>
           <Container>
             <ControlPanel
               title='Mapping macroalgae'
@@ -90,11 +90,11 @@ const Tool = ({ headerMode }) => {
 
                 {headerMode === 'pure' && <Statistics sx={sx} />}
 
-                <ControlPanelDivider sx={{ mb: [-4] }} />
+                <ControlPanelDivider sx={{ mb: [4, 4, -4, -4] }} />
 
                 <About sx={sx} />
 
-                <ControlPanelDivider sx={{ mb: [-4] }} />
+                <ControlPanelDivider sx={{ mb: [4, 4, -4, -4] }} />
               </Group>
             </ControlPanel>
           </Container>

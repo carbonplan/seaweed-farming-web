@@ -30,7 +30,7 @@ const Ruler = () => {
     <IconButton
       aria-label='Switch ruler mode'
       onClick={switchMode}
-      sx={{ stroke: 'primary', cursor: 'pointer' }}
+      sx={{ stroke: 'primary', cursor: 'pointer', ml: [2] }}
     >
       <Globe />
     </IconButton>

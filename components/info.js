@@ -3,7 +3,7 @@ import { Info as InfoIcon } from '@carbonplan/icons'
 import { Box, IconButton } from 'theme-ui'
 import AnimateHeight from 'react-animate-height'
 
-const Info = ({ children, sx }) => {
+const Info = ({ children, sx, sxInner }) => {
   const [expanded, setExpanded] = useState(false)
 
   const toggle = (e) => {
@@ -54,6 +54,7 @@ const Info = ({ children, sx }) => {
               fontSize: [1, 1, 1, 2],
               maxWidth: '100%',
               pb: [2],
+              ...sxInner,
             }}
           >
             {children}

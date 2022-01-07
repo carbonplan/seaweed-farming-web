@@ -44,19 +44,19 @@ const About = ({ sx }) => {
         }}
       >
         <Column sx={logo} width={1}>
-          <UCI sx={{ width: '100%' }} />
+          <UCI sx={{ width: '100%', maxWidth: '200px' }} />
         </Column>
         <Column sx={logo} width={1}>
-          <S3 sx={{ width: '50%' }} />
+          <S3 sx={{ width: '50%', maxWidth: '200px' }} />
         </Column>
         <Column sx={logo} width={1}>
-          <ClimateWorks sx={{ width: '100%', ml: -1 }} />
+          <ClimateWorks sx={{ width: '100%', maxWidth: '200px', ml: -1 }} />
         </Column>
         <Column sx={logo} width={1}>
-          <NCAR sx={{ width: '70%' }} />
+          <NCAR sx={{ width: '70%', maxWidth: '150px' }} />
         </Column>
         <Column sx={logo} width={1}>
-          <Logo sx={{ width: '100%', ml: '-2px' }} />
+          <Logo sx={{ width: '100%', maxWidth: '200px', ml: '-2px' }} />
         </Column>
       </Row>
     </Section>

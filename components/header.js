@@ -1,6 +1,7 @@
-import { Box, Container, IconButton } from 'theme-ui'
+import { Box, Container } from 'theme-ui'
 import {
   Logo,
+  Dimmer,
   Meta,
   Guide,
   Header as HeaderComponent,
@@ -43,11 +44,25 @@ const Header = ({ expanded, setExpanded, headerMode }) => {
           >
             <Container>
               <HeaderComponent
-                dimmer={'none'}
-                settings={{
-                  value: expanded,
-                  onClick: () => setExpanded((prev) => !prev),
-                }}
+                menuItems={[
+                  <Dimmer
+                    key='dimmer'
+                    sx={{
+                      color: 'primary',
+                      mt: '-2px',
+                      display: ['block', 'block', 'none', 'none'],
+                    }}
+                  />,
+                  <Settings
+                    key='settings'
+                    sx={{
+                      mr: ['2px'],
+                      display: ['inherit', 'inherit', 'none', 'none'],
+                    }}
+                    value={expanded}
+                    onClick={() => setExpanded((prev) => !prev)}
+                  />,
+                ]}
               />
             </Container>
           </Box>

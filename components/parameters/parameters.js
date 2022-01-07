@@ -1,5 +1,4 @@
 import { Box } from 'theme-ui'
-import { Reset } from '@carbonplan/icons'
 import { Button, Group, Row, Column } from '@carbonplan/components'
 
 import Parameter from './parameter'
@@ -35,7 +34,7 @@ const Parameters = ({ sx }) => {
     ...sxProps
   } = sx
 
-  const { setParameters, resetParameters, ...parameters } = useParameters()
+  const { setParameters, ...parameters } = useParameters()
   const { target, layer } = useLayers()
 
   const active = useMemo(() => {
@@ -57,23 +56,10 @@ const Parameters = ({ sx }) => {
   }, [target, layer])
 
   return (
-    <Box sx={sxProps}>
+    <Box sx={{ ...sxProps, mb: [-3] }}>
       <Group spacing={4}>
         {target === 'products' && <ParameterPresets sx={sx} />}
-
         <Box>
-          <Row columns={3}>
-            <Column start={3} width={1}>
-              <Button
-                prefix={<Reset />}
-                onClick={resetParameters}
-                size='xs'
-                inverted
-              >
-                Reset
-              </Button>
-            </Column>
-          </Row>
           {active.map((id) => (
             <Parameter
               key={id}
