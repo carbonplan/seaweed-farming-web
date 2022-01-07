@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Box, Container } from 'theme-ui'
 import { Button, Row, Column, Tray } from '@carbonplan/components'
-import { ArrowThin, Reset } from '@carbonplan/icons'
-
+import { ArrowThin } from '@carbonplan/icons'
+import { useParameters } from './parameters/context'
 import { useRegionContext } from './region'
 import ControlPanelDivider from './control-panel-divider'
 
@@ -148,27 +148,6 @@ const ControlPanel = ({
   return (
     <>
       <Button
-        prefix={<Reset sx={{ width: 22, height: 22, strokeWidth: 1.5 }} />}
-        sx={{
-          display: ['none', 'none', 'inline-block', 'inline-block'],
-          cursor: expanded ? 'pointer' : 'default',
-          color: 'primary',
-          position: 'absolute',
-          opacity: expanded ? 1 : 0,
-          transition: 'left 0.2s, opacity 0.2s',
-          ml: ['5px'],
-          left: [
-            'calc(3 * 100vw / 6 - 12px)',
-            'calc(3 * 100vw / 8 - 18px)',
-            'calc(3 * 100vw / 12 + 37px)',
-            'calc(3 * 100vw / 12 + 54px)',
-          ],
-          //top: ['48px', '48px', '48px', '46px'],
-          top: ['15px', '15px', '15px', '16px'],
-          zIndex: 1001,
-        }}
-      />
-      <Button
         onClick={handleToggleExpanded}
         prefix={
           <Box sx={{ p: 1, mr: ['29px', '29px', '29px', '24px'] }}>
@@ -202,6 +181,8 @@ const ControlPanel = ({
             : '12px',
           bottom: ['20px', '20px', '20px', '18px'],
           zIndex: 1001,
+          pb: [2],
+          mb: [-2],
         }}
       >
         {expanded ? null : 'Show controls'}

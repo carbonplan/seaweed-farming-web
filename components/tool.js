@@ -55,7 +55,7 @@ const Tool = ({ headerMode }) => {
           overflow: 'clip',
         }}
       >
-        <Map>
+        <Map expanded={expanded}>
           <Container>
             <ControlPanel
               title='Mapping macroalgae'

@@ -35,7 +35,7 @@ const Parameters = ({ sx }) => {
     ...sxProps
   } = sx
 
-  const { setParameters, resetParameters, ...parameters } = useParameters()
+  const { setParameters, ...parameters } = useParameters()
   const { target, layer } = useLayers()
 
   const active = useMemo(() => {
