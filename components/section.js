@@ -50,6 +50,7 @@ export const Section = ({ children, label, onClose, onOpen, sx }) => {
           value={showSection}
           id='section-expander'
           sx={{
+            left: ['4px'],
             position: 'relative',
             stroke: 'secondary',
             transition: 'stroke 0.15s',
@@ -61,8 +62,11 @@ export const Section = ({ children, label, onClose, onOpen, sx }) => {
         duration={150}
         height={showSection && children ? 'auto' : 0}
         easing={'linear'}
+        style={{ pointerEvents: 'none' }}
       >
-        <Box sx={{ pt: [4] }}>{children || null}</Box>
+        <Box sx={{ pt: [3], pb: [1] }}>
+          <Box sx={{ pointerEvents: 'all' }}>{children || null}</Box>
+        </Box>
       </AnimateHeight>
     </Box>
   )

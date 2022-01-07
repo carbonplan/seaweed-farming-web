@@ -1,5 +1,5 @@
 import { Group } from '@carbonplan/components'
-
+import { Box } from 'theme-ui'
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
 import AverageDisplay from './average-display'
@@ -46,7 +46,7 @@ export const DataDisplay = ({ data }) => {
       )
 
       return (
-        <Group spacing={4}>
+        <Box sx={{ mb: [-3] }}>
           <AverageDisplay
             label={LABEL_MAP.mitigationCost[target]}
             units={UNITS_MAP.mitigationCost[target]}
@@ -62,7 +62,7 @@ export const DataDisplay = ({ data }) => {
             units={UNITS_MAP.cost}
             value={averageData(projectCost, area)}
           />
-        </Group>
+        </Box>
       )
     } else if (layer === 'species_preferred') {
       const ratios = weightedData(
@@ -70,7 +70,7 @@ export const DataDisplay = ({ data }) => {
         area
       )
       return (
-        <Group spacing={2}>
+        <Box sx={{ mb: [-3] }}>
           {SPECIES.map((s, i) => (
             <AverageDisplay
               key={s}
@@ -79,7 +79,7 @@ export const DataDisplay = ({ data }) => {
               value={ratios[i] * 100}
             />
           ))}
-        </Group>
+        </Box>
       )
     } else if (layer === 'nharv') {
       const ratios = weightedData(
@@ -88,7 +88,7 @@ export const DataDisplay = ({ data }) => {
       )
 
       return (
-        <Group spacing={2}>
+        <Box sx={{ mb: [-3] }}>
           {Object.keys(ratios).map((k) => (
             <AverageDisplay
               key={k}
@@ -97,7 +97,7 @@ export const DataDisplay = ({ data }) => {
               value={ratios[k] * 100}
             />
           ))}
-        </Group>
+        </Box>
       )
     } else {
       let values = data.value.all_variables[layer]
@@ -109,15 +109,17 @@ export const DataDisplay = ({ data }) => {
         values = data.value.all_variables['harv_preferred']
       }
       return (
-        <AverageDisplay
-          label={LABEL_MAP[layer]}
-          units={
-            typeof UNITS_MAP[layer] === 'string'
-              ? UNITS_MAP[layer]
-              : UNITS_MAP[layer][target]
-          }
-          value={averageData(values, area)}
-        />
+        <Box sx={{ mb: [-3] }}>
+          <AverageDisplay
+            label={LABEL_MAP[layer]}
+            units={
+              typeof UNITS_MAP[layer] === 'string'
+                ? UNITS_MAP[layer]
+                : UNITS_MAP[layer][target]
+            }
+            value={averageData(values, area)}
+          />
+        </Box>
       )
     }
   }

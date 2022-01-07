@@ -57,23 +57,10 @@ const Parameters = ({ sx }) => {
   }, [target, layer])
 
   return (
-    <Box sx={sxProps}>
+    <Box sx={{ ...sxProps, mb: [-3] }}>
       <Group spacing={4}>
         {target === 'products' && <ParameterPresets sx={sx} />}
-
         <Box>
-          <Row columns={3}>
-            <Column start={3} width={1}>
-              <Button
-                prefix={<Reset />}
-                onClick={resetParameters}
-                size='xs'
-                inverted
-              >
-                Reset
-              </Button>
-            </Column>
-          </Row>
           {active.map((id) => (
             <Parameter
               key={id}

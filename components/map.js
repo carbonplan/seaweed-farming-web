@@ -1,8 +1,9 @@
+import { useState, useEffect } from 'react'
 import { Box, Flex, useColorMode, useThemeUI } from 'theme-ui'
 import { Fill, Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
-import { Colorbar } from '@carbonplan/colormaps'
-import { Dimmer } from '@carbonplan/components'
+import { Dimmer, Colorbar } from '@carbonplan/components'
+import { format } from 'd3-format'
 
 import { useParameters } from './parameters'
 import { useCustomColormap } from './utils'
@@ -63,6 +64,8 @@ const VARIABLES = [
   'sensitive_areas',
 ]
 
+const formatter = format('.2r')
+
 const Viewer = ({ children }) => {
   const { theme } = useThemeUI()
   const [mode] = useColorMode()
@@ -70,7 +73,12 @@ const Viewer = ({ children }) => {
   const { uniforms: layerUniforms, layer, target } = useLayers()
   const { colormap, legend, discrete } = useCustomColormap(layer)
   const { setRegionData, showRegionPicker } = useRegionContext()
-  const { clim } = COLORMAPS_MAP[layer]
+
+  let initClim = {}
+  Object.entries(COLORMAPS_MAP).forEach((d) => {
+    initClim[d[0]] = d[1].clim
+  })
+  const [clim, setClim] = useState(initClim)
 
   return (
     <Map
@@ -98,13 +106,14 @@ const Viewer = ({ children }) => {
         <RegionPicker
           color={theme.colors.primary}
           backgroundColor={theme.colors.background}
-          fontFamily={theme.fonts.monospace}
+          fontFamily={theme.fonts.mono}
+          fontSize={'14px'}
         />
       )}
       <Raster
         maxZoom={5}
         colormap={colormap}
-        clim={clim}
+        clim={clim[layer]}
         display={true}
         mode={'texture'}
         uniforms={{
@@ -246,8 +255,8 @@ const Viewer = ({ children }) => {
           {legend || (
             <Colorbar
               colormap={colormap}
-              format={(d) => (d === clim[0] && d > 1 ? `< ${d}` : d)}
-              clim={clim}
+              format={(d) => formatter(d)}
+              clim={clim[layer]}
               units={
                 <Box sx={{ color: 'primary' }}>
                   {typeof UNITS_MAP[layer] === 'string'
@@ -262,6 +271,12 @@ const Viewer = ({ children }) => {
               }
               discrete={discrete}
               horizontal
+              setClim={(setter) =>
+                setClim((prev) => {
+                  return { ...prev, [layer]: setter(clim[layer]) }
+                })
+              }
+              setClimStep={COLORMAPS_MAP[layer].step}
             />
           )}
           <Dimmer
