@@ -4,11 +4,10 @@ import { Fill, Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
 import { Dimmer, Colorbar, Button } from '@carbonplan/components'
 import { Reset } from '@carbonplan/icons'
-import { format } from 'd3-format'
 
 import Ruler from './ruler'
 import { useParameters } from './parameters'
-import { useCustomColormap } from './utils'
+import { useCustomColormap, formatValue } from './utils'
 import { LAYER_UNIFORMS, useLayers } from './layers'
 import {
   NAN,
@@ -65,8 +64,6 @@ const VARIABLES = [
   'area',
   'sensitive_areas',
 ]
-
-const formatter = format('.2r')
 
 const Viewer = ({ expanded, children }) => {
   const { theme } = useThemeUI()
@@ -282,7 +279,7 @@ const Viewer = ({ expanded, children }) => {
             {legend || (
               <Colorbar
                 colormap={colormap}
-                format={(d) => formatter(d)}
+                format={formatValue}
                 clim={clim[layer]}
                 units={
                   <Box sx={{ color: 'primary' }}>
