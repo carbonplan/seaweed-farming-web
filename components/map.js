@@ -303,18 +303,18 @@ const Viewer = ({ expanded, children }) => {
                 setClimStep={COLORMAPS_MAP[layer].step}
               />
             )}
-          <Ruler />
-          <Dimmer
-            sx={{
-              display: ['none', 'none', 'initial', 'initial'],
-              color: 'primary',
-            }}
-          />
-        </Flex>
-      </Box>
-      {children}
-    </Map>
-  </>
+            <Ruler />
+            <Dimmer
+              sx={{
+                display: ['none', 'none', 'initial', 'initial'],
+                color: 'primary',
+              }}
+            />
+          </Flex>
+        </Box>
+        {children}
+      </Map>
+    </>
   )
 }
 
