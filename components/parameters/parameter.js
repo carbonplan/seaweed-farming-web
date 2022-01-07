@@ -61,7 +61,7 @@ const Parameter = ({
           />
         </Column>
         <Column start={3} width={1}>
-          <Badge>{formatValue(value)}</Badge>
+          <Badge sx={{ width: 'max-content' }}>{formatValue(value)}</Badge>
         </Column>
       </Row>
     </Box>

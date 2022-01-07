@@ -82,7 +82,7 @@ const Viewer = ({ expanded, children }) => {
   return (
     <>
       <Button
-        prefix={<Reset sx={{ width: 22, height: 22, strokeWidth: 1.5 }} />}
+        prefix={<Reset sx={{ width: 20, height: 20, strokeWidth: 1.5 }} />}
         onClick={() => {
           setClim(initClim)
           parameters.resetParameters()
@@ -93,18 +93,17 @@ const Viewer = ({ expanded, children }) => {
           cursor: expanded ? 'pointer' : 'default',
           color: 'secondary',
           position: 'absolute',
-          opacity: expanded ? 1 : 0,
-          transition: 'left 0.2s, opacity 0.2s',
-          ml: ['-60px'],
+          opacity: 1,
+          transition: 'left 0.2s',
           left: expanded
             ? [
                 'calc(3 * 100vw / 6 - 12px)',
                 'calc(3 * 100vw / 8 - 18px)',
-                'calc(3 * 100vw / 12 + 37px)',
-                'calc(3 * 100vw / 12 + 54px)',
+                'calc(3 * 100vw / 12 - 26px)',
+                'calc(3 * 100vw / 12 - 30px)',
               ]
-            : 0,
-          top: ['16px', '16px', '16px', '17px'],
+            : '-20px',
+          top: ['17px', '17px', '17px', '15px'],
           zIndex: 5001,
         }}
       />

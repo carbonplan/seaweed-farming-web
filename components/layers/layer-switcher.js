@@ -148,22 +148,26 @@ const LayerSwitcher = ({ sx }) => {
           Select an target end-use for cultivated macroalgae, either sinking it
           for carbon removal or converting it into a product.
         </Box>
-        <Group direction='horizontal'>
-          <Radio
-            label='Sinking'
-            value='sinking'
-            name='target'
-            onChange={setTarget}
-            checked={target === 'sinking'}
-          />
-          <Radio
-            label='Products'
-            value='products'
-            name='target'
-            onChange={setTarget}
-            checked={target === 'products'}
-          />
-        </Group>
+        <Box>
+          <Box sx={{ display: 'inline-block', mr: [3] }}>
+            <Radio
+              label='Sinking'
+              value='sinking'
+              name='target'
+              onChange={setTarget}
+              checked={target === 'sinking'}
+            />
+          </Box>
+          <Box sx={{ display: 'inline-block' }}>
+            <Radio
+              label='Products'
+              value='products'
+              name='target'
+              onChange={setTarget}
+              checked={target === 'products'}
+            />
+          </Box>
+        </Box>
       </Group>
 
       <ControlPanelDivider />

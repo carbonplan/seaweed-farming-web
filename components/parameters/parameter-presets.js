@@ -19,24 +19,25 @@ const ParameterPresets = ({ sx }) => {
   return (
     <Box>
       <Box sx={sx.label}>Product presets</Box>
-      <Group direction='horizontal'>
+      <Box>
         {PRODUCT_PRESETS.map(({ label }) => {
           return (
-            <Radio
-              key={label}
-              label={label}
-              value={label}
-              name='productPreset'
-              onChange={(label) =>
-                setParameters(
-                  PRODUCT_PRESETS.find((p) => p.label === label).values
-                )
-              }
-              checked={label === matchingProduct}
-            />
+            <Box key={label} sx={{ display: 'inline-block', mr: [3] }}>
+              <Radio
+                label={label}
+                value={label}
+                name='productPreset'
+                onChange={(label) =>
+                  setParameters(
+                    PRODUCT_PRESETS.find((p) => p.label === label).values
+                  )
+                }
+                checked={label === matchingProduct}
+              />
+            </Box>
           )
         })}
-      </Group>
+      </Box>
     </Box>
   )
 }
