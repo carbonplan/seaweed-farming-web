@@ -6,6 +6,7 @@ import { Dimmer, Colorbar, Button } from '@carbonplan/components'
 import { Reset } from '@carbonplan/icons'
 import { format } from 'd3-format'
 
+import Ruler from './ruler'
 import { useParameters } from './parameters'
 import { useCustomColormap } from './utils'
 import { LAYER_UNIFORMS, useLayers } from './layers'
@@ -277,7 +278,7 @@ const Viewer = ({ expanded, children }) => {
             bottom: [17, 17, 15, 15],
           }}
         >
-          <Flex sx={{ gap: [4], alignItems: legend ? 'flex-end' : 'center' }}>
+          <Flex sx={{ gap: [3], alignItems: legend ? 'flex-end' : 'center' }}>
             {legend || (
               <Colorbar
                 colormap={colormap}
@@ -305,17 +306,18 @@ const Viewer = ({ expanded, children }) => {
                 setClimStep={COLORMAPS_MAP[layer].step}
               />
             )}
-            <Dimmer
-              sx={{
-                display: ['none', 'none', 'initial', 'initial'],
-                color: 'primary',
-              }}
-            />
-          </Flex>
-        </Box>
-        {children}
-      </Map>
-    </>
+          <Ruler />
+          <Dimmer
+            sx={{
+              display: ['none', 'none', 'initial', 'initial'],
+              color: 'primary',
+            }}
+          />
+        </Flex>
+      </Box>
+      {children}
+    </Map>
+  </>
   )
 }
 
