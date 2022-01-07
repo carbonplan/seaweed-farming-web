@@ -90,18 +90,20 @@ const Viewer = ({ expanded, children }) => {
         sx={{
           display: ['none', 'none', 'inline-block', 'inline-block'],
           cursor: expanded ? 'pointer' : 'default',
-          color: 'primary',
+          color: 'secondary',
           position: 'absolute',
           opacity: expanded ? 1 : 0,
           transition: 'left 0.2s, opacity 0.2s',
-          ml: ['5px'],
-          left: [
-            'calc(3 * 100vw / 6 - 12px)',
-            'calc(3 * 100vw / 8 - 18px)',
-            'calc(3 * 100vw / 12 + 37px)',
-            'calc(3 * 100vw / 12 + 54px)',
-          ],
-          top: ['15px', '15px', '15px', '16px'],
+          ml: ['-60px'],
+          left: expanded
+            ? [
+                'calc(3 * 100vw / 6 - 12px)',
+                'calc(3 * 100vw / 8 - 18px)',
+                'calc(3 * 100vw / 12 + 37px)',
+                'calc(3 * 100vw / 12 + 54px)',
+              ]
+            : 0,
+          top: ['16px', '16px', '16px', '17px'],
           zIndex: 5001,
         }}
       />
