@@ -3,7 +3,7 @@ import { Group } from '@carbonplan/components'
 
 const sx = {
   fontFamily: 'mono',
-  fontSize: ['14px', '14px', '14px', '14px'],
+  fontSize: ['9px', 0, 0, 1],
   letterSpacing: 'smallcaps',
   textTransform: 'uppercase',
 }
