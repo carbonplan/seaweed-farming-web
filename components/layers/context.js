@@ -1,4 +1,10 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 import { GROWTH_MODELS } from '../../constants'
 
 const LayersContext = createContext(null)
@@ -6,8 +12,14 @@ const LayersContext = createContext(null)
 export const LayersProvider = ({ children }) => {
   const [layer, setLayer] = useState('mitigationCost')
   const [target, setTarget] = useState('sinking')
-  const [growthModel, setGrowthModel] = useState(GROWTH_MODELS[0])
   const [sensitiveAreaMask, setSensitiveAreaMask] = useState(0)
+  const [growthModel, setGrowthModel] = useState(GROWTH_MODELS[0])
+
+  const resetLayers = useCallback(() => {
+    setLayer('mitigationCost')
+    setTarget('sinking')
+    setSensitiveAreaMask(0)
+  }, [])
 
   return (
     <LayersContext.Provider
@@ -20,6 +32,7 @@ export const LayersProvider = ({ children }) => {
         setGrowthModel,
         sensitiveAreaMask,
         setSensitiveAreaMask,
+        resetLayers,
       }}
     >
       {children}
@@ -50,7 +63,7 @@ export const useLayers = () => {
   const {
     layer,
     target,
-    growthModel,
+    resetLayers,
     sensitiveAreaMask,
   } = useRawUniformValues()
 
@@ -70,5 +83,5 @@ export const useLayers = () => {
     sinkingTarget: target === 'sinking' ? 1 : 0,
   }
 
-  return { layer, uniforms, target, sensitiveAreaMask }
+  return { layer, uniforms, target, sensitiveAreaMask, resetLayers }
 }

@@ -1,5 +1,4 @@
 import { Box } from 'theme-ui'
-import { Reset } from '@carbonplan/icons'
 import { Button, Group, Row, Column } from '@carbonplan/components'
 
 import Parameter from './parameter'

@@ -69,7 +69,7 @@ const Viewer = ({ expanded, children }) => {
   const { theme } = useThemeUI()
   const [mode] = useColorMode()
   const parameters = useParameters()
-  const { uniforms: layerUniforms, layer, target } = useLayers()
+  const { uniforms: layerUniforms, layer, target, resetLayers } = useLayers()
   const { colormap, legend, discrete } = useCustomColormap(layer)
   const { setRegionData, showRegionPicker } = useRegionContext()
 
@@ -86,6 +86,7 @@ const Viewer = ({ expanded, children }) => {
         onClick={() => {
           setClim(initClim)
           parameters.resetParameters()
+          resetLayers()
         }}
         sx={{
           display: ['none', 'none', 'inline-block', 'inline-block'],
