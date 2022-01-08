@@ -104,7 +104,7 @@ const Viewer = ({ expanded, children }) => {
               ]
             : '-20px',
           top: ['17px', '17px', '17px', '15px'],
-          zIndex: 5001,
+          zIndex: 1001,
         }}
       />
       <Map

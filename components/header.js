@@ -21,7 +21,15 @@ const Header = ({ expanded, setExpanded, headerMode }) => {
       <Container>
         <Guide color='teal' />
       </Container>
-      <Box sx={{ position: 'absolute', top: 0, width: '100%', zIndex: 5000 }}>
+      <Box
+        sx={{
+          pointerEvents: 'none',
+          position: 'absolute',
+          top: 0,
+          width: '100%',
+          zIndex: 5000,
+        }}
+      >
         {headerMode !== 'sparse' && (
           <Box
             as='header'

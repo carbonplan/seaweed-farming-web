@@ -32,7 +32,7 @@ const Ruler = () => {
       onClick={switchMode}
       sx={{ stroke: 'primary', cursor: 'pointer', ml: [2] }}
     >
-      <Globe />
+      <Globe sx={{ strokeWidth: 1.25 }} />
     </IconButton>
   )
 }
