@@ -79,7 +79,7 @@ const Header = ({ expanded, setExpanded, headerMode }) => {
           <>
             <Logo sx={{ float: 'left', m: [3] }} />
             <Settings
-              sx={{ float: 'right', m: [3] }}
+              sx={{ float: 'right', m: [3], pointerEvents: 'all' }}
               onClick={() => setExpanded((prev) => !prev)}
               value={expanded}
             />
