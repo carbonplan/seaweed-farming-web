@@ -74,7 +74,7 @@ const ControlPanel = ({
           display: 'block',
           zIndex: 1001,
           fontSize: [2, 3, 3, 4],
-          pointerEvents: expanded ? 'none' : 'all',
+          pointerEvents: 'none',
           userSelect: 'none',
         }}
       >

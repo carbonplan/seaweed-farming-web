@@ -61,9 +61,21 @@ const Tool = ({ headerMode }) => {
               title='Mapping macroalgae'
               description={
                 <Box>
-                  Read the <Link href='#'>preprint</Link>. Explore the{' '}
-                  <Link onClick={() => setExpanded(true)}>map</Link>. Built in
-                  collaboration with UCI, NCAR, and S3.
+                  Read the{' '}
+                  <Link
+                    href='#'
+                    sx={{ pointerEvents: expanded ? 'none' : 'all' }}
+                  >
+                    preprint
+                  </Link>
+                  . Explore the{' '}
+                  <Link
+                    onClick={() => setExpanded(true)}
+                    sx={{ pointerEvents: expanded ? 'none' : 'all' }}
+                  >
+                    map
+                  </Link>
+                  . Built in collaboration with UCI, NCAR, and S3.
                 </Box>
               }
               expanded={expanded}
