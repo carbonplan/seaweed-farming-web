@@ -6,11 +6,7 @@ import { useRegionContext } from '../region'
 import DataDisplay from './data-display'
 
 export const Statistics = ({ sx }) => {
-  const {
-    regionData,
-    showRegionPicker,
-    setShowRegionPicker,
-  } = useRegionContext()
+  const { regionData, showRegionPicker } = useRegionContext()
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -23,7 +19,6 @@ export const Statistics = ({ sx }) => {
           justifyContent: 'space-between',
           cursor: 'pointer',
         }}
-        onClick={() => setShowRegionPicker((v) => !v)}
       >
         <Box>Regional data</Box>
         <Expander
@@ -31,6 +26,16 @@ export const Statistics = ({ sx }) => {
           sx={{
             stroke: 'secondary',
             transition: 'stroke 0.15s',
+            '@media (hover: hover) and (pointer: fine)': {
+              '&:hover': {
+                fill: 'primary',
+                stroke: 'primary',
+              },
+              '#footer:hover &': {
+                fill: 'primary',
+                stroke: 'primary',
+              },
+            },
           }}
         />
       </Box>
