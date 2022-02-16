@@ -1,4 +1,4 @@
-import { useColormap } from '@carbonplan/colormaps'
+import { useThemedColormap } from '@carbonplan/colormaps'
 import { COLORMAPS_MAP, SPECIES } from '../../constants'
 import Legend from '../legend'
 
@@ -8,14 +8,14 @@ const useCustomColormap = (layer) => {
   let legend
   let discrete = false
   if (layer === 'species_preferred') {
-    colormap = useColormap(colormapName, { count: 6 }).slice(1)
+    colormap = useThemedColormap(colormapName, { count: 6 }).slice(1)
     legend = <Legend colormap={colormap} labels={SPECIES} />
     discrete = true
   } else if (layer === 'nharv') {
-    colormap = useColormap(colormapName, { count: 9 }).slice(1)
+    colormap = useThemedColormap(colormapName, { count: 9 }).slice(1)
     discrete = true
   } else {
-    colormap = useColormap(colormapName, { count: 255 }).slice(20)
+    colormap = useThemedColormap(colormapName).slice(20)
   }
 
   return { colormap, legend, discrete }
