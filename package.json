@@ -25,7 +25,7 @@
     "@carbonplan/colormaps": "^3.0.2",
     "@carbonplan/components": "^11.1.4",
     "@carbonplan/icons": "^1.1.1",
-    "@carbonplan/layouts": "1.2.0",
+    "@carbonplan/layouts": "^1.2.0",
     "@carbonplan/maps": "2.0.0-develop.7",
     "@carbonplan/theme": "^7.0.0",
     "@mdx-js/react": "^1.6.22",
