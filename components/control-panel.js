@@ -1,6 +1,6 @@
 import { Box, Container, Divider } from 'theme-ui'
 import { Column, Row } from '@carbonplan/components'
-import { SidePanel, SidePanelFooter } from '@carbonplan/layouts'
+import { Sidebar, SidebarFooter } from '@carbonplan/layouts'
 
 import Statistics from '../components/statistics'
 import { useRegionContext } from './region'
@@ -102,7 +102,7 @@ const ControlPanel = ({ expanded, setExpanded, children, embedded }) => {
     )
   } else {
     return (
-      <SidePanel
+      <Sidebar
         expanded={expanded}
         setExpanded={setExpanded}
         tooltip='Show controls'
@@ -110,16 +110,16 @@ const ControlPanel = ({ expanded, setExpanded, children, embedded }) => {
         width={3}
         onClose={() => setShowRegionPicker(false)}
         footer={
-          <SidePanelFooter
+          <SidebarFooter
             onClick={() => setShowRegionPicker((v) => !v)}
             id='footer'
           >
             <Statistics sx={sx} />
-          </SidePanelFooter>
+          </SidebarFooter>
         }
       >
         {children}
-      </SidePanel>
+      </Sidebar>
     )
   }
 }

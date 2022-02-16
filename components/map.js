@@ -3,7 +3,7 @@ import { Box, Flex, useColorMode, useThemeUI } from 'theme-ui'
 import { Fill, Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
 import { Dimmer, Colorbar, Button } from '@carbonplan/components'
-import { SidePanelAttachment } from '@carbonplan/layouts'
+import { SidebarAttachment } from '@carbonplan/layouts'
 import { Reset } from '@carbonplan/icons'
 
 import Ruler from './ruler'
@@ -82,7 +82,7 @@ const Viewer = ({ expanded, children }) => {
 
   return (
     <>
-      <SidePanelAttachment
+      <SidebarAttachment
         expanded={expanded}
         side='left'
         width={3}
@@ -106,7 +106,7 @@ const Viewer = ({ expanded, children }) => {
             transition: ' opacity 0.2s',
           }}
         />
-      </SidePanelAttachment>
+      </SidebarAttachment>
 
       <Map
         zoom={2}
