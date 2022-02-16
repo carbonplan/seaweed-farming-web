@@ -56,7 +56,7 @@ const Parameters = ({ sx }) => {
   }, [target, layer])
 
   return (
-    <Box sx={{ ...sxProps, mb: [-3] }}>
+    <Box sx={sxProps}>
       <Group spacing={4}>
         {target === 'products' && <ParameterPresets sx={sx} />}
         <Box>

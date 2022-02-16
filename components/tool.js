@@ -1,15 +1,14 @@
-import { Box, Container } from 'theme-ui'
-import { Group, Link } from '@carbonplan/components'
+import { Box, Container, Divider } from 'theme-ui'
 import { useState } from 'react'
+import { Group, Link } from '@carbonplan/components'
 
-import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
 import { LayerSwitcher } from '../components/layers'
-import ControlPanelDivider from '../components/control-panel-divider'
 import Parameters from '../components/parameters'
-import Statistics from '../components/statistics'
 import Header from './header'
 import About from './about'
+import Title from './title'
+import ControlPanel from './control-panel'
 
 const sx = {
   heading: {
@@ -17,6 +16,7 @@ const sx = {
     letterSpacing: 'smallcaps',
     textTransform: 'uppercase',
     fontSize: [2, 2, 2, 3],
+    mb: [3],
   },
   description: {
     fontSize: [1, 1, 1, 2],
@@ -29,21 +29,15 @@ const sx = {
   },
 }
 
-const Tool = ({ headerMode }) => {
+const Tool = ({ embedded = false }) => {
   const [expanded, setExpanded] = useState(false)
-
-  if (!['pure', 'expander', 'sparse'].includes(headerMode)) {
-    throw new Error(
-      `Unexpected headerMode: ${headerMode}. Must be one of 'pure', 'expander', 'sparse'.`
-    )
-  }
 
   return (
     <>
       <Header
         expanded={expanded}
         setExpanded={setExpanded}
-        headerMode={headerMode}
+        embedded={embedded}
       />
       <Box
         sx={{
@@ -58,29 +52,9 @@ const Tool = ({ headerMode }) => {
         <Map expanded={expanded}>
           <Container>
             <ControlPanel
-              title='Mapping macroalgae'
-              description={
-                <Box>
-                  Read the{' '}
-                  <Link
-                    href='#'
-                    sx={{ pointerEvents: expanded ? 'none' : 'all' }}
-                  >
-                    preprint
-                  </Link>
-                  . Explore the{' '}
-                  <Link
-                    onClick={() => setExpanded(true)}
-                    sx={{ pointerEvents: expanded ? 'none' : 'all' }}
-                  >
-                    map
-                  </Link>
-                  . Built in collaboration with UCI, NCAR, and S3.
-                </Box>
-              }
               expanded={expanded}
+              embedded={embedded}
               setExpanded={setExpanded}
-              headerMode={headerMode}
             >
               <Group spacing={4}>
                 <Box sx={sx.description}>
@@ -90,25 +64,21 @@ const Tool = ({ headerMode }) => {
                   <Link href='#'>Jupyter notebooks</Link> for more details.
                 </Box>
 
-                <ControlPanelDivider />
-
                 <LayerSwitcher sx={sx} />
 
-                <ControlPanelDivider />
+                <Divider sx={{ my: 4 }} />
 
                 <Parameters sx={sx} />
 
-                {headerMode === 'pure' && <ControlPanelDivider />}
-
-                {headerMode === 'pure' && <Statistics sx={sx} />}
-
-                <ControlPanelDivider sx={{ mb: [4, 4, -4, -4] }} />
+                <Divider sx={{ my: 4 }} />
 
                 <About sx={sx} />
-
-                <ControlPanelDivider sx={{ mb: [4, 4, -4, -4] }} />
               </Group>
             </ControlPanel>
+
+            {!embedded && (
+              <Title expanded={expanded} setExpanded={setExpanded} />
+            )}
           </Container>
         </Map>
       </Box>

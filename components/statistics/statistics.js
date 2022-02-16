@@ -1,23 +1,44 @@
+import { Box } from 'theme-ui'
+import AnimateHeight from 'react-animate-height'
+import { Search, X } from '@carbonplan/icons'
+
 import { useRegionContext } from '../region'
-import Section from '../section'
 import DataDisplay from './data-display'
 
 export const Statistics = ({ sx }) => {
-  const {
-    regionData,
-    showRegionPicker,
-    setShowRegionPicker,
-  } = useRegionContext()
+  const { regionData, showRegionPicker } = useRegionContext()
 
   return (
-    <Section
-      sx={sx.heading}
-      label='Regional averages'
-      onClose={() => setShowRegionPicker(false)}
-      onOpen={() => setShowRegionPicker(true)}
-    >
-      {showRegionPicker && regionData && <DataDisplay data={regionData} />}
-    </Section>
+    <Box>
+      <Box
+        sx={{
+          ...sx.heading,
+          ...(showRegionPicker ? {} : { mb: 0 }),
+          display: 'flex',
+          gap: 2,
+          cursor: 'pointer',
+        }}
+      >
+        <Box>Regional data</Box>
+        <Box sx={{ position: 'relative', mt: '-1px' }}>
+          {!showRegionPicker && (
+            <Search sx={{ strokeWidth: 2, width: '18px' }} />
+          )}
+          {showRegionPicker && <X sx={{ strokeWidth: 2, width: '18px' }} />}
+        </Box>
+      </Box>
+
+      <AnimateHeight
+        duration={150}
+        height={showRegionPicker ? 'auto' : 0}
+        easing={'linear'}
+        style={{ pointerEvents: 'none' }}
+      >
+        <Box sx={{ pt: [3], pb: [1], width: '100%', minHeight: '188px' }}>
+          {showRegionPicker && regionData && <DataDisplay data={regionData} />}
+        </Box>
+      </AnimateHeight>
+    </Box>
   )
 }
 

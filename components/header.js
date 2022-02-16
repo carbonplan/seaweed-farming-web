@@ -8,16 +8,10 @@ import {
   Settings,
 } from '@carbonplan/components'
 
-const Header = ({ expanded, setExpanded, headerMode }) => {
-  if (!['pure', 'expander', 'sparse'].includes(headerMode)) {
-    throw new Error(
-      `Unexpected headerMode: ${headerMode}. Must be one of 'pure', 'expander', 'sparse'.`
-    )
-  }
-
+const Header = ({ expanded, setExpanded, embedded }) => {
   return (
     <>
-      <Meta />
+      <Meta title='Macroalgae cost – CarbonPlan' description='TK' />
       <Container>
         <Guide color='teal' />
       </Container>
@@ -30,25 +24,30 @@ const Header = ({ expanded, setExpanded, headerMode }) => {
           zIndex: 5000,
         }}
       >
-        {headerMode !== 'sparse' && (
+        {embedded ? (
+          <>
+            <Logo sx={{ float: 'left', m: [3] }} />
+            <Settings
+              sx={{ float: 'right', m: [3], pointerEvents: 'all' }}
+              onClick={() => setExpanded((prev) => !prev)}
+              value={expanded}
+            />
+          </>
+        ) : (
           <Box
             as='header'
-            sx={
-              headerMode === 'expander'
-                ? {
-                    width: '100%',
-                    borderStyle: 'solid',
-                    borderColor: 'muted',
-                    borderWidth: '0px',
-                    borderBottomWidth: '1px',
-                    position: 'sticky',
-                    top: 0,
-                    bg: 'background',
-                    height: '56px',
-                    zIndex: 2000,
-                  }
-                : {}
-            }
+            sx={{
+              width: '100%',
+              borderWidth: 0,
+              borderStyle: ['solid', 'solid', 'none', 'none'],
+              borderColor: ['muted', 'muted', 'unset', 'unset'],
+              borderBottomWidth: ['1px', '1px', 'unset', 'unset'],
+              bg: ['background', 'background', 'unset', 'unset'],
+              position: 'sticky',
+              top: 0,
+              height: '56px',
+              zIndex: 2000,
+            }}
           >
             <Container>
               <HeaderComponent
@@ -74,16 +73,6 @@ const Header = ({ expanded, setExpanded, headerMode }) => {
               />
             </Container>
           </Box>
-        )}
-        {headerMode === 'sparse' && (
-          <>
-            <Logo sx={{ float: 'left', m: [3] }} />
-            <Settings
-              sx={{ float: 'right', m: [3], pointerEvents: 'all' }}
-              onClick={() => setExpanded((prev) => !prev)}
-              value={expanded}
-            />
-          </>
         )}
       </Box>
     </>

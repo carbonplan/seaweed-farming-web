@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Box, Flex, useColorMode, useThemeUI } from 'theme-ui'
 import { Fill, Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
 import { Dimmer, Colorbar, Button } from '@carbonplan/components'
+import { SidebarAttachment } from '@carbonplan/layouts'
 import { Reset } from '@carbonplan/icons'
 
 import Ruler from './ruler'
@@ -81,32 +82,32 @@ const Viewer = ({ expanded, children }) => {
 
   return (
     <>
-      <Button
-        prefix={<Reset sx={{ width: 20, height: 20, strokeWidth: 1.5 }} />}
-        onClick={() => {
-          setClim(initClim)
-          parameters.resetParameters()
-          resetLayers()
-        }}
+      <SidebarAttachment
+        expanded={expanded}
+        side='left'
+        width={3}
         sx={{
-          display: ['none', 'none', 'inline-block', 'inline-block'],
-          cursor: expanded ? 'pointer' : 'default',
-          color: 'secondary',
-          position: 'absolute',
-          opacity: 1,
-          transition: 'left 0.2s',
-          left: expanded
-            ? [
-                'calc(3 * 100vw / 6 - 12px)',
-                'calc(3 * 100vw / 8 - 18px)',
-                'calc(3 * 100vw / 12 - 26px)',
-                'calc(3 * 100vw / 12 - 30px)',
-              ]
-            : '-20px',
           top: ['17px', '17px', '17px', '15px'],
-          zIndex: 1001,
+          ml: [null, null, '-63px', '-84px'],
+          display: ['none', 'none', 'inline-block', 'inline-block'],
         }}
-      />
+      >
+        <Button
+          prefix={<Reset sx={{ width: 20, height: 20, strokeWidth: 1.5 }} />}
+          onClick={() => {
+            setClim(initClim)
+            parameters.resetParameters()
+            resetLayers()
+          }}
+          sx={{
+            cursor: expanded ? 'pointer' : 'default',
+            color: 'secondary',
+            opacity: expanded ? 1 : 0,
+            transition: ' opacity 0.2s',
+          }}
+        />
+      </SidebarAttachment>
+
       <Map
         zoom={2}
         minZoom={2}
