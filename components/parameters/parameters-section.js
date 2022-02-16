@@ -1,7 +1,6 @@
+import { Box } from 'theme-ui'
 import { Group } from '@carbonplan/components'
-
 import { GrowthParameters, useLayers } from '../layers'
-import Section from '../section'
 import Parameters from './parameters'
 
 const OUTPUTS = ['mitigationCost', 'cost', 'benefit']
@@ -9,7 +8,9 @@ const OUTPUTS = ['mitigationCost', 'cost', 'benefit']
 const ParametersSection = ({ sx }) => {
   const { layer } = useLayers()
   return (
-    <Section sx={sx.heading} label='Parameters'>
+    <>
+      <Box sx={sx.heading}>Parameters</Box>
+
       {OUTPUTS.includes(layer) ? (
         <Group spacing={4}>
           <GrowthParameters sx={sx} />
@@ -19,7 +20,7 @@ const ParametersSection = ({ sx }) => {
       ) : (
         'Select a derived output to adjust applicable parameters.'
       )}
-    </Section>
+    </>
   )
 }
 

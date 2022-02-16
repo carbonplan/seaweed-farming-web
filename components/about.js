@@ -1,7 +1,6 @@
 import { Box } from 'theme-ui'
 import { Group, Link, Logo, Row, Column } from '@carbonplan/components'
 
-import Section from './section'
 import { ClimateWorks, NCAR, S3, UCI } from './logos'
 
 const logo = {
@@ -12,7 +11,8 @@ const logo = {
 }
 const About = ({ sx }) => {
   return (
-    <Section sx={sx.heading} label='About'>
+    <>
+      <Box sx={sx.heading}>About</Box>
       <Group spacing={2}>
         <Box sx={sx.description}>
           This interactive tool explores the costs of growing macroalgae
@@ -59,7 +59,7 @@ const About = ({ sx }) => {
           <Logo sx={{ width: '100%', maxWidth: '200px', ml: '-2px' }} />
         </Column>
       </Row>
-    </Section>
+    </>
   )
 }
 

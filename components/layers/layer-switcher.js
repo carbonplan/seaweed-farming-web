@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Filter, Group } from '@carbonplan/components'
-import { Box } from 'theme-ui'
+import { Box, Divider } from 'theme-ui'
 
-import ControlPanelDivider from '../control-panel-divider'
-import Section from '../section'
 import { useRawUniformValues } from './context'
 import { LABEL_MAP } from '../../constants'
 import Radio from '../radio'
@@ -170,51 +168,48 @@ const LayerSwitcher = ({ sx }) => {
         </Box>
       </Group>
 
-      <ControlPanelDivider />
+      <Divider sx={{ my: 4 }} />
 
-      <Section sx={sxHeading} label='Display'>
-        <Box sx={{ mb: ['22px'] }}>
-          <Box sx={{ ...sxLabel, display: 'inline-block' }}>
-            Derived outputs
+      <Box sx={sxHeading}>Display</Box>
+      <Box sx={{ mb: ['22px'] }}>
+        <Box sx={{ ...sxLabel, display: 'inline-block' }}>Derived outputs</Box>
+        <Info
+          sx={{
+            ...sxDescription,
+            display: 'inline-block',
+            position: 'relative',
+            ml: ['12px'],
+            top: '-1px',
+          }}
+          sxInner={{ pb: ['6px'] }}
+        >
+          <Box sx={{ mt: [-1], mb: [3] }}>
+            {getOutputDescription(layer, target)}
           </Box>
-          <Info
-            sx={{
-              ...sxDescription,
-              display: 'inline-block',
-              position: 'relative',
-              ml: ['12px'],
-              top: '-1px',
-            }}
-            sxInner={{ pb: ['6px'] }}
-          >
-            <Box sx={{ mt: [-1], mb: [3] }}>
-              {getOutputDescription(layer, target)}
-            </Box>
-          </Info>
+        </Info>
 
-          <Filter values={outputs} setValues={handleOutputChange} />
-        </Box>
+        <Filter values={outputs} setValues={handleOutputChange} />
+      </Box>
 
-        <Box>
-          <Box sx={{ ...sxLabel, display: 'inline-block' }}>Inputs</Box>
-          <Info
-            sx={{
-              ...sxDescription,
-              display: 'inline-block',
-              position: 'relative',
-              ml: ['12px'],
-              top: '-1px',
-            }}
-            sxInner={{ pb: ['6px'] }}
-          >
-            <Box sx={{ mt: [-1], mb: [3] }}>
-              {getInputDescription(layer, target)}
-            </Box>
-          </Info>
+      <Box>
+        <Box sx={{ ...sxLabel, display: 'inline-block' }}>Inputs</Box>
+        <Info
+          sx={{
+            ...sxDescription,
+            display: 'inline-block',
+            position: 'relative',
+            ml: ['12px'],
+            top: '-1px',
+          }}
+          sxInner={{ pb: ['6px'] }}
+        >
+          <Box sx={{ mt: [-1], mb: [3] }}>
+            {getInputDescription(layer, target)}
+          </Box>
+        </Info>
 
-          <Filter values={inputs} setValues={handleInputChange} />
-        </Box>
-      </Section>
+        <Filter values={inputs} setValues={handleInputChange} />
+      </Box>
     </Group>
   )
 }

@@ -1,7 +1,7 @@
 import Tool from '../components/tool'
 
 const Embed = () => {
-  return <Tool headerMode={'sparse'} />
+  return <Tool embedded />
 }
 
 export default Embed

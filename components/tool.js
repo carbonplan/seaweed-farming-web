@@ -1,15 +1,16 @@
-import { Box, Container } from 'theme-ui'
-import { Group, Link } from '@carbonplan/components'
+import { Box, Container, Divider } from 'theme-ui'
 import { useState } from 'react'
+import { Column, Group, Link, Row } from '@carbonplan/components'
+import { SidePanel, SidePanelFooter } from '@carbonplan/layouts'
 
-import ControlPanel from '../components/control-panel'
 import Map from '../components/map'
 import { LayerSwitcher } from '../components/layers'
-import ControlPanelDivider from '../components/control-panel-divider'
 import Parameters from '../components/parameters'
 import Statistics from '../components/statistics'
 import Header from './header'
 import About from './about'
+import Title from './title'
+import { useRegionContext } from './region'
 
 const sx = {
   heading: {
@@ -29,21 +30,114 @@ const sx = {
   },
 }
 
-const Tool = ({ headerMode }) => {
-  const [expanded, setExpanded] = useState(false)
+const Wrapper = ({ expanded, setExpanded, children, embedded }) => {
+  const { setShowRegionPicker } = useRegionContext()
 
-  if (!['pure', 'expander', 'sparse'].includes(headerMode)) {
-    throw new Error(
-      `Unexpected headerMode: ${headerMode}. Must be one of 'pure', 'expander', 'sparse'.`
+  if (embedded) {
+    return (
+      <Box
+        sx={{
+          opacity: expanded ? 1 : 0,
+          pointerEvents: expanded ? 'all' : 'none',
+          position: 'fixed',
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          minWidth: '0px',
+          maxHeight: '100vh',
+          width: '100vw',
+          overflowX: 'hidden',
+          overflowY: 'scroll',
+          backgroundColor: 'background',
+          zIndex: 4000,
+          pt: ['56px'],
+          transition: 'opacity 0.25s',
+        }}
+      >
+        <Container>
+          <Row>
+            <Column start={[1]} width={[12]}>
+              <Divider />
+
+              <Box
+                sx={{
+                  display: expanded ? 'inherit' : 'none',
+                  mt: [4],
+                }}
+              >
+                {expanded && children}
+              </Box>
+            </Column>
+          </Row>
+        </Container>
+      </Box>
+    )
+  } else {
+    return (
+      <>
+        <Box sx={{ display: ['none', 'none', 'inherit', 'inherit'] }}>
+          <SidePanel
+            expanded={expanded}
+            setExpanded={setExpanded}
+            tooltip='Show controls'
+            side='left'
+            width={3}
+            onClose={() => setShowRegionPicker(false)}
+            footer={
+              <SidePanelFooter>
+                <Statistics sx={sx} />
+              </SidePanelFooter>
+            }
+          >
+            {children}
+          </SidePanel>
+        </Box>
+
+        <Box
+          sx={{
+            display: ['inherit', 'inherit', 'none', 'none'],
+            overflowX: 'hidden',
+            overflowY: 'scroll',
+            height: 'calc(100%)',
+            position: 'fixed',
+            width: 'calc(100vw)',
+            top: '0px',
+            mt: ['56px'],
+            pb: '56px',
+            pt: [5],
+            bg: 'background',
+            zIndex: 1100,
+            borderStyle: 'solid',
+            borderColor: 'muted',
+            borderWidth: '0px',
+            borderBottomWidth: '1px',
+            transition: 'transform 0.15s',
+            ml: [-3, -4, -5, -6],
+            pl: [3, 4, 5, 6],
+            pr: [3, 4, 5, 6],
+            transform: expanded ? 'translateY(0)' : 'translateY(-100%)',
+          }}
+        >
+          <Row>
+            <Column start={[1, 1, 1, 1]} width={[6, 8, 10, 10]}>
+              {children}
+            </Column>
+          </Row>
+        </Box>
+      </>
     )
   }
+}
+
+const Tool = ({ embedded = false }) => {
+  const [expanded, setExpanded] = useState(false)
 
   return (
     <>
       <Header
         expanded={expanded}
         setExpanded={setExpanded}
-        headerMode={headerMode}
+        embedded={embedded}
       />
       <Box
         sx={{
@@ -57,30 +151,10 @@ const Tool = ({ headerMode }) => {
       >
         <Map expanded={expanded}>
           <Container>
-            <ControlPanel
-              title='Mapping macroalgae'
-              description={
-                <Box>
-                  Read the{' '}
-                  <Link
-                    href='#'
-                    sx={{ pointerEvents: expanded ? 'none' : 'all' }}
-                  >
-                    preprint
-                  </Link>
-                  . Explore the{' '}
-                  <Link
-                    onClick={() => setExpanded(true)}
-                    sx={{ pointerEvents: expanded ? 'none' : 'all' }}
-                  >
-                    map
-                  </Link>
-                  . Built in collaboration with UCI, NCAR, and S3.
-                </Box>
-              }
+            <Wrapper
               expanded={expanded}
+              embedded={embedded}
               setExpanded={setExpanded}
-              headerMode={headerMode}
             >
               <Group spacing={4}>
                 <Box sx={sx.description}>
@@ -90,25 +164,21 @@ const Tool = ({ headerMode }) => {
                   <Link href='#'>Jupyter notebooks</Link> for more details.
                 </Box>
 
-                <ControlPanelDivider />
-
                 <LayerSwitcher sx={sx} />
 
-                <ControlPanelDivider />
+                <Divider sx={{ my: 4 }} />
 
                 <Parameters sx={sx} />
 
-                {headerMode === 'pure' && <ControlPanelDivider />}
-
-                {headerMode === 'pure' && <Statistics sx={sx} />}
-
-                <ControlPanelDivider sx={{ mb: [4, 4, -4, -4] }} />
+                <Divider sx={{ my: 4 }} />
 
                 <About sx={sx} />
-
-                <ControlPanelDivider sx={{ mb: [4, 4, -4, -4] }} />
               </Group>
-            </ControlPanel>
+            </Wrapper>
+
+            {!embedded && (
+              <Title expanded={expanded} setExpanded={setExpanded} />
+            )}
           </Container>
         </Map>
       </Box>

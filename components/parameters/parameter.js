@@ -16,7 +16,7 @@ const Parameter = ({
   sx,
 }) => {
   return (
-    <Box sx={{ mt: [2], mb: ['16px'] }}>
+    <Box sx={{ mt: [2], mb: ['16px'] }} id={id}>
       <Box sx={{ ...sx, mb: [0] }}>
         <Box sx={{ display: 'inline-block' }}>
           {label}
