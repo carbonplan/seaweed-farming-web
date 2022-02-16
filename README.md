@@ -18,7 +18,7 @@
 Interactive tool for exploring the costs of growing macroalgae alongside its potential climate benefits. 
 
 ![GitHub branch checks state](https://img.shields.io/github/checks-status/carbonplan/macroalgae/main?style=flat-square)
-![GitHub deployments](https://img.shields.io/github/deployments/carbonplan/macroalgae/production?label=docs&style=flat-square)
+![GitHub deployments](https://img.shields.io/github/deployments/carbonplan/macroalgae/production?label=vercel&style=flat-square)
 
 TODO: add additional details on the tool, the reference paper, the explainer, etc.
 
