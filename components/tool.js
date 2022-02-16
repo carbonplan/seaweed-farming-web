@@ -16,6 +16,7 @@ const sx = {
     letterSpacing: 'smallcaps',
     textTransform: 'uppercase',
     fontSize: [2, 2, 2, 3],
+    mb: [3],
   },
   description: {
     fontSize: [1, 1, 1, 2],
