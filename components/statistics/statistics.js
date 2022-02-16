@@ -1,6 +1,6 @@
 import { Box } from 'theme-ui'
 import AnimateHeight from 'react-animate-height'
-import { Expander } from '@carbonplan/components'
+import { Search, X } from '@carbonplan/icons'
 
 import { useRegionContext } from '../region'
 import DataDisplay from './data-display'
@@ -9,35 +9,23 @@ export const Statistics = ({ sx }) => {
   const { regionData, showRegionPicker } = useRegionContext()
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box>
       <Box
         sx={{
           ...sx.heading,
           ...(showRegionPicker ? {} : { mb: 0 }),
-          width: '100%',
           display: 'flex',
-          justifyContent: 'space-between',
+          gap: 2,
           cursor: 'pointer',
         }}
       >
         <Box>Regional data</Box>
-        <Expander
-          value={showRegionPicker}
-          sx={{
-            stroke: 'secondary',
-            transition: 'stroke 0.15s',
-            '@media (hover: hover) and (pointer: fine)': {
-              '&:hover': {
-                fill: 'primary',
-                stroke: 'primary',
-              },
-              '#footer:hover &': {
-                fill: 'primary',
-                stroke: 'primary',
-              },
-            },
-          }}
-        />
+        <Box sx={{ position: 'relative', mt: '-1px' }}>
+          {!showRegionPicker && (
+            <Search sx={{ strokeWidth: 2, width: '18px' }} />
+          )}
+          {showRegionPicker && <X sx={{ strokeWidth: 2, width: '18px' }} />}
+        </Box>
       </Box>
 
       <AnimateHeight
@@ -46,7 +34,7 @@ export const Statistics = ({ sx }) => {
         easing={'linear'}
         style={{ pointerEvents: 'none' }}
       >
-        <Box sx={{ pt: [3], pb: [1] }}>
+        <Box sx={{ pt: [3], pb: [1], width: '100%', minHeight: '188px' }}>
           {showRegionPicker && regionData && <DataDisplay data={regionData} />}
         </Box>
       </AnimateHeight>
