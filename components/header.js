@@ -11,7 +11,7 @@ import {
 const Header = ({ expanded, setExpanded, embedded }) => {
   return (
     <>
-      <Meta />
+      <Meta title='Macroalgae cost – CarbonPlan' description='TK' />
       <Container>
         <Guide color='teal' />
       </Container>
