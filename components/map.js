@@ -144,10 +144,13 @@ const Viewer = ({ expanded, children }) => {
                 }
                 discrete={discrete}
                 horizontal
-                setClim={(setter) =>
-                  setClim((prev) => {
-                    return { ...prev, [layer]: setter(clim[layer]) }
-                  })
+                setClim={
+                  discrete
+                    ? undefined
+                    : (setter) =>
+                        setClim((prev) => {
+                          return { ...prev, [layer]: setter(clim[layer]) }
+                        })
                 }
                 setClimStep={COLORMAPS_MAP[layer].step}
               />
