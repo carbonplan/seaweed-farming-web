@@ -78,8 +78,11 @@ export const DataDisplay = ({ data }) => {
       return (
         <Box sx={{ mb: [-3] }}>
           <Histogram
-            data={SPECIES.map((s, i) => [i, ratios[i] ? ratios[i] * 100 : 0])}
-            labels={SPECIES}
+            data={SPECIES.map((s, i) => [
+              SPECIES.length - 1 - i,
+              ratios[i] ? ratios[i] * 100 : 0,
+            ])}
+            labels={[...SPECIES].reverse()}
             colormap={colormap}
           />
         </Box>
