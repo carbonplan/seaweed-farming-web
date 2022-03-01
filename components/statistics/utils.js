@@ -4,7 +4,7 @@ import { calculateBenefit, calculateCost, SPECIES } from '../../model'
 
 export const averageData = (data, area) => {
   const totalArea = area
-    .filter((a) => a !== NAN)
+    .filter((a, i) => a !== NAN && data[i] !== NAN)
     .reduce((accum, a) => a + accum, 0)
 
   return data.reduce((a, d, i) => {
