@@ -1,4 +1,5 @@
-import { Box } from 'theme-ui'
+import { Box, Divider } from 'theme-ui'
+
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
 import AverageDisplay from './average-display'
@@ -9,12 +10,15 @@ import {
   valuesToCost,
   valuesToMitigationCost,
 } from './utils'
+import { useCustomColormap } from '../utils'
+import Histogram from './histogram'
 import { LABEL_MAP, NAN } from '../../constants'
 import { LAYER_UNITS, SPECIES } from '../../model'
 
 export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
   const { layer, target, sensitiveAreaMask } = useLayers()
+  const { colormap } = useCustomColormap(layer)
 
   if (!data || !data.value) {
     return 'loading...'
@@ -52,11 +56,13 @@ export const DataDisplay = ({ data }) => {
             units={LAYER_UNITS.mitigationCost[target]}
             value={averageData(mitigationCost, area)}
           />
+          <Divider sx={{ my: [4] }} />
           <AverageDisplay
             label={LABEL_MAP.benefit}
             units={LAYER_UNITS.benefit[target]}
             value={averageData(netBenefit, area)}
           />
+          <Divider sx={{ my: [4] }} />
           <AverageDisplay
             label={LABEL_MAP.cost}
             units={LAYER_UNITS.cost[target]}
@@ -71,14 +77,11 @@ export const DataDisplay = ({ data }) => {
       )
       return (
         <Box sx={{ mb: [-3] }}>
-          {SPECIES.map((s, i) => (
-            <AverageDisplay
-              key={s}
-              label={s.charAt(0).toUpperCase() + s.slice(1)}
-              units='%'
-              value={ratios[i] * 100}
-            />
-          ))}
+          <Histogram
+            data={SPECIES.map((s, i) => [i, ratios[i] ? ratios[i] * 100 : 0])}
+            labels={SPECIES}
+            colormap={colormap}
+          />
         </Box>
       )
     } else if (layer === 'nharv') {
@@ -89,14 +92,17 @@ export const DataDisplay = ({ data }) => {
 
       return (
         <Box sx={{ mb: [-3] }}>
-          {Object.keys(ratios).map((k) => (
-            <AverageDisplay
-              key={k}
-              label={`${k} / year`}
-              units={'%'}
-              value={ratios[k] * 100}
-            />
-          ))}
+          <Histogram
+            data={colormap.map((k, i) => [
+              i,
+              ratios[i + 1] ? ratios[i + 1] * 100 : 0,
+            ])}
+            labels={colormap.map((k, i) => i + 1)}
+            colormap={colormap}
+            sx={{ height: '300px' }}
+            axisLabel='Harvests'
+            units='count / year'
+          />
         </Box>
       )
     } else {

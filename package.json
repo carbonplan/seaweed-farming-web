@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/carbonplan/article-template#readme",
   "dependencies": {
+    "@carbonplan/charts": "^2.7.0",
     "@carbonplan/colormaps": "^3.0.2",
     "@carbonplan/components": "^11.1.4",
     "@carbonplan/icons": "^1.1.1",
