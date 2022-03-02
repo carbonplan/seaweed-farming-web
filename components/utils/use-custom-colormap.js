@@ -1,6 +1,7 @@
 import { useThemedColormap } from '@carbonplan/colormaps'
-import { COLORMAPS_MAP, SPECIES } from '../../constants'
+import { COLORMAPS_MAP } from '../../constants'
 import Legend from '../legend'
+import { SPECIES } from '../../model'
 
 const useCustomColormap = (layer) => {
   const { colormapName } = COLORMAPS_MAP[layer]

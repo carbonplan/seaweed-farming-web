@@ -1,30 +1,12 @@
 import { Box } from 'theme-ui'
-import { Button, Group, Row, Column } from '@carbonplan/components'
+import { useMemo } from 'react'
+import { Group } from '@carbonplan/components'
 
+import { LAYER_PARAMETERS, PARAMETERS } from '../../model'
 import Parameter from './parameter'
 import ParameterPresets from './parameter-presets'
 import { useParameters } from './context'
 import { useLayers } from '../layers'
-import { PARAMETER_MAPPING } from '../../constants'
-import { useMemo } from 'react'
-
-const LAYER_MAPPING = {
-  mitigationCost: {
-    products: ['productValue'],
-    sinking: [],
-    shared: [],
-  },
-  cost: {
-    shared: ['capex', 'lineCost', 'opex', 'transportCost', 'harvestCost'],
-    products: ['conversionCost'],
-    sinking: [],
-  },
-  benefit: {
-    shared: ['transportEmissions', 'maintenanceEmissions'],
-    products: ['avoidedEmissions', 'conversionEmissions'],
-    sinking: ['removalRate'],
-  },
-}
 
 const Parameters = ({ sx }) => {
   const {
@@ -38,15 +20,15 @@ const Parameters = ({ sx }) => {
   const { target, layer } = useLayers()
 
   const active = useMemo(() => {
-    if (!LAYER_MAPPING[layer]) {
+    if (!LAYER_PARAMETERS[layer]) {
       return []
     }
-    let result = LAYER_MAPPING[layer][target].concat(
-      LAYER_MAPPING[layer].shared
+    let result = LAYER_PARAMETERS[layer][target].concat(
+      LAYER_PARAMETERS[layer].shared
     )
 
     if (layer === 'mitigationCost') {
-      const { cost, benefit } = LAYER_MAPPING
+      const { cost, benefit } = LAYER_PARAMETERS
       result = result
         .concat(benefit[target].concat(benefit.shared))
         .concat(cost[target].concat(cost.shared))
@@ -66,7 +48,7 @@ const Parameters = ({ sx }) => {
               value={parameters[id]}
               setValue={setParameters}
               sx={sxLabel}
-              {...PARAMETER_MAPPING[id]}
+              {...PARAMETERS[id]}
             />
           ))}
         </Box>

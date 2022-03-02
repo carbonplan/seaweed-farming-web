@@ -9,7 +9,7 @@ import Info from '../info'
 
 const OUTPUT_LAYERS = ['mitigationCost', 'benefit', 'cost']
 const INPUT_LAYERS = [
-  'growth',
+  'seaweed_dw',
   'nharv',
   'depth',
   'wave_height',
@@ -25,7 +25,7 @@ const filterToValue = {
   [LABEL_MAP['cost']]: 'cost',
   [LABEL_MAP['benefit']]: 'benefit',
   [LABEL_MAP['depth']]: 'depth',
-  [LABEL_MAP['growth']]: 'growth',
+  [LABEL_MAP['seaweed_dw']]: 'seaweed_dw',
   [LABEL_MAP['nharv']]: 'nharv',
   [LABEL_MAP['wave_height']]: 'wave_height',
   [LABEL_MAP['d2p']]: 'd2p',

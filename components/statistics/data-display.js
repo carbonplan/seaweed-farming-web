@@ -1,4 +1,3 @@
-import { Group } from '@carbonplan/components'
 import { Box } from 'theme-ui'
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
@@ -10,7 +9,8 @@ import {
   valuesToCost,
   valuesToMitigationCost,
 } from './utils'
-import { LABEL_MAP, UNITS_MAP, SPECIES, NAN } from '../../constants'
+import { LABEL_MAP, NAN } from '../../constants'
+import { LAYER_UNITS, SPECIES } from '../../model'
 
 export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
@@ -49,17 +49,17 @@ export const DataDisplay = ({ data }) => {
         <Box sx={{ mb: [-3] }}>
           <AverageDisplay
             label={LABEL_MAP.mitigationCost[target]}
-            units={UNITS_MAP.mitigationCost[target]}
+            units={LAYER_UNITS.mitigationCost[target]}
             value={averageData(mitigationCost, area)}
           />
           <AverageDisplay
             label={LABEL_MAP.benefit}
-            units={UNITS_MAP.benefit[target]}
+            units={LAYER_UNITS.benefit[target]}
             value={averageData(netBenefit, area)}
           />
           <AverageDisplay
             label={LABEL_MAP.cost}
-            units={UNITS_MAP.cost}
+            units={LAYER_UNITS.cost}
             value={averageData(projectCost, area)}
           />
         </Box>
@@ -105,18 +105,14 @@ export const DataDisplay = ({ data }) => {
         values = data.value.all_variables['elevation'].map((v) =>
           v === NAN ? NAN : v * -1
         )
-      } else if (layer === 'growth') {
+      } else if (layer === 'seaweed_dw') {
         values = data.value.all_variables['harv_preferred']
       }
       return (
         <Box sx={{ mb: [-3] }}>
           <AverageDisplay
             label={LABEL_MAP[layer]}
-            units={
-              typeof UNITS_MAP[layer] === 'string'
-                ? UNITS_MAP[layer]
-                : UNITS_MAP[layer][target]
-            }
+            units={LAYER_UNITS[layer][target]}
             value={averageData(values, area)}
           />
         </Box>

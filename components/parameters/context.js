@@ -1,11 +1,11 @@
 import { createContext, useCallback, useContext, useState } from 'react'
-import { PARAMETER_MAPPING } from '../../constants'
+import { PARAMETERS } from '../../model'
 
 const ParameterContext = createContext(null)
 
 const getInitialParameters = () =>
-  Object.keys(PARAMETER_MAPPING).reduce((accum, key) => {
-    const { min, max } = PARAMETER_MAPPING[key]
+  Object.keys(PARAMETERS).reduce((accum, key) => {
+    const { min, max } = PARAMETERS[key]
     accum[key] = (min + max) / 2
     return accum
   }, {})

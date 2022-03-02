@@ -5,7 +5,7 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { GROWTH_MODELS } from '../../constants'
+import { LAYER_UNIFORMS } from '../../model'
 
 const LayersContext = createContext(null)
 
@@ -13,7 +13,6 @@ export const LayersProvider = ({ children }) => {
   const [layer, setLayer] = useState('mitigationCost')
   const [target, setTarget] = useState('sinking')
   const [sensitiveAreaMask, setSensitiveAreaMask] = useState(0)
-  const [growthModel, setGrowthModel] = useState(GROWTH_MODELS[0])
 
   const resetLayers = useCallback(() => {
     setLayer('mitigationCost')
@@ -28,8 +27,6 @@ export const LayersProvider = ({ children }) => {
         setLayer,
         target,
         setTarget,
-        growthModel,
-        setGrowthModel,
         sensitiveAreaMask,
         setSensitiveAreaMask,
         resetLayers,
@@ -45,20 +42,6 @@ export const useRawUniformValues = () => {
   return value
 }
 
-export const LAYER_UNIFORMS = [
-  'costLayer',
-  'mitigationCostLayer',
-  'benefitLayer',
-  'depthLayer',
-  'growthLayer',
-  'nharvLayer',
-  'wave_heightLayer',
-  'd2pLayer',
-  'd2sinkLayer',
-  'fseqLayer',
-  'species_preferredLayer',
-]
-
 export const useLayers = () => {
   const {
     layer,
@@ -69,8 +52,9 @@ export const useLayers = () => {
 
   const layerUniforms = useMemo(
     () =>
-      LAYER_UNIFORMS.reduce((uniforms, uniformName) => {
-        uniforms[uniformName] = uniformName === `${layer}Layer` ? 1 : 0
+      Object.keys(LAYER_UNIFORMS).reduce((uniforms, l) => {
+        const uniformName = LAYER_UNIFORMS[l]
+        uniforms[uniformName] = layer === l ? 1 : 0
         return uniforms
       }, {}),
     [layer]
