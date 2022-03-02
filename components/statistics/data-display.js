@@ -59,7 +59,7 @@ export const DataDisplay = ({ data }) => {
           />
           <AverageDisplay
             label={LABEL_MAP.cost}
-            units={LAYER_UNITS.cost}
+            units={LAYER_UNITS.cost[target]}
             value={averageData(projectCost, area)}
           />
         </Box>
