@@ -1,10 +1,11 @@
-import { Box, Divider, Flex } from 'theme-ui'
+import { Box, Divider } from 'theme-ui'
+
+import AverageDisplay from './average-display'
+import BinnedDonutChart from './binned-donut-chart'
+import DonutChart from './donut-chart'
 
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
-import AverageDisplay from './average-display'
-import Donut from './donut'
-import LegendItem from './legend-item'
 import {
   averageData,
   weightedData,
@@ -13,7 +14,6 @@ import {
   valuesToMitigationCost,
 } from './utils'
 import { useCustomColormap } from '../utils'
-import Histogram from './histogram'
 import { LABEL_MAP, NAN } from '../../constants'
 import { LAYER_UNITS, SPECIES } from '../../model'
 
@@ -79,34 +79,12 @@ export const DataDisplay = ({ data }) => {
       )
       return (
         <Box sx={{ mb: [-3] }}>
-          <Histogram
-            data={SPECIES.map((s, i) => [
-              SPECIES.length - 1 - i,
-              ratios[i] ? ratios[i] * 100 : 0,
-            ])}
-            labels={[...SPECIES].reverse()}
-            colormap={colormap}
-          />
-          <Donut
+          <DonutChart
+            color={colormap.map((d) => `rgb(${d})`)}
             labels={SPECIES.map((s) => s.charAt(0).toUpperCase() + s.slice(1))}
             data={SPECIES.map((s, i) => ratios[i])}
-            colormap={colormap}
+            opacity={1}
           />
-
-          <Flex sx={{ flexDirection: 'column', gap: 3 }}>
-            {SPECIES.map(
-              (s, i) =>
-                ratios[i] && (
-                  <LegendItem
-                    key={s}
-                    color={`rgb(${colormap[i]})`}
-                    label={s.charAt(0).toUpperCase() + s.slice(1)}
-                    units={'%'}
-                    value={ratios[i] * 100}
-                  />
-                )
-            ).filter(Boolean)}
-          </Flex>
         </Box>
       )
     } else if (layer === 'nharv') {
@@ -117,33 +95,12 @@ export const DataDisplay = ({ data }) => {
 
       return (
         <Box sx={{ mb: [-3] }}>
-          <Histogram
-            data={colormap.map((k, i) => [
-              i,
-              ratios[i + 1] ? ratios[i + 1] * 100 : 0,
-            ])}
-            labels={colormap.map((k, i) => i + 1)}
-            colormap={colormap}
-            sx={{ height: '300px' }}
-            axisLabel='Harvests'
-            units='count / year'
-          />
-
-          <Donut
+          <DonutChart
+            color={colormap.map((d) => `rgb(${d})`)}
             labels={colormap.map((k, i) => `${i + 1} / year`)}
             data={colormap.map((k, i) => ratios[i + 1])}
-            colormap={colormap}
+            opacity={1}
           />
-
-          {Object.keys(ratios).map((k) => (
-            <LegendItem
-              key={k}
-              color={`rgb(${colormap[k - 1]})`}
-              label={`${k} / year`}
-              units={'%'}
-              value={ratios[k] * 100}
-            />
-          ))}
         </Box>
       )
     } else {
@@ -161,6 +118,11 @@ export const DataDisplay = ({ data }) => {
             label={LABEL_MAP[layer]}
             units={LAYER_UNITS[layer][target]}
             value={averageData(values, area)}
+          />
+          <BinnedDonutChart
+            data={values}
+            area={area}
+            units={LAYER_UNITS[layer][target]}
           />
         </Box>
       )
