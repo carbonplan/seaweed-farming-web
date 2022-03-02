@@ -1,8 +1,10 @@
-import { Box, Divider } from 'theme-ui'
+import { Box, Divider, Flex } from 'theme-ui'
 
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
 import AverageDisplay from './average-display'
+import Donut from './donut'
+import LegendItem from './legend-item'
 import {
   averageData,
   weightedData,
@@ -85,6 +87,26 @@ export const DataDisplay = ({ data }) => {
             labels={[...SPECIES].reverse()}
             colormap={colormap}
           />
+          <Donut
+            labels={SPECIES.map((s) => s.charAt(0).toUpperCase() + s.slice(1))}
+            data={SPECIES.map((s, i) => ratios[i])}
+            colormap={colormap}
+          />
+
+          <Flex sx={{ flexDirection: 'column', gap: 3 }}>
+            {SPECIES.map(
+              (s, i) =>
+                ratios[i] && (
+                  <LegendItem
+                    key={s}
+                    color={`rgb(${colormap[i]})`}
+                    label={s.charAt(0).toUpperCase() + s.slice(1)}
+                    units={'%'}
+                    value={ratios[i] * 100}
+                  />
+                )
+            ).filter(Boolean)}
+          </Flex>
         </Box>
       )
     } else if (layer === 'nharv') {
@@ -106,6 +128,22 @@ export const DataDisplay = ({ data }) => {
             axisLabel='Harvests'
             units='count / year'
           />
+
+          <Donut
+            labels={colormap.map((k, i) => `${i + 1} / year`)}
+            data={colormap.map((k, i) => ratios[i + 1])}
+            colormap={colormap}
+          />
+
+          {Object.keys(ratios).map((k) => (
+            <LegendItem
+              key={k}
+              color={`rgb(${colormap[k - 1]})`}
+              label={`${k} / year`}
+              units={'%'}
+              value={ratios[k] * 100}
+            />
+          ))}
         </Box>
       )
     } else {
