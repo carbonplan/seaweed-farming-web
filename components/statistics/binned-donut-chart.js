@@ -1,4 +1,5 @@
 import { bin } from 'd3-array'
+import { Box } from 'theme-ui'
 
 import DonutChart from './donut-chart'
 import { averageData } from './utils'
@@ -7,8 +8,6 @@ import { NAN } from '../../constants'
 import { useEffect, useRef } from 'react'
 
 // TODOs
-// - handle 0 bins
-// - handle 1 bin
 // - improve units
 // - specify summary value color
 const BinnedDonutChart = ({
@@ -24,6 +23,8 @@ const BinnedDonutChart = ({
   const { current: initialClim } = useRef(clim)
   const filteredData = data.filter((d, i) => d !== NAN && area[i] !== NAN)
   const binnedData = bin().thresholds(thresholds)(filteredData)
+  const clim0 = binnedData[0].x0
+  const clim1 = binnedData[binnedData.length - 1].x1
 
   useEffect(() => {
     return () => {
@@ -31,14 +32,30 @@ const BinnedDonutChart = ({
     }
   }, [])
 
-  const clim0 = binnedData[0].x0
-  const clim1 = binnedData[binnedData.length - 1].x1
-
   useEffect(() => {
+    if (typeof clim0 !== 'number' || typeof clim1 !== 'number') {
+      return
+    }
+
     if (clim0 !== clim[0] || clim1 !== clim[1]) {
       setClim([clim0, clim1])
     }
   }, [clim, clim0, clim1])
+
+  if (typeof clim0 !== 'number' || typeof clim1 !== 'number') {
+    return (
+      <Box
+        sx={{
+          fontFamily: 'mono',
+          letterSpacing: 'mono',
+          fontSize: [3, 3, 4, 5],
+          color: 'secondary',
+        }}
+      >
+        N/A
+      </Box>
+    )
+  }
 
   const totalArea = area
     .filter((a, i) => a !== NAN && data[i] !== NAN)
