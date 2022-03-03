@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Box, Flex, useColorMode, useThemeUI } from 'theme-ui'
 import { Fill, Line, Map, Raster, RegionPicker } from '@carbonplan/maps'
 import { useRegionContext } from './region'
@@ -31,15 +30,16 @@ const Viewer = ({ expanded, children }) => {
   const { theme } = useThemeUI()
   const [mode] = useColorMode()
   const parameters = useParameters()
-  const { uniforms: layerUniforms, layer, target, resetLayers } = useLayers()
+  const {
+    uniforms: layerUniforms,
+    layer,
+    target,
+    resetLayers,
+    clim,
+    setClim,
+  } = useLayers()
   const { colormap, legend, discrete } = useCustomColormap(layer)
   const { setRegionData, showRegionPicker } = useRegionContext()
-
-  let initClim = {}
-  Object.entries(COLORMAPS_MAP).forEach((d) => {
-    initClim[d[0]] = d[1].clim
-  })
-  const [clim, setClim] = useState(initClim)
 
   return (
     <>
@@ -56,7 +56,6 @@ const Viewer = ({ expanded, children }) => {
         <Button
           prefix={<Reset sx={{ width: 20, height: 20, strokeWidth: 1.5 }} />}
           onClick={() => {
-            setClim(initClim)
             parameters.resetParameters()
             resetLayers()
           }}
@@ -101,7 +100,7 @@ const Viewer = ({ expanded, children }) => {
         <Raster
           maxZoom={5}
           colormap={colormap}
-          clim={clim[layer]}
+          clim={clim}
           display={true}
           mode={'texture'}
           uniforms={{
@@ -131,7 +130,7 @@ const Viewer = ({ expanded, children }) => {
               <Colorbar
                 colormap={colormap}
                 format={formatValue}
-                clim={clim[layer]}
+                clim={clim}
                 units={
                   <Box sx={{ color: 'primary' }}>
                     {LAYER_UNITS[layer][target]}
@@ -145,12 +144,7 @@ const Viewer = ({ expanded, children }) => {
                 discrete={discrete}
                 horizontal
                 setClim={
-                  discrete
-                    ? undefined
-                    : (setter) =>
-                        setClim((prev) => {
-                          return { ...prev, [layer]: setter(clim[layer]) }
-                        })
+                  discrete ? undefined : (setter) => setClim(setter(clim))
                 }
                 setClimStep={COLORMAPS_MAP[layer].step}
               />
