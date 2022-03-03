@@ -5,7 +5,7 @@ import LegendItem from './legend-item'
 
 // todo:
 // - deterministic ordering
-const DonutChart = ({ color, data, label, labels, units, summary }) => {
+const DonutChart = ({ color, empty, data, label, labels, units, summary }) => {
   return (
     <Box>
       <Box>
@@ -44,22 +44,22 @@ const DonutChart = ({ color, data, label, labels, units, summary }) => {
             <Chart padding={{ left: 0, bottom: 0 }}>
               <Plot square>
                 <Donut
-                  data={data}
+                  data={empty ? [1] : data}
                   innerRadius={0.26}
-                  color={color}
+                  color={empty ? 'secondary' : color}
                   opacity={1}
                 />
               </Plot>
             </Chart>
           </Box>
 
-          {summary && (
+          {summary != null && (
             <Box
               sx={{
                 fontFamily: 'mono',
                 letterSpacing: 'mono',
                 fontSize: [3, 3, 4, 5],
-                color,
+                color: empty ? 'secondary' : color,
               }}
             >
               {summary}

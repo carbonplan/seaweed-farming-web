@@ -1,97 +1,85 @@
 import { bin } from 'd3-array'
-import { Box } from 'theme-ui'
 
 import DonutChart from './donut-chart'
 import { averageData } from './utils'
 import { formatValue } from '../utils'
 import { NAN } from '../../constants'
-import { useEffect, useRef } from 'react'
 
 // TODOs
 // - improve units
 // - specify summary value color
+
+const getDonutData = (data, area, thresholds, clim) => {
+  const filteredData = data.filter((d, i) => d !== NAN && area[i] !== NAN)
+  const initBins = bin().domain(clim).thresholds(thresholds)(filteredData)
+
+  const bins = initBins.map((bin, i) => {
+    return {
+      label: `${bin.x0} - ${bin.x1}`,
+      x0: bin.x0,
+      x1: bin.x1,
+      count: 0,
+      value: 0,
+    }
+  })
+
+  const totalArea = area
+    .filter((a, i) => a !== NAN && data[i] !== NAN)
+    .reduce((accum, a) => a + accum, 0)
+
+  data.forEach((d, i) => {
+    const dArea = area[i]
+    if (d === NAN || dArea === NAN) {
+      return
+    }
+
+    let index = bins.findIndex((bin) => d >= bin.x0 && d < bin.x1)
+
+    let bin = bins[index]
+    if (d < bins[0].x0) {
+      bin = bins[0]
+      bin.label = `<${bin.x0} - ${bin.x1}`
+    } else if (d >= bins[bins.length - 1].x1) {
+      bin = bins[bins.length - 1]
+      if (d > bins[bins.length - 1].x1) bin.label = `${bin.x0} - ${bin.x1}+`
+    }
+
+    bin.count += 1
+    bin.value += dArea / totalArea
+  })
+
+  return bins
+}
+
 const BinnedDonutChart = ({
   clim,
   colormap,
   data,
   area,
   label,
-  setClim,
   units,
   thresholds = 4,
 }) => {
-  const { current: initialClim } = useRef(clim)
-  const filteredData = data.filter((d, i) => d !== NAN && area[i] !== NAN)
-  const binnedData = bin().thresholds(thresholds)(filteredData)
-  const clim0 = binnedData[0].x0
-  const clim1 = binnedData[binnedData.length - 1].x1
+  const bins = getDonutData(data, area, thresholds, clim)
 
-  useEffect(() => {
-    return () => {
-      setClim(initialClim)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (typeof clim0 !== 'number' || typeof clim1 !== 'number') {
-      return
-    }
-
-    if (clim0 !== clim[0] || clim1 !== clim[1]) {
-      setClim([clim0, clim1])
-    }
-  }, [clim, clim0, clim1])
-
-  if (typeof clim0 !== 'number' || typeof clim1 !== 'number') {
-    return (
-      <Box
-        sx={{
-          fontFamily: 'mono',
-          letterSpacing: 'mono',
-          fontSize: [3, 3, 4, 5],
-          color: 'secondary',
-        }}
-      >
-        N/A
-      </Box>
-    )
-  }
-
-  const totalArea = area
-    .filter((a, i) => a !== NAN && data[i] !== NAN)
-    .reduce((accum, a) => a + accum, 0)
-
-  const donutData = data.reduce(
-    (a, d, i) => {
-      const dArea = area[i]
-      if (d === NAN || dArea === NAN) {
-        return a
-      } else {
-        const index = binnedData.findIndex((bin) => bin.x0 <= d && d <= bin.x1)
-        a[index] += dArea / totalArea
-        return a
-      }
-    },
-    binnedData.map(() => 0)
-  )
-
-  const donutLabels = binnedData.map((bin) => `${bin.x0} - ${bin.x1}`)
-
-  const colors = binnedData.map((bin) => {
+  const colors = bins.map((bin) => {
     const average = (bin.x0 + bin.x1) / 2
     const ratio = (average - clim[0]) / (clim[1] - clim[0])
     const index = Math.round(ratio * (colormap.length - 1))
     return colormap[index]
   })
 
+  const empty = bins.every((b) => b.count === 0)
+
   return (
     <DonutChart
-      data={donutData}
-      labels={donutLabels}
+      empty={bins.every((b) => b.count === 0)}
+      data={bins.map((b) => b.value)}
+      labels={bins.map((b) => b.label)}
       color={colors.map((c) => `rgb(${c})`)}
       units={units}
       label={label}
-      summary={formatValue(averageData(data, area))}
+      summary={empty ? 'N/A' : formatValue(averageData(data, area))}
     />
   )
 }

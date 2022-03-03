@@ -17,7 +17,7 @@ import { LAYER_UNITS, SPECIES } from '../../model'
 
 export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
-  const { layer, target, clim, setClim, sensitiveAreaMask } = useLayers()
+  const { layer, target, clim, sensitiveAreaMask } = useLayers()
   const { colormap } = useCustomColormap(layer)
 
   if (!data || !data.value) {
@@ -99,7 +99,6 @@ export const DataDisplay = ({ data }) => {
       return (
         <Box sx={{ mb: [-3] }}>
           <BinnedDonutChart
-            setClim={setClim}
             clim={clim}
             colormap={colormap}
             data={values}
