@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useState } from 'react'
 
 const RegionContext = createContext(null)
 
@@ -30,7 +30,9 @@ export const useRegionContext = () => {
 
   return {
     regionData,
-    setRegionData,
+    setRegionData: useCallback((v) => v.value && setRegionData(v), [
+      setRegionData,
+    ]),
     showRegionPicker,
     setShowRegionPicker,
   }

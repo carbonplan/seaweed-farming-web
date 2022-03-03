@@ -144,7 +144,9 @@ const Viewer = ({ expanded, children }) => {
                 discrete={discrete}
                 horizontal
                 setClim={
-                  discrete ? undefined : (setter) => setClim(setter(clim))
+                  showRegionPicker || discrete
+                    ? undefined
+                    : (setter) => setClim(setter(clim))
                 }
                 setClimStep={COLORMAPS_MAP[layer].step}
               />

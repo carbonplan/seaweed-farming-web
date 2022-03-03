@@ -19,7 +19,7 @@ import { LAYER_UNITS, SPECIES } from '../../model'
 
 export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
-  const { layer, target, sensitiveAreaMask } = useLayers()
+  const { layer, target, clim, setClim, sensitiveAreaMask } = useLayers()
   const { colormap } = useCustomColormap(layer)
 
   if (!data || !data.value) {
@@ -84,7 +84,6 @@ export const DataDisplay = ({ data }) => {
             labels={SPECIES.map((s) => s.charAt(0).toUpperCase() + s.slice(1))}
             data={SPECIES.map((s, i) => ratios[i])}
             label={LABEL_MAP[layer]}
-            opacity={1}
           />
         </Box>
       )
@@ -102,7 +101,6 @@ export const DataDisplay = ({ data }) => {
             data={colormap.map((k, i) => ratios[i + 1])}
             label={LABEL_MAP[layer]}
             units={LAYER_UNITS[layer][target]}
-            opacity={1}
           />
         </Box>
       )
@@ -118,6 +116,9 @@ export const DataDisplay = ({ data }) => {
       return (
         <Box sx={{ mb: [-3] }}>
           <BinnedDonutChart
+            setClim={setClim}
+            clim={clim}
+            colormap={colormap}
             data={values}
             area={area}
             label={LABEL_MAP[layer]}
