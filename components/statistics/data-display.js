@@ -1,13 +1,11 @@
-import { Box, Divider } from 'theme-ui'
+import { Box } from 'theme-ui'
 
-import AverageDisplay from './average-display'
 import BinnedDonutChart from './binned-donut-chart'
 import DonutChart from './donut-chart'
 
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
 import {
-  averageData,
   weightedData,
   valuesToBenefit,
   valuesToCost,
@@ -27,52 +25,7 @@ export const DataDisplay = ({ data }) => {
   } else {
     const { area } = data.value.all_variables
 
-    const showOutput = ['mitigationCost', 'cost', 'benefit'].includes(layer)
-
-    if (showOutput) {
-      const netBenefit = valuesToBenefit(
-        data.value.all_variables,
-        target,
-        parameters,
-        sensitiveAreaMask
-      )
-
-      const projectCost = valuesToCost(
-        data.value.all_variables,
-        target,
-        parameters,
-        sensitiveAreaMask
-      )
-
-      const mitigationCost = valuesToMitigationCost(
-        data.value.all_variables,
-        target,
-        parameters,
-        sensitiveAreaMask
-      )
-
-      return (
-        <Box sx={{ mb: [-3] }}>
-          <AverageDisplay
-            label={LABEL_MAP.mitigationCost[target]}
-            units={LAYER_UNITS.mitigationCost[target]}
-            value={averageData(mitigationCost, area)}
-          />
-          <Divider sx={{ my: [4] }} />
-          <AverageDisplay
-            label={LABEL_MAP.benefit}
-            units={LAYER_UNITS.benefit[target]}
-            value={averageData(netBenefit, area)}
-          />
-          <Divider sx={{ my: [4] }} />
-          <AverageDisplay
-            label={LABEL_MAP.cost}
-            units={LAYER_UNITS.cost[target]}
-            value={averageData(projectCost, area)}
-          />
-        </Box>
-      )
-    } else if (layer === 'species_preferred') {
+    if (layer === 'species_preferred') {
       const ratios = weightedData(
         data.value.all_variables['species_preferred'],
         area
@@ -105,13 +58,43 @@ export const DataDisplay = ({ data }) => {
         </Box>
       )
     } else {
-      let values = data.value.all_variables[layer]
-      if (layer === 'depth') {
-        values = data.value.all_variables['elevation'].map((v) =>
-          v === NAN ? NAN : v * -1
-        )
-      } else if (layer === 'seaweed_dw') {
-        values = data.value.all_variables['harv_preferred']
+      let values
+      switch (layer) {
+        case 'mitigationCost':
+          values = valuesToMitigationCost(
+            data.value.all_variables,
+            target,
+            parameters,
+            sensitiveAreaMask
+          )
+          break
+        case 'cost':
+          values = valuesToCost(
+            data.value.all_variables,
+            target,
+            parameters,
+            sensitiveAreaMask
+          )
+          break
+        case 'benefit':
+          values = valuesToBenefit(
+            data.value.all_variables,
+            target,
+            parameters,
+            sensitiveAreaMask
+          )
+          break
+        case 'depth':
+          values = data.value.all_variables['elevation'].map((v) =>
+            v === NAN ? NAN : v * -1
+          )
+          break
+        case 'seaweed_dw':
+          values = data.value.all_variables['harv_preferred']
+          break
+        default:
+          values = data.value.all_variables[layer]
+          break
       }
       return (
         <Box sx={{ mb: [-3] }}>
@@ -121,7 +104,11 @@ export const DataDisplay = ({ data }) => {
             colormap={colormap}
             data={values}
             area={area}
-            label={LABEL_MAP[layer]}
+            label={
+              typeof LABEL_MAP[layer] === 'string'
+                ? LABEL_MAP[layer]
+                : LABEL_MAP[layer][target]
+            }
             units={LAYER_UNITS[layer][target]}
           />
         </Box>
