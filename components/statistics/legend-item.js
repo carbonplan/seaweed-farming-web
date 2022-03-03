@@ -3,7 +3,7 @@ import { formatValue } from '../utils'
 
 const LegendItem = ({ color, label, value, units }) => {
   return (
-    <Flex sx={{ gap: 4 }}>
+    <Flex sx={{ gap: 5 }}>
       <Flex sx={{ gap: 3, alignItems: 'center' }}>
         <Box
           sx={{

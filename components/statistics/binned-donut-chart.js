@@ -1,12 +1,15 @@
 import { bin } from 'd3-array'
-import { NAN } from '../../constants'
+
 import DonutChart from './donut-chart'
+import { averageData } from './utils'
+import { formatValue } from '../utils'
+import { NAN } from '../../constants'
 
 // TODOs
 // - handle 0 bins
 // - handle 1 bin
 // - improve units
-const BinnedDonutChart = ({ data, area, units = '', thresholds = 4 }) => {
+const BinnedDonutChart = ({ data, area, label, units, thresholds = 4 }) => {
   const filteredData = data.filter((d, i) => d !== NAN && area[i] !== NAN)
   const binnedData = bin().thresholds(thresholds)(filteredData)
 
@@ -28,9 +31,18 @@ const BinnedDonutChart = ({ data, area, units = '', thresholds = 4 }) => {
     binnedData.map(() => 0)
   )
 
-  const donutLabels = binnedData.map((bin) => `${bin.x0}-${bin.x1}${units}`)
+  const donutLabels = binnedData.map((bin) => `${bin.x0} - ${bin.x1}`)
 
-  return <DonutChart data={donutData} labels={donutLabels} color='teal' />
+  return (
+    <DonutChart
+      data={donutData}
+      labels={donutLabels}
+      color='teal'
+      units={units}
+      label={label}
+      summary={formatValue(averageData(data, area))}
+    />
+  )
 }
 
 export default BinnedDonutChart

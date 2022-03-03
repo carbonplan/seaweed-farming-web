@@ -83,6 +83,7 @@ export const DataDisplay = ({ data }) => {
             color={colormap.map((d) => `rgb(${d})`)}
             labels={SPECIES.map((s) => s.charAt(0).toUpperCase() + s.slice(1))}
             data={SPECIES.map((s, i) => ratios[i])}
+            label={LABEL_MAP[layer]}
             opacity={1}
           />
         </Box>
@@ -97,8 +98,10 @@ export const DataDisplay = ({ data }) => {
         <Box sx={{ mb: [-3] }}>
           <DonutChart
             color={colormap.map((d) => `rgb(${d})`)}
-            labels={colormap.map((k, i) => `${i + 1} / year`)}
+            labels={colormap.map((k, i) => i + 1)}
             data={colormap.map((k, i) => ratios[i + 1])}
+            label={LABEL_MAP[layer]}
+            units={LAYER_UNITS[layer][target]}
             opacity={1}
           />
         </Box>
@@ -114,14 +117,10 @@ export const DataDisplay = ({ data }) => {
       }
       return (
         <Box sx={{ mb: [-3] }}>
-          <AverageDisplay
-            label={LABEL_MAP[layer]}
-            units={LAYER_UNITS[layer][target]}
-            value={averageData(values, area)}
-          />
           <BinnedDonutChart
             data={values}
             area={area}
+            label={LABEL_MAP[layer]}
             units={LAYER_UNITS[layer][target]}
           />
         </Box>
