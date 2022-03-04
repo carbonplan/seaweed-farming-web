@@ -1,7 +1,7 @@
 import { Box, Flex } from 'theme-ui'
 import { Column, Row } from '@carbonplan/components'
 
-import LegendItem from './legend-item'
+import SummaryLegend from './summary-legend'
 
 const Summary = ({ colors, empty, data, label, labels, units, summary }) => {
   const percentages = data.reduce((a, d, i) => {
@@ -76,15 +76,12 @@ const Summary = ({ colors, empty, data, label, labels, units, summary }) => {
       </Column>
 
       <Column start={1} width={3}>
-        {labels.map((l, i) => (
-          <LegendItem
-            key={l}
-            color={colors[i]}
-            label={l}
-            units={i === 0 ? units : null}
-            value={data[i] ? data[i] * 100 : 0}
-          />
-        ))}
+        <SummaryLegend
+          colors={colors}
+          data={data}
+          labels={labels}
+          units={units}
+        />
       </Column>
     </Row>
   )
