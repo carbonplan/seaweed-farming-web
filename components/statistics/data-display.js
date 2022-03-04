@@ -1,7 +1,5 @@
-import { Box } from 'theme-ui'
-
-import BinnedDonutChart from './binned-donut-chart'
-import DonutChart from './donut-chart'
+import BinnedSummary from './binned-summary'
+import Summary from './summary'
 
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
@@ -31,8 +29,8 @@ export const DataDisplay = ({ data }) => {
         area
       )
       return (
-        <DonutChart
-          color={colormap.map((d) => `rgb(${d})`)}
+        <Summary
+          colors={colormap.map((d) => `rgb(${d})`)}
           labels={SPECIES.map((s) => s.charAt(0).toUpperCase() + s.slice(1))}
           data={SPECIES.map((s, i) => ratios[i])}
           label={LABEL_MAP[layer]}
@@ -45,8 +43,8 @@ export const DataDisplay = ({ data }) => {
       )
 
       return (
-        <DonutChart
-          color={colormap.map((d) => `rgb(${d})`)}
+        <Summary
+          colors={colormap.map((d) => `rgb(${d})`)}
           labels={colormap.map((k, i) => i + 1)}
           data={colormap.map((k, i) => ratios[i + 1])}
           label={LABEL_MAP[layer]}
@@ -93,7 +91,7 @@ export const DataDisplay = ({ data }) => {
           break
       }
       return (
-        <BinnedDonutChart
+        <BinnedSummary
           clim={clim}
           colormap={colormap}
           data={values}

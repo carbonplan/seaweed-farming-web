@@ -1,6 +1,6 @@
 import { bin } from 'd3-array'
 
-import DonutChart from './donut-chart'
+import Summary from './summary'
 import { averageData } from './utils'
 import { formatValue } from '../utils'
 import { NAN } from '../../constants'
@@ -48,7 +48,7 @@ const getDonutData = (data, area, thresholds, clim) => {
   return bins
 }
 
-const BinnedDonutChart = ({
+const BinnedSummary = ({
   clim,
   colormap,
   data,
@@ -69,11 +69,11 @@ const BinnedDonutChart = ({
   const empty = bins.every((b) => b.count === 0)
 
   return (
-    <DonutChart
+    <Summary
       empty={bins.every((b) => b.count === 0)}
       data={bins.map((b) => b.value)}
       labels={bins.map((b) => b.label)}
-      color={colors.map((c) => `rgb(${c})`)}
+      colors={colors.map((c) => `rgb(${c})`)}
       units={units}
       label={label}
       summary={empty ? 'N/A' : formatValue(averageData(data, area))}
@@ -81,4 +81,4 @@ const BinnedDonutChart = ({
   )
 }
 
-export default BinnedDonutChart
+export default BinnedSummary
