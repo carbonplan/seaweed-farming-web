@@ -52,13 +52,9 @@ export const DataDisplay = ({ data }) => {
           data={ratioData}
           label={LABEL_MAP[layer]}
           units={LAYER_UNITS[layer][target]}
-          summary={
-            ratioData.every((d) => !d)
-              ? 'N/A'
-              : formatValue(
-                  averageData(data.value.all_variables['nharv_preferred'], area)
-                )
-          }
+          summary={formatValue(
+            averageData(data.value.all_variables['nharv_preferred'], area)
+          )}
         />
       )
     } else {

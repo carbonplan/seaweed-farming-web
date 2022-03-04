@@ -42,18 +42,20 @@ const Summary = ({ colors, data, label, labels, units, summary }) => {
                   color: empty ? 'secondary' : 'primary',
                 }}
               >
-                {summary}
+                {empty ? 'N/A' : summary}
               </Box>
-              <Box
-                sx={{
-                  fontFamily: 'faux',
-                  letterSpacing: 'faux',
-                  fontSize: [0, 0, 0, 1],
-                  color: 'secondary',
-                }}
-              >
-                {units}
-              </Box>
+              {!empty && (
+                <Box
+                  sx={{
+                    fontFamily: 'faux',
+                    letterSpacing: 'faux',
+                    fontSize: [0, 0, 0, 1],
+                    color: 'secondary',
+                  }}
+                >
+                  {units}
+                </Box>
+              )}
             </Flex>
           )}
         </Flex>

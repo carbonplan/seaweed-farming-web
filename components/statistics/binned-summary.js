@@ -66,8 +66,6 @@ const BinnedSummary = ({
     return colormap[index]
   })
 
-  const empty = bins.every((b) => b.count === 0)
-
   return (
     <Summary
       data={bins.map((b) => b.value)}
@@ -75,7 +73,7 @@ const BinnedSummary = ({
       colors={colors.map((c) => `rgb(${c})`)}
       units={units}
       label={label}
-      summary={empty ? 'N/A' : formatValue(averageData(data, area))}
+      summary={formatValue(averageData(data, area))}
     />
   )
 }
