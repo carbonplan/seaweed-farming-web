@@ -47,7 +47,7 @@ const DonutChart = ({ color, empty, data, label, labels, units, summary }) => {
                   data={empty ? [1] : data}
                   innerRadius={0.26}
                   color={empty ? 'secondary' : color}
-                  opacity={1}
+                  preserveOrder
                 />
               </Plot>
             </Chart>
