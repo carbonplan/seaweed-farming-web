@@ -4,12 +4,14 @@ import Summary from './summary'
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
 import {
+  averageData,
   weightedData,
   valuesToBenefit,
   valuesToCost,
   valuesToMitigationCost,
 } from './utils'
-import { useCustomColormap } from '../utils'
+import { formatValue, useCustomColormap } from '../utils'
+
 import { LABEL_MAP, NAN } from '../../constants'
 import { LAYER_UNITS, SPECIES } from '../../model'
 
@@ -41,14 +43,22 @@ export const DataDisplay = ({ data }) => {
         data.value.all_variables['nharv_preferred'],
         area
       )
+      const ratioData = colormap.map((k, i) => ratios[i + 1])
 
       return (
         <Summary
           colors={colormap.map((d) => `rgb(${d})`)}
           labels={colormap.map((k, i) => i + 1)}
-          data={colormap.map((k, i) => ratios[i + 1])}
+          data={ratioData}
           label={LABEL_MAP[layer]}
           units={LAYER_UNITS[layer][target]}
+          summary={
+            ratioData.every((d) => !d)
+              ? 'N/A'
+              : formatValue(
+                  averageData(data.value.all_variables['nharv_preferred'], area)
+                )
+          }
         />
       )
     } else {

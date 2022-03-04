@@ -3,7 +3,8 @@ import { Column, Row } from '@carbonplan/components'
 
 import SummaryLegend from './summary-legend'
 
-const Summary = ({ colors, empty, data, label, labels, units, summary }) => {
+const Summary = ({ colors, data, label, labels, units, summary }) => {
+  const empty = data.every((d) => !d)
   const percentages = data.reduce((a, d, i) => {
     const prev = a[i - 1] ?? 0
     const value = d ? d * 100 : 0

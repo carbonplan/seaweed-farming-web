@@ -70,7 +70,6 @@ const BinnedSummary = ({
 
   return (
     <Summary
-      empty={bins.every((b) => b.count === 0)}
       data={bins.map((b) => b.value)}
       labels={bins.map((b) => b.label)}
       colors={colors.map((c) => `rgb(${c})`)}
