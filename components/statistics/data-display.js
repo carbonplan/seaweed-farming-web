@@ -31,14 +31,12 @@ export const DataDisplay = ({ data }) => {
         area
       )
       return (
-        <Box sx={{ mb: [-3] }}>
-          <DonutChart
-            color={colormap.map((d) => `rgb(${d})`)}
-            labels={SPECIES.map((s) => s.charAt(0).toUpperCase() + s.slice(1))}
-            data={SPECIES.map((s, i) => ratios[i])}
-            label={LABEL_MAP[layer]}
-          />
-        </Box>
+        <DonutChart
+          color={colormap.map((d) => `rgb(${d})`)}
+          labels={SPECIES.map((s) => s.charAt(0).toUpperCase() + s.slice(1))}
+          data={SPECIES.map((s, i) => ratios[i])}
+          label={LABEL_MAP[layer]}
+        />
       )
     } else if (layer === 'nharv') {
       const ratios = weightedData(
@@ -47,15 +45,13 @@ export const DataDisplay = ({ data }) => {
       )
 
       return (
-        <Box sx={{ mb: [-3] }}>
-          <DonutChart
-            color={colormap.map((d) => `rgb(${d})`)}
-            labels={colormap.map((k, i) => i + 1)}
-            data={colormap.map((k, i) => ratios[i + 1])}
-            label={LABEL_MAP[layer]}
-            units={LAYER_UNITS[layer][target]}
-          />
-        </Box>
+        <DonutChart
+          color={colormap.map((d) => `rgb(${d})`)}
+          labels={colormap.map((k, i) => i + 1)}
+          data={colormap.map((k, i) => ratios[i + 1])}
+          label={LABEL_MAP[layer]}
+          units={LAYER_UNITS[layer][target]}
+        />
       )
     } else {
       let values
@@ -97,20 +93,18 @@ export const DataDisplay = ({ data }) => {
           break
       }
       return (
-        <Box sx={{ mb: [-3] }}>
-          <BinnedDonutChart
-            clim={clim}
-            colormap={colormap}
-            data={values}
-            area={area}
-            label={
-              typeof LABEL_MAP[layer] === 'string'
-                ? LABEL_MAP[layer]
-                : LABEL_MAP[layer][target]
-            }
-            units={LAYER_UNITS[layer][target]}
-          />
-        </Box>
+        <BinnedDonutChart
+          clim={clim}
+          colormap={colormap}
+          data={values}
+          area={area}
+          label={
+            typeof LABEL_MAP[layer] === 'string'
+              ? LABEL_MAP[layer]
+              : LABEL_MAP[layer][target]
+          }
+          units={LAYER_UNITS[layer][target]}
+        />
       )
     }
   }

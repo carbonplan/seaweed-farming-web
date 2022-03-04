@@ -1,15 +1,18 @@
 import { Box, Flex } from 'theme-ui'
 import { Chart, Plot, Donut } from '@carbonplan/charts'
+import { Column, Row } from '@carbonplan/components'
 
 import LegendItem from './legend-item'
 
-// todo:
-// - deterministic ordering
+// TODOs
+// - improve summary positioning
+// - specify summary value?
+
 const DonutChart = ({ color, empty, data, label, labels, units, summary }) => {
   return (
-    <Box>
-      <Box>
-        <Flex sx={{ gap: 2, alignItems: 'baseline' }}>
+    <Row columns={3}>
+      <Column start={1} width={3}>
+        <Flex sx={{ gap: 2, alignItems: 'baseline', mb: 3 }}>
           <Box
             sx={{
               fontFamily: 'faux',
@@ -19,24 +22,14 @@ const DonutChart = ({ color, empty, data, label, labels, units, summary }) => {
           >
             {label}
           </Box>
-
-          <Box
-            sx={{
-              fontFamily: 'faux',
-              letterSpacing: 'faux',
-              fontSize: [0, 0, 0, 1],
-              color: 'secondary',
-            }}
-          >
-            {units}
-          </Box>
         </Flex>
+      </Column>
 
-        <Flex>
+      <Column start={1} width={3}>
+        <Flex sx={{ gap: 5 }}>
           <Box
             sx={{
-              width: ['100px', '100px', '100px', '50%'],
-              width: '200px',
+              width: ['100px', '100px', '100px', '100px'],
               height: '100px',
               mb: 3,
             }}
@@ -52,32 +45,45 @@ const DonutChart = ({ color, empty, data, label, labels, units, summary }) => {
               </Plot>
             </Chart>
           </Box>
-
           {summary != null && (
-            <Box
-              sx={{
-                fontFamily: 'mono',
-                letterSpacing: 'mono',
-                fontSize: [3, 3, 4, 5],
-                color: empty ? 'secondary' : color,
-              }}
-            >
-              {summary}
-            </Box>
+            <Flex sx={{ gap: 2, alignItems: 'baseline' }}>
+              <Box
+                sx={{
+                  fontFamily: 'mono',
+                  letterSpacing: 'mono',
+                  fontSize: [3, 3, 4, 5],
+                  color: empty ? 'secondary' : 'primary',
+                }}
+              >
+                {summary}
+              </Box>
+              <Box
+                sx={{
+                  fontFamily: 'faux',
+                  letterSpacing: 'faux',
+                  fontSize: [0, 0, 0, 1],
+                  color: 'secondary',
+                }}
+              >
+                {units}
+              </Box>
+            </Flex>
           )}
         </Flex>
-      </Box>
+      </Column>
 
-      {labels.map((l, i) => (
-        <LegendItem
-          key={l}
-          color={typeof color === 'string' ? color : color[i]}
-          label={l}
-          units='%'
-          value={data[i] ? data[i] * 100 : 0}
-        />
-      ))}
-    </Box>
+      <Column start={1} width={3}>
+        {labels.map((l, i) => (
+          <LegendItem
+            key={l}
+            color={typeof color === 'string' ? color : color[i]}
+            label={l}
+            units={i === 0 ? units : null}
+            value={data[i] ? data[i] * 100 : 0}
+          />
+        ))}
+      </Column>
+    </Row>
   )
 }
 

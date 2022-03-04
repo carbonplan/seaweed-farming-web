@@ -5,17 +5,13 @@ import { averageData } from './utils'
 import { formatValue } from '../utils'
 import { NAN } from '../../constants'
 
-// TODOs
-// - improve units
-// - specify summary value color
-
 const getDonutData = (data, area, thresholds, clim) => {
   const filteredData = data.filter((d, i) => d !== NAN && area[i] !== NAN)
   const initBins = bin().domain(clim).thresholds(thresholds)(filteredData)
 
   const bins = initBins.map((bin, i) => {
     return {
-      label: `${bin.x0} - ${bin.x1}`,
+      label: `${formatValue(bin.x0)} - ${formatValue(bin.x1)}`,
       x0: bin.x0,
       x1: bin.x1,
       count: 0,
@@ -38,10 +34,11 @@ const getDonutData = (data, area, thresholds, clim) => {
     let bin = bins[index]
     if (d < bins[0].x0) {
       bin = bins[0]
-      bin.label = `<${bin.x0} - ${bin.x1}`
+      bin.label = `<${formatValue(bin.x0)} - ${formatValue(bin.x1)}`
     } else if (d >= bins[bins.length - 1].x1) {
       bin = bins[bins.length - 1]
-      if (d > bins[bins.length - 1].x1) bin.label = `${bin.x0} - ${bin.x1}+`
+      if (d > bins[bins.length - 1].x1)
+        bin.label = `${formatValue(bin.x0)} - ${formatValue(bin.x1)}+`
     }
 
     bin.count += 1
