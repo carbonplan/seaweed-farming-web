@@ -39,17 +39,37 @@ export const DataDisplay = ({ data }) => {
         />
       )
     } else if (layer === 'nharv') {
-      const ratios = weightedData(
+      const rawRatios = weightedData(
         data.value.all_variables['nharv_preferred'],
         area
       )
-      const ratioData = colormap.map((k, i) => ratios[i + 1])
-
+      const ratios = [
+        rawRatios[1],
+        rawRatios[2],
+        rawRatios[3],
+        rawRatios[4],
+        rawRatios[5],
+        rawRatios[6],
+        rawRatios[7],
+        rawRatios[8],
+      ].map((d) => (typeof d === 'number' && !Number.isNaN(d) ? d : 0))
       return (
         <Summary
-          colors={colormap.map((d) => `rgb(${d})`)}
-          labels={colormap.map((k, i) => i + 1)}
-          data={ratioData}
+          colors={[
+            colormap[0],
+            colormap[1],
+            ratios[2] > ratios[3] ? colormap[2] : colormap[3],
+            ratios[4] > ratios[5] ? colormap[4] : colormap[5],
+            ratios[6] > ratios[7] ? colormap[6] : colormap[7],
+          ].map((d) => `rgb(${d})`)}
+          labels={['1', '2', '3 - 4', '5 - 6', '7 - 8']}
+          data={[
+            ratios[0],
+            ratios[1],
+            ratios[2] + ratios[3],
+            ratios[4] + ratios[5],
+            ratios[6] + ratios[7],
+          ].map((d) => (Number.isNaN(d) ? 0 : d))}
           label={LABEL_MAP[layer]}
           units={LAYER_UNITS[layer][target]}
           summary={formatValue(
