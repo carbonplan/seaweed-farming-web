@@ -5,8 +5,11 @@ import { averageData } from './utils'
 import { formatValue } from '../utils'
 import { NAN } from '../../constants'
 
-const getDonutData = (data, area, thresholds, clim) => {
+const getDonutData = (data, area, clim) => {
   const filteredData = data.filter((d, i) => d !== NAN && area[i] !== NAN)
+  const thresholds = [0, 1, 2, 3, 4].map(
+    (d) => clim[0] + (d * (clim[1] - clim[0])) / 5
+  )
   const initBins = bin().domain(clim).thresholds(thresholds)(filteredData)
 
   const bins = initBins.map((bin, i) => {
@@ -50,16 +53,8 @@ const getDonutData = (data, area, thresholds, clim) => {
   return bins
 }
 
-const BinnedSummary = ({
-  clim,
-  colormap,
-  data,
-  area,
-  label,
-  units,
-  thresholds = 4,
-}) => {
-  const bins = getDonutData(data, area, thresholds, clim)
+const BinnedSummary = ({ clim, colormap, data, area, label, units }) => {
+  const bins = getDonutData(data, area, clim)
 
   const colors = bins.map((bin) => {
     let average
