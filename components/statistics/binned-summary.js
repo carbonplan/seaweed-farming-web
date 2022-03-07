@@ -16,6 +16,7 @@ const getDonutData = (data, area, thresholds, clim) => {
       x1: bin.x1,
       count: 0,
       value: 0,
+      sum: 0,
     }
   })
 
@@ -42,6 +43,7 @@ const getDonutData = (data, area, thresholds, clim) => {
     }
 
     bin.count += 1
+    bin.sum += d
     bin.value += dArea / totalArea
   })
 
@@ -60,9 +62,17 @@ const BinnedSummary = ({
   const bins = getDonutData(data, area, thresholds, clim)
 
   const colors = bins.map((bin) => {
-    const average = (bin.x0 + bin.x1) / 2
+    let average
+    if (bin.count) {
+      average = bin.sum / bin.count
+    } else {
+      average = (bin.x0 + bin.x1) / 2
+    }
     const ratio = (average - clim[0]) / (clim[1] - clim[0])
-    const index = Math.round(ratio * (colormap.length - 1))
+    const index = Math.max(
+      Math.min(Math.round(ratio * (colormap.length - 1)), colormap.length - 1),
+      0
+    )
     return colormap[index]
   })
 
