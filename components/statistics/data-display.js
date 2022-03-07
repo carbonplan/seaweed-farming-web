@@ -1,7 +1,8 @@
-import { Box } from 'theme-ui'
+import BinnedSummary from './binned-summary'
+import Summary from './summary'
+
 import { useParameters } from '../parameters'
 import { useLayers } from '../layers'
-import AverageDisplay from './average-display'
 import {
   averageData,
   weightedData,
@@ -9,113 +10,125 @@ import {
   valuesToCost,
   valuesToMitigationCost,
 } from './utils'
+import { formatValue, useCustomColormap } from '../utils'
+
 import { LABEL_MAP, NAN } from '../../constants'
 import { LAYER_UNITS, SPECIES } from '../../model'
 
 export const DataDisplay = ({ data }) => {
   const parameters = useParameters()
-  const { layer, target, sensitiveAreaMask } = useLayers()
+  const { layer, target, clim, sensitiveAreaMask } = useLayers()
+  const { colormap } = useCustomColormap(layer)
 
   if (!data || !data.value) {
     return 'loading...'
   } else {
     const { area } = data.value.all_variables
 
-    const showOutput = ['mitigationCost', 'cost', 'benefit'].includes(layer)
-
-    if (showOutput) {
-      const netBenefit = valuesToBenefit(
-        data.value.all_variables,
-        target,
-        parameters,
-        sensitiveAreaMask
-      )
-
-      const projectCost = valuesToCost(
-        data.value.all_variables,
-        target,
-        parameters,
-        sensitiveAreaMask
-      )
-
-      const mitigationCost = valuesToMitigationCost(
-        data.value.all_variables,
-        target,
-        parameters,
-        sensitiveAreaMask
-      )
-
-      return (
-        <Box sx={{ mb: [-3] }}>
-          <AverageDisplay
-            label={LABEL_MAP.mitigationCost[target]}
-            units={LAYER_UNITS.mitigationCost[target]}
-            value={averageData(mitigationCost, area)}
-          />
-          <AverageDisplay
-            label={LABEL_MAP.benefit}
-            units={LAYER_UNITS.benefit[target]}
-            value={averageData(netBenefit, area)}
-          />
-          <AverageDisplay
-            label={LABEL_MAP.cost}
-            units={LAYER_UNITS.cost[target]}
-            value={averageData(projectCost, area)}
-          />
-        </Box>
-      )
-    } else if (layer === 'species_preferred') {
+    if (layer === 'species_preferred') {
       const ratios = weightedData(
         data.value.all_variables['species_preferred'],
         area
       )
       return (
-        <Box sx={{ mb: [-3] }}>
-          {SPECIES.map((s, i) => (
-            <AverageDisplay
-              key={s}
-              label={s.charAt(0).toUpperCase() + s.slice(1)}
-              units='%'
-              value={ratios[i] * 100}
-            />
-          ))}
-        </Box>
+        <Summary
+          colors={colormap.map((d) => `rgb(${d})`)}
+          labels={SPECIES.map((s) => s.charAt(0).toUpperCase() + s.slice(1))}
+          data={SPECIES.map((s, i) => ratios[i])}
+          label={LABEL_MAP[layer]}
+        />
       )
     } else if (layer === 'nharv') {
-      const ratios = weightedData(
+      const rawRatios = weightedData(
         data.value.all_variables['nharv_preferred'],
         area
       )
-
+      const ratios = [
+        rawRatios[1],
+        rawRatios[2],
+        rawRatios[3],
+        rawRatios[4],
+        rawRatios[5],
+        rawRatios[6],
+        rawRatios[7],
+        rawRatios[8],
+      ].map((d) => (typeof d === 'number' && !Number.isNaN(d) ? d : 0))
       return (
-        <Box sx={{ mb: [-3] }}>
-          {Object.keys(ratios).map((k) => (
-            <AverageDisplay
-              key={k}
-              label={`${k} / year`}
-              units={'%'}
-              value={ratios[k] * 100}
-            />
-          ))}
-        </Box>
+        <Summary
+          colors={[
+            colormap[0],
+            colormap[1],
+            ratios[2] > ratios[3] ? colormap[2] : colormap[3],
+            ratios[4] > ratios[5] ? colormap[4] : colormap[5],
+            ratios[6] > ratios[7] ? colormap[6] : colormap[7],
+          ].map((d) => `rgb(${d})`)}
+          labels={['1', '2', '3 - 4', '5 - 6', '7 - 8']}
+          data={[
+            ratios[0],
+            ratios[1],
+            ratios[2] + ratios[3],
+            ratios[4] + ratios[5],
+            ratios[6] + ratios[7],
+          ].map((d) => (Number.isNaN(d) ? 0 : d))}
+          label={LABEL_MAP[layer]}
+          units={LAYER_UNITS[layer][target]}
+          summary={formatValue(
+            averageData(data.value.all_variables['nharv_preferred'], area)
+          )}
+        />
       )
     } else {
-      let values = data.value.all_variables[layer]
-      if (layer === 'depth') {
-        values = data.value.all_variables['elevation'].map((v) =>
-          v === NAN ? NAN : v * -1
-        )
-      } else if (layer === 'seaweed_dw') {
-        values = data.value.all_variables['harv_preferred']
+      let values
+      switch (layer) {
+        case 'mitigationCost':
+          values = valuesToMitigationCost(
+            data.value.all_variables,
+            target,
+            parameters,
+            sensitiveAreaMask
+          )
+          break
+        case 'cost':
+          values = valuesToCost(
+            data.value.all_variables,
+            target,
+            parameters,
+            sensitiveAreaMask
+          )
+          break
+        case 'benefit':
+          values = valuesToBenefit(
+            data.value.all_variables,
+            target,
+            parameters,
+            sensitiveAreaMask
+          )
+          break
+        case 'depth':
+          values = data.value.all_variables['elevation'].map((v) =>
+            v === NAN ? NAN : v * -1
+          )
+          break
+        case 'seaweed_dw':
+          values = data.value.all_variables['harv_preferred']
+          break
+        default:
+          values = data.value.all_variables[layer]
+          break
       }
       return (
-        <Box sx={{ mb: [-3] }}>
-          <AverageDisplay
-            label={LABEL_MAP[layer]}
-            units={LAYER_UNITS[layer][target]}
-            value={averageData(values, area)}
-          />
-        </Box>
+        <BinnedSummary
+          clim={clim}
+          colormap={colormap}
+          data={values}
+          area={area}
+          label={
+            typeof LABEL_MAP[layer] === 'string'
+              ? LABEL_MAP[layer]
+              : LABEL_MAP[layer][target]
+          }
+          units={LAYER_UNITS[layer][target]}
+        />
       )
     }
   }

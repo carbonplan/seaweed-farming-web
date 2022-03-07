@@ -6,18 +6,26 @@ import {
   useState,
 } from 'react'
 import { LAYER_UNIFORMS } from '../../model'
+import { COLORMAPS_MAP } from '../../constants'
 
 const LayersContext = createContext(null)
+
+const INITIAL_CLIMS = Object.entries(COLORMAPS_MAP).reduce((a, d) => {
+  a[d[0]] = d[1].clim
+  return a
+}, {})
 
 export const LayersProvider = ({ children }) => {
   const [layer, setLayer] = useState('mitigationCost')
   const [target, setTarget] = useState('sinking')
   const [sensitiveAreaMask, setSensitiveAreaMask] = useState(0)
+  const [clims, setClims] = useState(INITIAL_CLIMS)
 
   const resetLayers = useCallback(() => {
     setLayer('mitigationCost')
     setTarget('sinking')
     setSensitiveAreaMask(0)
+    setClims(INITIAL_CLIMS)
   }, [])
 
   return (
@@ -29,6 +37,8 @@ export const LayersProvider = ({ children }) => {
         setTarget,
         sensitiveAreaMask,
         setSensitiveAreaMask,
+        clims,
+        setClims,
         resetLayers,
       }}
     >
@@ -46,6 +56,8 @@ export const useLayers = () => {
   const {
     layer,
     target,
+    clims,
+    setClims,
     resetLayers,
     sensitiveAreaMask,
   } = useRawUniformValues()
@@ -67,5 +79,13 @@ export const useLayers = () => {
     sinkingTarget: target === 'sinking' ? 1 : 0,
   }
 
-  return { layer, uniforms, target, sensitiveAreaMask, resetLayers }
+  return {
+    layer,
+    clim: clims[layer],
+    setClim: (value) => setClims((prev) => ({ ...prev, [layer]: value })),
+    uniforms,
+    target,
+    sensitiveAreaMask,
+    resetLayers,
+  }
 }
