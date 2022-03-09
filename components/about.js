@@ -27,10 +27,8 @@ const About = ({ sx }) => {
           scenarios for growing and utilizing seaweed for potential climate
           benefits, either growth and sinking for carbon removal, or growth and
           utilization in products. The model is described in detail in{' '}
-          <Link href='#'>preprint</Link>. We’ve also provided example{' '}
-          <Link href='#'>Jupyter notebooks</Link> that demonstrate exploration
-          of the data beyond what is possible in this exploratory web tool. The
-          code for the web app itself can be found on{' '}
+          <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link>. The code
+          for the web app itself can be found on{' '}
           <Link href='https://github.com/carbonplan/macroalgae'>GitHub</Link>.
           Thanks to the full team involved in this effort: [NAMES OF ALL
           CONTRIBUTORS].

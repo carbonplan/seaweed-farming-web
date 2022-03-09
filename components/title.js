@@ -53,7 +53,10 @@ const Title = ({ expanded, setExpanded }) => {
             }}
           >
             Read the{' '}
-            <Link href='#' sx={{ pointerEvents: expanded ? 'none' : 'all' }}>
+            <Link
+              href='https://doi.org/10.31223/X5PG9V'
+              sx={{ pointerEvents: expanded ? 'none' : 'all' }}
+            >
               preprint
             </Link>
             . Explore the{' '}

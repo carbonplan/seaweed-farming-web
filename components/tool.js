@@ -60,8 +60,8 @@ const Tool = ({ embedded = false }) => {
                 <Box sx={sx.description}>
                   This is an interactive tool for exploring the costs of growing
                   seaweed alongside its potential climate benefits. Read the{' '}
-                  <Link href='#'>preprint</Link> or check out the{' '}
-                  <Link href='#'>Jupyter notebooks</Link> for more details.
+                  <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link>{' '}
+                  for more details about the model.
                 </Box>
 
                 <LayerSwitcher sx={sx} />
