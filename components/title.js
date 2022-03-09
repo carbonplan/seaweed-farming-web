@@ -37,7 +37,7 @@ const Title = ({ expanded, setExpanded }) => {
               userSelect: 'none',
             }}
           >
-            Mapping macroalgae
+            Mapping seaweed at scale
           </Box>
           <Box
             sx={{

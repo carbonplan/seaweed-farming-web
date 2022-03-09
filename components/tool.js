@@ -59,7 +59,7 @@ const Tool = ({ embedded = false }) => {
               <Group spacing={4}>
                 <Box sx={sx.description}>
                   This is an interactive tool for exploring the costs of growing
-                  macroalgae alongside its potential climate benefits. Read the{' '}
+                  seaweed alongside its potential climate benefits. Read the{' '}
                   <Link href='#'>preprint</Link> or check out the{' '}
                   <Link href='#'>Jupyter notebooks</Link> for more details.
                 </Box>

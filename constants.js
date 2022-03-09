@@ -22,11 +22,11 @@ export const LABEL_MAP = {
   cost: 'Project cost',
   benefit: 'Climate benefit',
   depth: 'Depth',
-  seaweed_dw: 'Growth',
+  seaweed_dw: 'Seaweed biomass',
   nharv: 'Harvests',
   wave_height: 'Wave height',
   d2p: 'Distance to port',
   d2sink: 'Distance to sink',
   fseq: 'Fraction sequestered',
-  species_preferred: 'Preferred species',
+  species_preferred: 'Preferred seaweed type',
 }

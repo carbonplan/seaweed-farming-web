@@ -1,5 +1,6 @@
 import { Box, Checkbox, Label } from 'theme-ui'
 import { Group } from '@carbonplan/components'
+import Info from '../info'
 
 import { useRawUniformValues } from './context'
 
@@ -43,6 +44,16 @@ const GrowthParameters = ({ sx }) => {
       <Box>
         <Box sx={{ ...sx.label, mt: ['6px'], mb: ['14px'] }}>
           Exclude sensitive areas
+          <Info
+            sx={{
+              display: 'inline-block',
+              ml: ['12px'],
+            }}
+            sxInner={{ pb: [3] }}
+          >
+            Sensitive areas include Marine Protected Areas (MPAs) and major
+            shipping lanes.
+          </Info>
         </Box>
         <Group direction='horizontal' spacing='md'>
           <Label sx={sxLabel}>

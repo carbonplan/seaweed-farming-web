@@ -37,21 +37,21 @@ const filterToValue = {
 const outputDescriptions = {
   mitigationCost: {
     sinking:
-      'The cost of removing a net ton of CO2 from the atmosphere for at least [TK: sinking time horizon] by growing and sinking macroalgae.',
+      'The cost of removing a net ton of CO2 from the atmosphere for at least 100 years by growing and sinking seaweed.',
     products:
-      'The cost of displacing the emission of a net ton CO2e through the conversion of macroalgae into useful products. Calculated with [TK: GWP100].',
+      'The cost of displacing the emission of a net ton CO2e through the conversion of seaweed into useful products. Calculated with [TK: GWP100].',
   },
   benefit: {
     sinking:
-      'Net tons of CO2 sequestered for at least [TK: sinking time horizon] for every ton (dry weight) of macroalgae grown and sunk.',
+      'Net tons of CO2 sequestered for at least 100 years for every ton (dry weight) of seaweed grown and sunk.',
     products:
-      'Net tons of CO2 removed from the atmosphere for at least [TK: sinking time horizon] for every ton (dry weight) of macroalgae grown.',
+      'Net tons of CO2 removed from the atmosphere for at least 100 years for every ton (dry weight) of seaweed grown.',
   },
-  cost: 'The cost of growing a ton (dry weight) of macroalgae.',
+  cost: 'The cost of growing a ton (dry weight) of seaweed.',
 }
 const inputDescriptions = {
   depth: 'Ocean depth (m).',
-  growth: 'TK',
+  seaweed_dw: 'Amount of seaweed biomass harvested annually.',
   nharv: 'Number of harvests per year to achieve maximum seaweed biomass.',
   wave_height: 'Significant wave height (m).',
   d2p:
@@ -61,7 +61,7 @@ const inputDescriptions = {
   fseq:
     'Fraction of sunk carbon that remains sequestered in the deep ocean for at least 100 years.',
   species_preferred:
-    'The species in each grid cell that produces the most biomass.',
+    'The seaweed type in each grid cell that produces the most biomass.',
 }
 
 const getFilter = (layers, activeLayer, target) => {
@@ -80,7 +80,7 @@ const getOutputDescription = (layer, target) => {
   const description = outputDescriptions[layer]
 
   if (!description) {
-    return 'These are the primary outputs from the combined biophysical and technoeconomic model. Select one to map the corresponding variable. These outputs are influenced by both static, spatially-variable inputs – like modeled macroalgae growth rates – and by user-controlled parameters.'
+    return 'These are the primary outputs from the combined biophysical and technoeconomic model. Select one to map the corresponding variable. These outputs are influenced by both static, spatially-variable inputs – like modeled seaweed growth rates – and by user-controlled parameters.'
   } else if (typeof outputDescriptions[layer] === 'string') {
     return outputDescriptions[layer]
   } else {
@@ -92,7 +92,7 @@ const getInputDescription = (layer, target) => {
   const description = inputDescriptions[layer]
 
   if (!description) {
-    return 'These are the primary spatially-varying inputs into the model. Some of them reflect biophysical parameters – like macroalgae growth or wave height – whereas others reflect technoeconomic parameters like distance between growth sites and ports. Select one to view the corresponding variable on the map.'
+    return 'These are the primary spatially-varying inputs into the model. Some of them reflect biophysical parameters – like seaweed growth or wave height – whereas others reflect technoeconomic parameters like distance between growth sites and ports. Select one to view the corresponding variable on the map.'
   } else if (typeof inputDescriptions[layer] === 'string') {
     return inputDescriptions[layer]
   } else {
@@ -143,8 +143,8 @@ const LayerSwitcher = ({ sx }) => {
     <Group sx={sxProps} spacing={4}>
       <Group spacing={3}>
         <Box sx={sxDescription}>
-          Select an target end-use for cultivated macroalgae, either sinking it
-          for carbon removal or converting it into a product.
+          Select an target end-use for cultivated seaweed, either sinking it for
+          carbon removal or converting it into a product.
         </Box>
         <Box>
           <Box sx={{ display: 'inline-block', mr: [3] }}>

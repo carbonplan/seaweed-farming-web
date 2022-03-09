@@ -1,6 +1,6 @@
 import { Box } from 'theme-ui'
-import { Group } from '@carbonplan/components'
 
+import Info from '../info'
 import Radio from '../radio'
 import { useParameters } from './context'
 
@@ -18,7 +18,19 @@ const ParameterPresets = ({ sx }) => {
 
   return (
     <Box>
-      <Box sx={sx.label}>Product presets</Box>
+      <Box sx={sx.label}>
+        Product presets
+        <Info
+          sx={{
+            display: 'inline-block',
+            ml: ['12px'],
+          }}
+          sxInner={{ pb: [3] }}
+        >
+          These presets reflect representative product values and avoided
+          emissions for food, feed, and seaweed-derived biofuel.
+        </Info>
+      </Box>
       <Box>
         {PRODUCT_PRESETS.map(({ label }) => {
           return (
