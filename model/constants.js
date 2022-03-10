@@ -95,6 +95,10 @@ export const PARAMETERS = {
     label: 'Product value',
     units: '$ / ton DW',
     tooltip: 'Dried seaweed market value for use in products.',
+    presets: {
+      optimistic: { food: 800, feed: 600, fuels: 500 },
+      pessimistic: { food: 500, feed: 400, fuels: 400 },
+    },
   },
   capex: {
     id: 'capex',
@@ -105,6 +109,10 @@ export const PARAMETERS = {
     units: '$ / km² / year',
     tooltip:
       'The cost of capital equipment including anchors, buoys, structural rope, and boats.',
+    presets: {
+      optimistic: 100000,
+      pessimistic: 900000,
+    },
   },
   lineCost: {
     id: 'lineCost',
@@ -114,6 +122,10 @@ export const PARAMETERS = {
     label: 'Line cost',
     units: '$ / m',
     tooltip: 'The cost of seeded seaweed growth line.',
+    presets: {
+      optimistic: 0.1,
+      pessimistic: 1.4,
+    },
   },
   opex: {
     id: 'opex',
@@ -124,6 +136,10 @@ export const PARAMETERS = {
     units: '$ / km² / year',
     tooltip:
       'The cost of operating and maintenance materials, licensing and insurance, and labor (excluding transport and harvest labor).',
+    presets: {
+      optimistic: 150000,
+      pessimistic: 280000,
+    },
   },
   transportCost: {
     id: 'transportCost',
@@ -134,6 +150,10 @@ export const PARAMETERS = {
     tooltip:
       'The cost of transporting a ton of seaweed (dry weight) one km. Applied to either the distance to port or distance to sink.',
     units: '$ / ton DW / km',
+    presets: {
+      optimistic: 0.15,
+      pessimistic: 0.3,
+    },
   },
   harvestCost: {
     id: 'harvestCost',
@@ -144,6 +164,10 @@ export const PARAMETERS = {
     tooltip:
       'The cost to harvest seaweed, including harvest boats and harvesting labor.',
     units: '$ / km² / harvest',
+    presets: {
+      optimistic: 150000,
+      pessimistic: 370000,
+    },
   },
   conversionCost: {
     id: 'conversionCost',
@@ -154,6 +178,10 @@ export const PARAMETERS = {
     units: '$ / ton DW',
     tooltip:
       'The cost of converting a ton of macroalgae (dry weight) into a valuable product.',
+    presets: {
+      optimistic: { food: 20, feed: 20, fuels: 30 },
+      pessimistic: { food: 50, feed: 60, fuels: 70 },
+    },
   },
   transportEmissions: {
     id: 'transportEmissions',
@@ -164,6 +192,10 @@ export const PARAMETERS = {
     tooltip:
       'The emissions associated with transporting a ton of seaweed (dry weight) one km. Applied to either the distance to port or distance to sink. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW / km',
+    presets: {
+      optimistic: 0,
+      pessimistic: 0.000035,
+    },
   },
   maintenanceEmissions: {
     id: 'maintenanceEmissions',
@@ -174,6 +206,10 @@ export const PARAMETERS = {
     units: 'tCO₂e / km',
     tooltip:
       'The emissions from boat travel to and around the seaweed farm for regular maintenance.',
+    presets: {
+      optimistic: 0,
+      pessimistic: 0.0025,
+    },
   },
   conversionEmissions: {
     id: 'conversionEmissions',
@@ -184,6 +220,10 @@ export const PARAMETERS = {
     tooltip:
       'The emissions associated with converting a ton of seaweed (dry weight) into a valuable product. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW',
+    presets: {
+      optimistic: { food: 0, feed: 0, fuels: 0 },
+      pessimistic: { food: 0.005, feed: 0.006, fuels: 0.006 },
+    },
   },
   avoidedEmissions: {
     id: 'avoidedEmissions',
@@ -194,6 +234,10 @@ export const PARAMETERS = {
     tooltip:
       'The emissions displaced by the use of a seaweed-derived product. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW',
+    presets: {
+      optimistic: { food: 6, feed: 3, fuels: 1 },
+      pessimistic: { food: 1, feed: 1, fuels: 0.7 },
+    },
   },
   removalRate: {
     id: 'removalRate',
@@ -204,6 +248,10 @@ export const PARAMETERS = {
     units: 'fraction',
     tooltip:
       'The fraction of carbon in seaweed that corresponds to an equivalent amount of additional carbon removed from the atmosphere. This ratio is not necessarily 1, due to uncertainties in the rates of air-sea gas exchange and ocean overturning circulation compared to seaweed uptake of dissolved carbon in the ocean. The atmospheric removal fraction range also represents uncertainty in the impact of seaweed farming on the carbon sink from natural phytoplankton growth, which could be reduced due to nutrient competition between seaweed and phytoplankton.',
+    presets: {
+      optimistic: 0.9,
+      pessimistic: 0.5,
+    },
   },
 }
 

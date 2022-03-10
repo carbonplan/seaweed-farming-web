@@ -40,7 +40,7 @@ const Parameters = ({ sx }) => {
   return (
     <Box sx={sxProps}>
       <Group spacing={4}>
-        {target === 'products' && <ParameterPresets sx={sx} />}
+        <ParameterPresets target={target} sx={sx} />
         <Box>
           {active.map((id) => (
             <Parameter

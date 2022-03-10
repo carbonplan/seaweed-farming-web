@@ -1,56 +1,87 @@
+import { Group } from '@carbonplan/components'
 import { Box } from 'theme-ui'
 
 import Info from '../info'
 import Radio from '../radio'
 import { useParameters } from './context'
 
-const PRODUCT_PRESETS = [
-  { label: 'Fuels', values: { avoidedEmissions: 0.8, productValue: 500 } },
-  { label: 'Food', values: { avoidedEmissions: 3.6, productValue: 600 } },
-  { label: 'Feed', values: { avoidedEmissions: 2.5, productValue: 525 } },
+const OUTLOOKS = [
+  { id: 'optimistic', label: 'Optimistic' },
+  { id: 'pessimistic', label: 'Pessimistic' },
+]
+const PRODUCTS = [
+  { id: 'food', label: 'Food' },
+  { id: 'feed', label: 'Feed' },
+  { id: 'fuels', label: 'Fuels' },
 ]
 
-const ParameterPresets = ({ sx }) => {
-  const { setParameters, ...parameters } = useParameters()
-  const matchingProduct = PRODUCT_PRESETS.find(({ values }) =>
-    Object.keys(values).every((k) => parameters[k] === values[k])
-  )?.label
-
+const ParameterPresets = ({ target, sx }) => {
+  const { presets, setPresets } = useParameters()
+  const { outlook, product } = presets
   return (
-    <Box>
-      <Box sx={sx.label}>
-        Product presets
-        <Info
-          sx={{
-            display: 'inline-block',
-            ml: ['12px'],
-          }}
-          sxInner={{ pb: [3] }}
-        >
-          These presets reflect representative product values and avoided
-          emissions for food, feed, and seaweed-derived biofuel.
-        </Info>
-      </Box>
+    <Group spacing={4}>
       <Box>
-        {PRODUCT_PRESETS.map(({ label }) => {
-          return (
-            <Box key={label} sx={{ display: 'inline-block', mr: [3] }}>
-              <Radio
-                label={label}
-                value={label}
-                name='productPreset'
-                onChange={(label) =>
-                  setParameters(
-                    PRODUCT_PRESETS.find((p) => p.label === label).values
-                  )
-                }
-                checked={label === matchingProduct}
-              />
-            </Box>
-          )
-        })}
+        <Box sx={sx.label}>
+          Outlook presets
+          <Info
+            sx={{
+              display: 'inline-block',
+              ml: ['12px'],
+            }}
+            sxInner={{ pb: [3] }}
+          >
+            TK.
+          </Info>
+        </Box>
+        <Box>
+          {OUTLOOKS.map(({ id, label }) => {
+            return (
+              <Box key={id} sx={{ display: 'inline-block', mr: [3] }}>
+                <Radio
+                  label={label}
+                  value={id}
+                  name='defaultOutlook'
+                  onChange={() => setPresets({ outlook: id })}
+                  checked={id === outlook}
+                />
+              </Box>
+            )
+          })}
+        </Box>
       </Box>
-    </Box>
+      {target === 'products' && (
+        <Box>
+          <Box sx={sx.label}>
+            Product presets
+            <Info
+              sx={{
+                display: 'inline-block',
+                ml: ['12px'],
+              }}
+              sxInner={{ pb: [3] }}
+            >
+              These presets reflect representative product values and avoided
+              emissions for food, feed, and seaweed-derived biofuel.
+            </Info>
+          </Box>
+          <Box>
+            {PRODUCTS.map(({ id, label }) => {
+              return (
+                <Box key={id} sx={{ display: 'inline-block', mr: [3] }}>
+                  <Radio
+                    label={label}
+                    value={id}
+                    name='defaultProduct'
+                    onChange={() => setPresets({ product: id })}
+                    checked={id === product}
+                  />
+                </Box>
+              )
+            })}
+          </Box>
+        </Box>
+      )}
+    </Group>
   )
 }
 
