@@ -1,14 +1,8 @@
 import { SPECIES_LINE_DENSITIES, SPECIES_EQUIPMENT_COSTS } from './constants'
 
 export const calculateCost = (target, values, parameters) => {
-  const {
-    capex,
-    harvestCost,
-    lineCost,
-    opex,
-    transportCost,
-    conversionCost,
-  } = parameters
+  const { capex, harvestCost, lineCost, opex, transportCost, conversionCost } =
+    parameters
 
   const { seaweed_dw, depth, d2p, nharv, wave_height, d2sink, species } = values
 

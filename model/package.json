@@ -1,0 +1,23 @@
+{
+  "name": "@carbonplan/seaweed-farming-model",
+  "version": "1.0.0",
+  "description": "technoeconomic model of seaweed farming for climate applications",
+  "main": "dst/index.js",
+  "module": "dst/index.esm.js",
+  "scripts": {
+    "build": "rimraf dst && microbundle src/index.js -o dst/index.js --no-compress -f modern,es,cjs",
+    "watch": "microbundle watch src/index.js -o dst/index.js --no-compress -f modern,es,cjs",
+    "format": "prettier --write 'src/*.js'"
+  },
+  "author": "katamartin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carbonplan/seaweed-farming-web/issues"
+  },
+  "homepage": "https://github.com/carbonplan/seaweed-farming-web#readme",
+  "devDependencies": {
+    "microbundle": "^0.14.2",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2"
+  }
+}
