@@ -179,8 +179,8 @@ export const PARAMETERS = {
     tooltip:
       'The cost of converting a ton of macroalgae (dry weight) into a valuable product.',
     presets: {
-      optimistic: { food: 20, feed: 20, fuels: 30 },
-      pessimistic: { food: 50, feed: 60, fuels: 70 },
+      optimistic: 30,
+      pessimistic: 70,
     },
   },
   transportEmissions: {
@@ -221,8 +221,8 @@ export const PARAMETERS = {
       'The emissions associated with converting a ton of seaweed (dry weight) into a valuable product. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW',
     presets: {
-      optimistic: { food: 0, feed: 0, fuels: 0 },
-      pessimistic: { food: 0.005, feed: 0.006, fuels: 0.006 },
+      optimistic: 0,
+      pessimistic: 0.008,
     },
   },
   avoidedEmissions: {
@@ -235,7 +235,7 @@ export const PARAMETERS = {
       'The emissions displaced by the use of a seaweed-derived product. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW',
     presets: {
-      optimistic: { food: 6, feed: 3, fuels: 1 },
+      optimistic: { food: 6, feed: 3.1, fuels: 1 },
       pessimistic: { food: 1, feed: 1, fuels: 0.7 },
     },
   },
