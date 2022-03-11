@@ -78,7 +78,7 @@ const ParameterPresets = ({ target, sx: sxProp }) => {
         <Group direction='horizontal' spacing='md'>
           {OUTLOOKS.map(({ id, label }) => {
             return (
-              <Label sx={sx.label}>
+              <Label key={label} sx={sx.label}>
                 <Checkbox
                   sx={sx.checkbox(id === outlook)}
                   label={label}
@@ -111,7 +111,7 @@ const ParameterPresets = ({ target, sx: sxProp }) => {
           <Group direction='horizontal' spacing='md'>
             {PRODUCTS.map(({ id, label }) => {
               return (
-                <Label sx={sx.label}>
+                <Label key={label} sx={sx.label}>
                   <Checkbox
                     sx={sx.checkbox(id === product)}
                     label={label}
