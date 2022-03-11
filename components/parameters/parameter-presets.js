@@ -1,8 +1,7 @@
 import { Group } from '@carbonplan/components'
-import { Box } from 'theme-ui'
+import { Box, Checkbox, Label } from 'theme-ui'
 
 import Info from '../info'
-import Radio from '../radio'
 import { useParameters } from './context'
 
 const OUTLOOKS = [
@@ -15,13 +14,41 @@ const PRODUCTS = [
   { id: 'fuels', label: 'Fuels' },
 ]
 
-const ParameterPresets = ({ target, sx }) => {
+const sx = {
+  checkbox: (checked) => {
+    return {
+      mt: ['-3px', '-3px', '-3px', '-1px'],
+      cursor: 'pointer',
+      color: 'muted',
+      transition: 'color 0.15s',
+      'input:active ~ &': { bg: 'background', color: 'primary' },
+      'input:focus ~ &': {
+        bg: 'background',
+        color: checked ? 'primary' : 'muted',
+      },
+      'input:hover ~ &': { bg: 'background', color: 'primary' },
+      'input:focus-visible ~ &': {
+        outline: 'dashed 1px rgb(110, 110, 110, 0.625)',
+        background: 'rgb(110, 110, 110, 0.625)',
+      },
+    }
+  },
+  label: {
+    fontFamily: 'mono',
+    letterSpacing: 'mono',
+    fontSize: [1, 1, 1, 2],
+    textTransform: 'uppercase',
+    cursor: 'pointer',
+  },
+}
+
+const ParameterPresets = ({ target, sx: sxProp }) => {
   const { presets, setPresets } = useParameters()
   const { outlook, product } = presets
   return (
     <Group spacing={4}>
       <Box>
-        <Box sx={sx.label}>
+        <Box sx={sxProp.label}>
           Outlook presets
           <Info
             sx={{
@@ -33,25 +60,27 @@ const ParameterPresets = ({ target, sx }) => {
             TK.
           </Info>
         </Box>
-        <Box>
+        <Group direction='horizontal' spacing='md'>
           {OUTLOOKS.map(({ id, label }) => {
             return (
-              <Box key={id} sx={{ display: 'inline-block', mr: [3] }}>
-                <Radio
+              <Label sx={sx.label}>
+                <Checkbox
+                  sx={sx.checkbox(id === outlook)}
                   label={label}
                   value={id}
                   name='defaultOutlook'
                   onChange={() => setPresets({ outlook: id })}
                   checked={id === outlook}
                 />
-              </Box>
+                {label}
+              </Label>
             )
           })}
-        </Box>
+        </Group>
       </Box>
       {target === 'products' && (
         <Box>
-          <Box sx={sx.label}>
+          <Box sx={sxProp.label}>
             Product presets
             <Info
               sx={{
@@ -64,21 +93,23 @@ const ParameterPresets = ({ target, sx }) => {
               emissions for food, feed, and seaweed-derived biofuel.
             </Info>
           </Box>
-          <Box>
+          <Group direction='horizontal' spacing='md'>
             {PRODUCTS.map(({ id, label }) => {
               return (
-                <Box key={id} sx={{ display: 'inline-block', mr: [3] }}>
-                  <Radio
+                <Label sx={sx.label}>
+                  <Checkbox
+                    sx={sx.checkbox(id === product)}
                     label={label}
                     value={id}
                     name='defaultProduct'
                     onChange={() => setPresets({ product: id })}
                     checked={id === product}
                   />
-                </Box>
+                  {label}
+                </Label>
               )
             })}
-          </Box>
+          </Group>
         </Box>
       )}
     </Group>
