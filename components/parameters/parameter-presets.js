@@ -1,7 +1,9 @@
 import { Group } from '@carbonplan/components'
+import { useMemo } from 'react'
 import { Box, Checkbox, Label } from 'theme-ui'
 
 import Info from '../info'
+import { PARAMETERS } from '../../model'
 import { useParameters } from './context'
 
 const OUTLOOKS = [
@@ -43,8 +45,21 @@ const sx = {
 }
 
 const ParameterPresets = ({ target, sx: sxProp }) => {
-  const { presets, setPresets } = useParameters()
-  const { outlook, product } = presets
+  const { presets, setPresets, ...values } = useParameters()
+
+  const { outlook, product } = useMemo(() => {
+    return Object.keys(PARAMETERS).every((k) => {
+      const outlookPreset = PARAMETERS[k].presets[presets.outlook]
+      const value =
+        typeof outlookPreset === 'number'
+          ? outlookPreset
+          : outlookPreset[presets.product]
+      return value === values[k]
+    })
+      ? presets
+      : {}
+  }, [presets.outlook, presets.product, ...Object.values(values)])
+
   return (
     <Group spacing={4}>
       <Box>
