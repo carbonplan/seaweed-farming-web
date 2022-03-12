@@ -61,6 +61,10 @@ const Tool = ({ embedded = false }) => {
                   This is an interactive tool for exploring the costs of growing
                   seaweed alongside its potential climate benefits. Read the{' '}
                   <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link>{' '}
+                  or our{' '}
+                  <Link href='research/seaweed-farming-explainer'>
+                    explainer article
+                  </Link>{' '}
                   for more details about the model.
                 </Box>
 

@@ -58,6 +58,13 @@ const Title = ({ expanded, setExpanded }) => {
               sx={{ pointerEvents: expanded ? 'none' : 'all' }}
             >
               preprint
+            </Link>{' '}
+            and{' '}
+            <Link
+              href='research/seaweed-farming-explainer'
+              sx={{ pointerEvents: expanded ? 'none' : 'all' }}
+            >
+              explainer
             </Link>
             . Explore the{' '}
             <Link
