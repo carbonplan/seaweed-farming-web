@@ -63,7 +63,7 @@ const ParameterPresets = ({ target, sx: sxProp }) => {
   return (
     <Group spacing={4}>
       <Box>
-        <Box sx={sxProp.label}>
+        <Box sx={{ ...sxProp.label, mt: ['6px'], mb: ['14px'] }}>
           Outlook presets
           <Info
             sx={{
@@ -102,7 +102,7 @@ const ParameterPresets = ({ target, sx: sxProp }) => {
       </Box>
       {target === 'products' && (
         <Box>
-          <Box sx={sxProp.label}>
+          <Box sx={{ ...sxProp.label, mt: ['6px'], mb: ['14px'] }}>
             Product presets
             <Info
               sx={{
