@@ -9,7 +9,7 @@ const useCustomColormap = (layer) => {
   let legend
   let discrete = false
   if (layer === 'species_preferred') {
-    colormap = useThemedColormap(colormapName, { count: 6 }).slice(1)
+    colormap = useThemedColormap(colormapName, { count: 5 }).slice(1)
     legend = <Legend colormap={colormap} labels={SPECIES} />
     discrete = true
   } else if (layer === 'nharv') {

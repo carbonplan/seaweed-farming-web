@@ -1,4 +1,16 @@
-import { SPECIES_LINE_DENSITIES, SPECIES_EQUIPMENT_COSTS } from './constants'
+import {
+  SPECIES,
+  SPECIES_LINE_DENSITIES,
+  SPECIES_EQUIPMENT_COSTS,
+} from './constants'
+
+export const getSpecies = (species) => {
+  if (species === SPECIES.length) {
+    return SPECIES[SPECIES.length - 1]
+  } else {
+    return SPECIES[species]
+  }
+}
 
 export const calculateCost = (target, values, parameters) => {
   const { capex, harvestCost, lineCost, opex, transportCost, conversionCost } =

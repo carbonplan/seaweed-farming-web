@@ -5,5 +5,5 @@ export {
   PARAMETERS,
   SPECIES,
 } from './constants'
-export { calculateBenefit, calculateCost } from './utils'
+export { getSpecies, calculateBenefit, calculateCost } from './utils'
 export { default as frag } from './frag'

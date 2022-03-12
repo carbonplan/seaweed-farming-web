@@ -1,6 +1,6 @@
 import { NAN } from '../../constants'
 
-import { calculateBenefit, calculateCost, SPECIES } from '../../model'
+import { calculateBenefit, calculateCost, getSpecies } from '../../model'
 
 export const averageData = (data, area) => {
   const totalArea = area
@@ -87,7 +87,7 @@ export const valuesToCost = (values, target, parameters, sensitiveAreaMask) => {
         nharv: values.nharv_preferred[i],
         wave_height: values.wave_height[i],
         d2sink,
-        species: SPECIES[values.species_preferred[i]],
+        species: getSpecies(values.species_preferred[i]),
       },
       parameters
     )
@@ -126,7 +126,7 @@ export const valuesToBenefit = (
         d2p: values.d2p[i],
         fseq_transport: values.fseq_transport[i],
         d2sink,
-        species: SPECIES[values.species_preferred[i]],
+        species: getSpecies(values.species_preferred[i]),
       },
       parameters
     )

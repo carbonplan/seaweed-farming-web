@@ -1,24 +1,21 @@
 export const SPECIES = [
-  'eucheuma',
-  'sargassum',
-  'porphyra',
-  'saccharina',
-  'macrocystis',
+  'tropical red',
+  'tropical brown',
+  'temperate red',
+  'temperate brown',
 ]
 export const SPECIES_EQUIPMENT_COSTS = {
-  eucheuma: 1231.87,
-  sargassum: 185.24,
-  porphyra: 4927.5,
-  saccharina: 164.25,
-  macrocystis: 164.25,
+  'tropical red': 1231.87,
+  'tropical brown': 185.24,
+  'temperate red': 4927.5,
+  'temperate brown': 164.25,
 }
 
 export const SPECIES_LINE_DENSITIES = {
-  eucheuma: 5000000.0,
-  sargassum: 751880.0,
-  porphyra: 20000000.0,
-  saccharina: 666667.0,
-  macrocystis: 666667.0,
+  'tropical red': 5000000.0,
+  'tropical brown': 751880.0,
+  'temperate red': 20000000.0,
+  'temperate brown': 666667.0,
 }
 
 export const LAYER_UNITS = {
