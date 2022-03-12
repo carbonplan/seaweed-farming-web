@@ -58,16 +58,14 @@ export const DataDisplay = ({ data }) => {
       return (
         <Summary
           colors={[
-            colormap[0],
-            colormap[1],
+            ratios[0] > ratios[1] ? colormap[0] : colormap[1],
             ratios[2] > ratios[3] ? colormap[2] : colormap[3],
             ratios[4] > ratios[5] ? colormap[4] : colormap[5],
             ratios[6] > ratios[7] ? colormap[6] : colormap[7],
           ].map((d) => `rgb(${d})`)}
-          labels={['1', '2', '3 - 4', '5 - 6', '7 - 8']}
+          labels={['1 - 2', '3 - 4', '5 - 6', '7 - 8']}
           data={[
-            ratios[0],
-            ratios[1],
+            ratios[0] + ratios[1],
             ratios[2] + ratios[3],
             ratios[4] + ratios[5],
             ratios[6] + ratios[7],

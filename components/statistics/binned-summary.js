@@ -7,8 +7,8 @@ import { NAN } from '../../constants'
 
 const getDonutData = (data, area, clim) => {
   const filteredData = data.filter((d, i) => d !== NAN && area[i] !== NAN)
-  const thresholds = [0, 1, 2, 3, 4].map(
-    (d) => clim[0] + (d * (clim[1] - clim[0])) / 5
+  const thresholds = [0, 1, 2, 3].map(
+    (d) => clim[0] + (d * (clim[1] - clim[0])) / 4
   )
   const initBins = bin().domain(clim).thresholds(thresholds)(filteredData)
 
