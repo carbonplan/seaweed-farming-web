@@ -7,7 +7,7 @@ import { LABEL_MAP } from '../../constants'
 import Radio from '../radio'
 import Info from '../info'
 
-const OUTPUT_LAYERS = ['mitigationCost', 'benefit', 'cost']
+const OUTPUT_LAYERS = ['mitigationCost', 'cost']
 const INPUT_LAYERS = [
   'seaweed_dw',
   'nharv',
@@ -23,7 +23,6 @@ const filterToValue = {
   [LABEL_MAP['mitigationCost']['sinking']]: 'mitigationCost',
   [LABEL_MAP['mitigationCost']['products']]: 'mitigationCost',
   [LABEL_MAP['cost']]: 'cost',
-  [LABEL_MAP['benefit']]: 'benefit',
   [LABEL_MAP['depth']]: 'depth',
   [LABEL_MAP['seaweed_dw']]: 'seaweed_dw',
   [LABEL_MAP['nharv']]: 'nharv',
@@ -37,15 +36,9 @@ const filterToValue = {
 const outputDescriptions = {
   mitigationCost: {
     sinking:
-      'The cost of removing a net ton of CO2 from the atmosphere for at least 100 years by growing and sinking seaweed.',
+      'The cost of removing a net ton of CO₂ from the atmosphere for at least 100 years by growing and sinking seaweed.',
     products:
-      'The cost of displacing the emission of a net ton CO2e through the conversion of seaweed into useful products. Calculated with [TK: GWP100].',
-  },
-  benefit: {
-    sinking:
-      'Net tons of CO2 sequestered for at least 100 years for every ton (dry weight) of seaweed grown and sunk.',
-    products:
-      'Net tons of CO2 removed from the atmosphere for at least 100 years for every ton (dry weight) of seaweed grown.',
+      'The cost of displacing the emission of a net ton CO₂e through the conversion of seaweed into useful products. Calculated with [TK: GWP100].',
   },
   cost: 'The cost of growing a ton (dry weight) of seaweed.',
 }
