@@ -84,7 +84,14 @@ const ParameterPresets = ({ target, sx: sxProp }) => {
                   label={label}
                   value={id}
                   name='defaultOutlook'
-                  onChange={() => setPresets({ outlook: id })}
+                  onChange={() =>
+                    product
+                      ? setPresets({ outlook: id })
+                      : setPresets({
+                          outlook: id,
+                          product: id === 'optimistic' ? 'food' : 'fuels',
+                        })
+                  }
                   checked={id === outlook}
                 />
                 {label}
