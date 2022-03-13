@@ -1,7 +1,7 @@
 {
-  "name": "article-template",
+  "name": "seaweed-farming-web",
   "version": "1.0.0",
-  "description": "template for developing a standalone carbonplan research article",
+  "description": "Mapping seaweed farming potential",
   "main": "index.js",
   "scripts": {
     "dev": "next -p 5002",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/carbonplan/article-template.git"
+    "url": "git+https://github.com/carbonplan/seaweed-farming-web.git"
   },
   "author": "carbonplan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/carbonplan/article-template/issues"
+    "url": "https://github.com/carbonplan/seaweed-farming-web/issues"
   },
-  "homepage": "https://github.com/carbonplan/article-template#readme",
+  "homepage": "https://github.com/carbonplan/seaweed-farming-web#readme",
   "dependencies": {
     "@carbonplan/colormaps": "^3.0.2",
     "@carbonplan/components": "^11.1.4",

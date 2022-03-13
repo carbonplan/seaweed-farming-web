@@ -13,14 +13,18 @@
   </a>
 </p>
 
-# carbonplan / macroalgae
+# carbonplan / seaweed-farming-web
 
-Interactive tool for exploring the costs of growing seaweed alongside its potential climate benefits.
+Interactive map tool for exploring the costs of growing seaweed alongside its potential climate benefits.
 
-![GitHub branch checks state](https://img.shields.io/github/checks-status/carbonplan/macroalgae/main?style=flat-square)
-![GitHub deployments](https://img.shields.io/github/deployments/carbonplan/macroalgae/production?label=vercel&style=flat-square)
+![GitHub branch checks state](https://img.shields.io/github/checks-status/carbonplan/seaweed-farming-web/main?style=flat-square)
+![GitHub deployments](https://img.shields.io/github/deployments/carbonplan/seaweed-farming-web/production?label=vercel&style=flat-square)
+![npm](https://img.shields.io/npm/v/@carbonplan/seaweed-farming-model?style=flat-square)
+![GitHub](https://img.shields.io/github/license/carbonplan/seaweed-farming-web?style=flat-square)
 
-TODO: add additional details on the tool, the reference paper, the explainer, etc.
+This interactive tool explores the costs of growing seaweed alongside its potential climate benefits over a year-long timescale. It was built by a collaborative team including UC Irvine, NCAR, and CarbonPlan, with funding from ClimateWorks.
+
+Based on user-specified parameters and a target end use, the tool let's users visualize the output of a combined biophysical and technoeconomic model. At a high-level, the model parameterizes different lifecycle scenarios for growing and utilizing seaweed for potential climate benefits, either growth and sinking for carbon removal, or growth and utilization in products. The model is described in detail in [preprint](https://doi.org/10.31223/X5PG9V) and the [explainer article](https://carbonplan.org/research/seaweed-farming-explainer).
 
 ## building the site
 
@@ -52,7 +56,7 @@ All the code in this repository is [MIT](https://choosealicense.com/licenses/mit
 
 ## about us
 
-CarbonPlan is a non-profit organization that uses data and science for climate action. We aim to improve the transparency and scientific integrity of carbon removal and climate solutions through open data and tools. Find out more at [carbonplan.org](https://carbonplan.org/) or get in touch by [opening an issue](https://github.com/carbonplan/macroalgae/issues/new) or [sending us an email](mailto:hello@carbonplan.org).
+CarbonPlan is a non-profit organization that uses data and science for climate action. We aim to improve the transparency and scientific integrity of climate solutions through open data and tools. Find out more at [carbonplan.org](https://carbonplan.org/) or get in touch by [opening an issue](https://github.com/carbonplan/seaweed-farming-web/issues/new) or [sending us an email](mailto:hello@carbonplan.org).
 
 ## contributors
 
