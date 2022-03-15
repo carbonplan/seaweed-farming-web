@@ -71,6 +71,7 @@ const Viewer = ({ expanded, children }) => {
       <Map
         zoom={2}
         minZoom={2}
+        maxZoom={8}
         center={[0, 0]}
         debug={false}
         style={{ overflow: 'inherit' }}
@@ -95,6 +96,7 @@ const Viewer = ({ expanded, children }) => {
             backgroundColor={theme.colors.background}
             fontFamily={theme.fonts.mono}
             fontSize={'14px'}
+            minRadius={50}
           />
         )}
         <Raster

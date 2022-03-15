@@ -134,7 +134,7 @@ const LayerSwitcher = ({ sx }) => {
     <Group sx={sxProps} spacing={4}>
       <Group spacing={3}>
         <Box sx={sxDescription}>
-          Select an target end-use for cultivated seaweed, either sinking it for
+          Select a target end use for cultivated seaweed, either sinking it for
           carbon removal or converting it into a product.
         </Box>
         <Box>

@@ -244,7 +244,7 @@ export const PARAMETERS = {
     label: 'Atmospheric removal fraction',
     units: 'fraction',
     tooltip:
-      'The fraction of carbon in seaweed that corresponds to an equivalent amount of additional carbon removed from the atmosphere. This ratio is not necessarily 1, due to uncertainties in the rates of air-sea gas exchange and ocean overturning circulation compared to seaweed uptake of dissolved carbon in the ocean. The atmospheric removal fraction range also represents uncertainty in the impact of seaweed farming on the carbon sink from natural phytoplankton growth, which could be reduced due to nutrient competition between seaweed and phytoplankton.',
+      'The fraction of carbon in seaweed that corresponds to an equivalent amount of additional carbon removed from the atmosphere. This ratio is not necessarily 1 due to uncertainties in the rates of air-sea gas exchange and ocean overturning circulation compared to seaweed uptake of dissolved carbon in the ocean. The atmospheric removal fraction range also represents uncertainty in the impact of seaweed farming on the carbon sink from natural phytoplankton growth, which could be reduced due to nutrient competition between seaweed and phytoplankton.',
     presets: {
       optimistic: 0.9,
       pessimistic: 0.5,

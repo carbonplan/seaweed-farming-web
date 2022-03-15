@@ -23,10 +23,10 @@ const About = ({ sx }) => {
         <Box sx={sx.description}>
           Based on user-specified parameters and a target end use, the map
           visualizes the output of a combined biophysical and technoeconomic
-          model. At a high-level, the model parameterizes different lifecycle
+          model. At a high level, the model parameterizes different lifecycle
           scenarios for growing and utilizing seaweed for potential climate
           benefits, either growth and sinking for carbon removal, or growth and
-          utilization in products. The model is described in detail in{' '}
+          utilization in products. The model is described in detail in the{' '}
           <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link> and the{' '}
           <Link href='research/seaweed-farming-explainer'>
             explainer article
