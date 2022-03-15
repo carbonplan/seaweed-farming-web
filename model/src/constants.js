@@ -187,7 +187,7 @@ export const PARAMETERS = {
     step: 0.000001,
     label: 'Transport emissions',
     tooltip:
-      'The emissions associated with transporting a ton of seaweed (dry weight) one km. Applied to either the distance to port or distance to sink. Calculated with [TK: GWP100].',
+      'The emissions associated with transporting a ton of seaweed (dry weight) one km. Applied to either the distance to port or distance to sink. Calculated with GWP100.',
     units: 'tCO₂e / ton DW / km',
     presets: {
       optimistic: 0,
@@ -215,7 +215,7 @@ export const PARAMETERS = {
     step: 0.001,
     label: 'Conversion emissions',
     tooltip:
-      'The emissions associated with converting a ton of seaweed (dry weight) into a valuable product. Calculated with [TK: GWP100].',
+      'The emissions associated with converting a ton of seaweed (dry weight) into a valuable product. Calculated with GWP100.',
     units: 'tCO₂e / ton DW',
     presets: {
       optimistic: 0,
@@ -229,7 +229,7 @@ export const PARAMETERS = {
     step: 0.1,
     label: 'Avoided emissions',
     tooltip:
-      'The emissions displaced by the use of a seaweed-derived product. Calculated with [TK: GWP100].',
+      'The emissions displaced by the use of a seaweed-derived product. Calculated with GWP100.',
     units: 'tCO₂e / ton DW',
     presets: {
       optimistic: { food: 6, feed: 3.1, fuels: 1 },

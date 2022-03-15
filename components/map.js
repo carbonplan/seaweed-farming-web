@@ -114,7 +114,7 @@ const Viewer = ({ expanded, children }) => {
           selector={{ variable: VARIABLES }}
           fillValue={NAN}
           source={
-            'https://storage.googleapis.com/carbonplan-macroalgae/data/processed/tool/v0.15_pyramid.zarr'
+            'https://storage.googleapis.com/carbonplan-macroalgae/data/processed/tool/v0.16_pyramid.zarr'
           }
           frag={frag}
         />

@@ -38,7 +38,7 @@ const outputDescriptions = {
     sinking:
       'The cost of removing a net ton of CO₂ from the atmosphere for at least 100 years by growing and sinking seaweed.',
     products:
-      'The cost of displacing the emission of a net ton CO₂e through the conversion of seaweed into useful products. Calculated with [TK: GWP100].',
+      'The cost of displacing the emission of a net ton CO₂e through the conversion of seaweed into useful products. Calculated with GWP100.',
   },
   cost: 'The cost of growing a ton (dry weight) of seaweed.',
 }
