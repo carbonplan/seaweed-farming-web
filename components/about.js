@@ -36,7 +36,7 @@ const About = ({ sx }) => {
             GitHub
           </Link>
           . Thanks to the full team involved in this effort: Julianne DeAngelo,
-          Steve Davis, Benjamin Saenz, Isabella Arzeno-Soltero, Matthew Long,
+          Steven Davis, Benjamin Saenz, Isabella Arzeno-Soltero, Matthew Long,
           Christina Frieder, Kristen Davis, Kata Martin, Freya Chay, Jeremy
           Freeman, Joe Hamman, Lydia Kapsenberg, and Antonius Gagern.
         </Box>
