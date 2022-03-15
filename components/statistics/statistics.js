@@ -17,6 +17,7 @@ export const Statistics = ({ sx }) => {
           display: 'flex',
           gap: 2,
           cursor: 'pointer',
+          mb: [-1],
         }}
       >
         <Box>Regional data</Box>
@@ -34,7 +35,7 @@ export const Statistics = ({ sx }) => {
         easing={'linear'}
         style={{ pointerEvents: 'none' }}
       >
-        <Box sx={{ pt: [3], pb: [1], width: '100%', minHeight: '188px' }}>
+        <Box sx={{ pt: [2], pb: [1], width: '100%', minHeight: '188px' }}>
           {showRegionPicker && regionData && <DataDisplay data={regionData} />}
         </Box>
       </AnimateHeight>

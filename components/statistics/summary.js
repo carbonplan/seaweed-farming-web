@@ -58,7 +58,7 @@ const Summary = ({ colors, data, label, labels, units, summary }) => {
               )}
             </Flex>
           )}
-          {!summary && (
+          {summary == null && (
             <Box
               sx={{
                 fontFamily: 'mono',
