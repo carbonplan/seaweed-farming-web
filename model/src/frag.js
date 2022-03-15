@@ -54,7 +54,11 @@ if (costLayer == 1.0 || benefitLayer == 1.0 || mitigationCostLayer == 1.0) {
   bool lowSink = sinkingTarget == 1.0 && d2sink == fillValue;
 
   bool sensitiveAreaMasked = false;
-  if (sensitiveAreaMask > 0.0 && sensitiveAreaMask == sensitive_areas) {
+
+  if (sensitiveAreaMask == 1.0 && (sensitive_areas == 1.0 || sensitive_areas == 3.0)) {
+    sensitiveAreaMasked = true;
+  }
+  if (sensitiveAreaMask == 2.0 && (sensitive_areas == 2.0 || sensitive_areas == 3.0)) {
     sensitiveAreaMasked = true;
   }
   if (sensitiveAreaMask == 3.0 && sensitive_areas > 0.0) {
