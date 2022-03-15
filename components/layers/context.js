@@ -53,14 +53,8 @@ export const useRawUniformValues = () => {
 }
 
 export const useLayers = () => {
-  const {
-    layer,
-    target,
-    clims,
-    setClims,
-    resetLayers,
-    sensitiveAreaMask,
-  } = useRawUniformValues()
+  const { layer, target, clims, setClims, resetLayers, sensitiveAreaMask } =
+    useRawUniformValues()
 
   const layerUniforms = useMemo(
     () =>

@@ -1,14 +1,14 @@
-import { Box } from "theme-ui";
-import { Group, Link, Logo, Row, Column } from "@carbonplan/components";
+import { Box } from 'theme-ui'
+import { Group, Link, Logo, Row, Column } from '@carbonplan/components'
 
-import { ClimateWorks, NCAR, S3, UCI } from "./logos";
+import { ClimateWorks, NCAR, S3, UCI } from './logos'
 
 const logo = {
-  display: "flex",
-  justifyContent: "flex-start",
-  alignItems: "center",
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
   mb: 3,
-};
+}
 const About = ({ sx }) => {
   return (
     <>
@@ -26,19 +26,19 @@ const About = ({ sx }) => {
           model. At a high-level, the model parameterizes different lifecycle
           scenarios for growing and utilizing seaweed for potential climate
           benefits, either growth and sinking for carbon removal, or growth and
-          utilization in products. The model is described in detail in{" "}
-          <Link href="https://doi.org/10.31223/X5PG9V">preprint</Link> and the{" "}
-          <Link href="research/seaweed-farming-explainer">
+          utilization in products. The model is described in detail in{' '}
+          <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link> and the{' '}
+          <Link href='research/seaweed-farming-explainer'>
             explainer article
           </Link>
-          . The code for the web app itself can be found on{" "}
-          <Link href="https://github.com/carbonplan/seaweed-farming-web">
+          . The code for the web app itself can be found on{' '}
+          <Link href='https://github.com/carbonplan/seaweed-farming-web'>
             GitHub
           </Link>
           . Thanks to the full team involved in this effort: Julianne DeAngelo,
-          Steve Davis, Isabella Arzeno-Soltero, Benjamin Saenz, Matthew Long,
+          Steve Davis, Benjamin Saenz, Isabella Arzeno-Soltero, Matthew Long,
           Christina Frieder, Kristen Davis, Kata Martin, Freya Chay, Jeremy
-          Freeman, Joe Hamman, Lydia Kapsenberg and Antonius Gagern.
+          Freeman, Joe Hamman, Lydia Kapsenberg, and Antonius Gagern.
         </Box>
       </Group>
 
@@ -49,23 +49,23 @@ const About = ({ sx }) => {
         }}
       >
         <Column sx={logo} width={1}>
-          <UCI sx={{ width: "100%", maxWidth: "200px" }} />
+          <UCI sx={{ width: '100%', maxWidth: '200px' }} />
         </Column>
         <Column sx={logo} width={1}>
-          <S3 sx={{ width: "50%", maxWidth: "200px" }} />
+          <S3 sx={{ width: '50%', maxWidth: '200px' }} />
         </Column>
         <Column sx={logo} width={1}>
-          <ClimateWorks sx={{ width: "100%", maxWidth: "200px", ml: -1 }} />
+          <ClimateWorks sx={{ width: '100%', maxWidth: '200px', ml: -1 }} />
         </Column>
         <Column sx={logo} width={1}>
-          <NCAR sx={{ width: "70%", maxWidth: "150px" }} />
+          <NCAR sx={{ width: '70%', maxWidth: '150px' }} />
         </Column>
         <Column sx={logo} width={1}>
-          <Logo sx={{ width: "100%", maxWidth: "200px", ml: "-2px" }} />
+          <Logo sx={{ width: '100%', maxWidth: '200px', ml: '-2px' }} />
         </Column>
       </Row>
     </>
-  );
-};
+  )
+}
 
-export default About;
+export default About

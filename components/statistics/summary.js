@@ -58,6 +58,17 @@ const Summary = ({ colors, data, label, labels, units, summary }) => {
               )}
             </Flex>
           )}
+          {!summary && (
+            <Box
+              sx={{
+                fontFamily: 'mono',
+                fontSize: [3, 3, 4, 5],
+                opacity: 0,
+              }}
+            >
+              {'x'}
+            </Box>
+          )}
         </Flex>
       </Column>
 

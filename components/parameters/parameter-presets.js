@@ -72,7 +72,9 @@ const ParameterPresets = ({ target, sx: sxProp }) => {
             }}
             sxInner={{ pb: [3] }}
           >
-            TK.
+            Optimistic presets reflect low farming costs/emissions and high
+            climate mitigation potential. Pessimistic presets reflect high
+            farming costs/emissions and low emissions mitigation potential.
           </Info>
         </Box>
         <Group direction='horizontal' spacing='md'>

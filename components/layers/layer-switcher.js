@@ -47,12 +47,10 @@ const inputDescriptions = {
   seaweed_dw: 'Amount of seaweed biomass harvested annually.',
   nharv: 'Number of harvests per year to achieve maximum seaweed biomass.',
   wave_height: 'Significant wave height (m).',
-  d2p:
-    'Sea-route distance (km) from any point in the ocean to the nearest port.',
+  d2p: 'Sea-route distance (km) from any point in the ocean to the nearest port.',
   d2sink:
     'Sea-route distance (km) from any point to the cost-optimal and net-emissions-optimal location to sink seaweed.',
-  fseq:
-    'Fraction of sunk carbon that remains sequestered in the deep ocean for at least 100 years.',
+  fseq: 'Fraction of sunk carbon that remains sequestered in the deep ocean for at least 100 years.',
   species_preferred:
     'The seaweed type in each grid cell that produces the most biomass.',
 }

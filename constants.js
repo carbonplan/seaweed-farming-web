@@ -1,8 +1,8 @@
 export const NAN = 9.969209968386869e36
 
 export const COLORMAPS_MAP = {
-  mitigationCost: { clim: [250, 15000], step: 50, colormapName: 'cool' },
-  cost: { clim: [250, 15000], step: 50, colormapName: 'cool' },
+  mitigationCost: { clim: [100, 10000], step: 50, colormapName: 'cool' },
+  cost: { clim: [100, 10000], step: 50, colormapName: 'cool' },
   benefit: { clim: [0, 2], step: 0.1, colormapName: 'cool' },
   depth: { clim: [0, 6000], step: 10, colormapName: 'cool' },
   seaweed_dw: { clim: [0, 5000], step: 10, colormapName: 'cool' },
