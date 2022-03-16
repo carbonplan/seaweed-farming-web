@@ -114,7 +114,7 @@ if (costLayer == 1.0 || benefitLayer == 1.0 || mitigationCostLayer == 1.0) {
       netBenefit = carbon_fraction * carbon_to_co2 * fseq_transport * removalRate - transportEmissions * (d2sink * seaweed_ww + 2.0 * d2sink * equipment + d2p * equipment) / seaweed_dw - growthEmissions;
     }
 
-    if (netBenefit < 0.0) {
+    if (netBenefit <= 0.0) {
       gl_FragColor = vec4(empty, empty, empty, opacity);
       gl_FragColor.rgb *= gl_FragColor.a;
       return;
