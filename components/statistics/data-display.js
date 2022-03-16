@@ -30,13 +30,6 @@ export const DataDisplay = ({ data }) => {
         data.value.all_variables['species_preferred'],
         area
       )
-      console.log(data.value.all_variables['species_preferred'])
-      console.log(ratios)
-      console.log(
-        SPECIES.map((s, i) =>
-          s === 'temperate brown' ? ratios[i] + ratios[i + 1] : ratios[i]
-        )
-      )
       return (
         <Summary
           colors={colormap.map((d) => `rgb(${d})`)}
