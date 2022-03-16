@@ -20,7 +20,7 @@ const Title = ({ expanded, setExpanded }) => {
       }}
     >
       <Row>
-        <Column start={[1, 2, 7, 7]} width={[4, 4, 5, 5]}>
+        <Column start={[1, 2, 7, 7]} width={[5, 5, 5, 5]}>
           <Box
             sx={{
               mt: [9],
@@ -29,7 +29,7 @@ const Title = ({ expanded, setExpanded }) => {
               position: 'relative',
               display: 'block',
               zIndex: 1001,
-              fontSize: [5, 7, 7, 8],
+              fontSize: [6, 7, 7, 8],
               letterSpacing: 'heading',
               fontFamily: 'heading',
               lineHeight: 'heading',
