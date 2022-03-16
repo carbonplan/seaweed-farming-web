@@ -15,10 +15,10 @@ const About = ({ sx }) => {
       <Box sx={sx.heading}>About</Box>
       <Group spacing={2}>
         <Box sx={sx.description}>
-          This interactive tool explores the costs of growing seaweed alongside
-          its potential climate benefits over a year-long timescale. It was
-          built by a collaborative team including UC Irvine, NCAR, and
-          CarbonPlan, with funding from ClimateWorks.
+          This interactive tool explores the potential climate benefits and
+          costs of growing seaweed over a year-long timescale. It was built by a
+          collaborative team including UC Irvine, NCAR, and CarbonPlan, with
+          funding from ClimateWorks.
         </Box>
         <Box sx={sx.description}>
           Based on user-specified parameters and a target end use, the map
@@ -28,7 +28,7 @@ const About = ({ sx }) => {
           benefits, either growth and sinking for carbon removal, or growth and
           utilization in products. The model is described in detail in the{' '}
           <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link> and the{' '}
-          <Link href='research/seaweed-farming-explainer'>
+          <Link href='/research/seaweed-farming-explainer'>
             explainer article
           </Link>
           . The code for the web app itself can be found on{' '}
