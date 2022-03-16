@@ -11,7 +11,11 @@ import {
 const Header = ({ expanded, setExpanded, embedded }) => {
   return (
     <>
-      <Meta title='Macroalgae cost – CarbonPlan' description='TK' />
+      <Meta
+        title='Seaweed farming – CarbonPlan'
+        description='An interactive map explorer for estimating the costs and climate benefits of seaweed farming for carbon removal and biomass products.'
+        card='https://images.carbonplan.org/social/seaweed-farming.png'
+      />
       <Container>
         <Guide color='teal' />
       </Container>
