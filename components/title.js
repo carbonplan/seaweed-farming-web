@@ -35,6 +35,7 @@ const Title = ({ expanded, setExpanded }) => {
               lineHeight: 'heading',
               pointerEvents: 'none',
               userSelect: 'none',
+              textShadow: '0px 0px 20px black',
             }}
           >
             Mapping seaweed farming potential
@@ -50,6 +51,7 @@ const Title = ({ expanded, setExpanded }) => {
               fontSize: [2, 3, 3, 4],
               pointerEvents: 'none',
               userSelect: 'none',
+              textShadow: '0px 0px 20px black',
             }}
           >
             Read the{' '}
