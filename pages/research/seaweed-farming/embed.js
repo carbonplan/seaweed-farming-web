@@ -1,4 +1,4 @@
-import Tool from '../components/tool'
+import Tool from '../../../components/tool'
 
 const Embed = () => {
   return <Tool embedded />
