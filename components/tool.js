@@ -46,7 +46,7 @@ const Tool = ({ embedded = false }) => {
           bottom: 0,
           width: '100%',
           left: 0,
-          overflow: 'clip',
+          overflow: 'hidden',
         }}
       >
         <Map expanded={expanded}>
