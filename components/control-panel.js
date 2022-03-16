@@ -26,7 +26,7 @@ const sx = {
 
 const ControlPanel = ({ expanded, setExpanded, children, embedded }) => {
   const { setShowRegionPicker } = useRegionContext()
-  const index = useBreakpointIndex()
+  const index = useBreakpointIndex({ defaultIndex: 2 })
 
   if (embedded) {
     return (
