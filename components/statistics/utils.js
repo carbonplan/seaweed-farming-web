@@ -50,23 +50,12 @@ const isMasked = (
     return true
   }
 
-  // if sensitive area mask value is 1 (shipping) or 3 (both)
-  if (
-    sensitiveAreaMask == 1.0 &&
-    (sensitive_areas == 1.0 || sensitive_areas == 3.0)
-  ) {
+  // map to null if sensitiveAreaMask exactly matches value
+  if (sensitiveAreaMask > 0.0 && sensitiveAreaMask === sensitive_areas) {
     return true
   }
 
-  // if sensitive area mask value is 2 (marine) or 3 (both)
-  if (
-    sensitiveAreaMask == 2.0 &&
-    (sensitive_areas == 2.0 || sensitive_areas == 3.0)
-  ) {
-    return true
-  }
-
-  // if sensitive area mask is 1 (shipping), 2 (marine), or 3 (both)
+  // map to null if all sensitive areas are masked (sensitiveAreaMask=3) and sensitive in some way
   if (sensitiveAreaMask === 3 && sensitive_areas > 0.0) {
     return true
   }

@@ -21,8 +21,12 @@ export const RegionProvider = ({ children }) => {
 }
 
 export const useRegionContext = () => {
-  const { regionData, setRegionData, showRegionPicker, setShowRegionPicker } =
-    useContext(RegionContext)
+  const {
+    regionData,
+    setRegionData,
+    showRegionPicker,
+    setShowRegionPicker,
+  } = useContext(RegionContext)
 
   return {
     regionData,

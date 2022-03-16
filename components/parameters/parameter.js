@@ -18,7 +18,7 @@ const Parameter = ({
   return (
     <Box sx={{ mt: [2], mb: ['16px'] }} id={id}>
       <Box sx={{ ...sx, mb: [0] }}>
-        <Box sx={{ display: 'inline-block', mr: ['12px'] }}>
+        <Box sx={{ display: 'inline-block' }}>
           {label}
           <Box
             sx={{
@@ -38,8 +38,8 @@ const Parameter = ({
             sx={{
               display: 'inline-block',
               position: 'relative',
-              verticalAlign: 'top',
-              mt: ['-1px', '-1px', '-1px', '-2px'],
+              top: ['-19px', '-19px', '-19px', '-20px'],
+              ml: ['12px'],
             }}
             sxInner={{ pb: [3] }}
           >

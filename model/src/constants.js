@@ -187,7 +187,7 @@ export const PARAMETERS = {
     step: 0.000001,
     label: 'Transport emissions',
     tooltip:
-      'The emissions associated with transporting a ton of seaweed (dry weight) one km. Applied to either the distance to port or distance to sink. Calculated with GWP100.',
+      'The emissions associated with transporting a ton of seaweed (dry weight) one km. Applied to either the distance to port or distance to sink. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW / km',
     presets: {
       optimistic: 0,
@@ -215,7 +215,7 @@ export const PARAMETERS = {
     step: 0.001,
     label: 'Conversion emissions',
     tooltip:
-      'The emissions associated with converting a ton of seaweed (dry weight) into a valuable product. Calculated with GWP100.',
+      'The emissions associated with converting a ton of seaweed (dry weight) into a valuable product. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW',
     presets: {
       optimistic: 0,
@@ -229,7 +229,7 @@ export const PARAMETERS = {
     step: 0.1,
     label: 'Avoided emissions',
     tooltip:
-      'The emissions displaced by the use of a seaweed-derived product. Calculated with GWP100.',
+      'The emissions displaced by the use of a seaweed-derived product. Calculated with [TK: GWP100].',
     units: 'tCO₂e / ton DW',
     presets: {
       optimistic: { food: 6, feed: 3.1, fuels: 1 },
@@ -244,7 +244,7 @@ export const PARAMETERS = {
     label: 'Atmospheric removal fraction',
     units: 'fraction',
     tooltip:
-      'The fraction of carbon in seaweed that corresponds to an equivalent amount of additional carbon removed from the atmosphere. This ratio is not necessarily 1 due to uncertainties in the rates of air-sea gas exchange and ocean overturning circulation compared to seaweed uptake of dissolved carbon in the ocean. The atmospheric removal fraction range also represents uncertainty in the impact of seaweed farming on the carbon sink from natural phytoplankton growth, which could be reduced due to nutrient competition between seaweed and phytoplankton.',
+      'The fraction of carbon in seaweed that corresponds to an equivalent amount of additional carbon removed from the atmosphere. This ratio is not necessarily 1, due to uncertainties in the rates of air-sea gas exchange and ocean overturning circulation compared to seaweed uptake of dissolved carbon in the ocean. The atmospheric removal fraction range also represents uncertainty in the impact of seaweed farming on the carbon sink from natural phytoplankton growth, which could be reduced due to nutrient competition between seaweed and phytoplankton.',
     presets: {
       optimistic: 0.9,
       pessimistic: 0.5,

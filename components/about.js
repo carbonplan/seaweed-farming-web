@@ -15,30 +15,26 @@ const About = ({ sx }) => {
       <Box sx={sx.heading}>About</Box>
       <Group spacing={2}>
         <Box sx={sx.description}>
-          This interactive tool explores the potential climate benefits and
-          costs of growing seaweed over a year-long timescale. It was built by a
-          collaborative team including UC Irvine, NCAR, and CarbonPlan, with
-          funding from ClimateWorks.
+          This interactive tool explores the costs of growing seaweed alongside
+          its potential climate benefits over a year-long timescale. It was
+          built by a collaborative team including UC Irvine, NCAR, and
+          CarbonPlan, with funding from ClimateWorks.
         </Box>
         <Box sx={sx.description}>
           Based on user-specified parameters and a target end use, the map
           visualizes the output of a combined biophysical and technoeconomic
-          model. At a high level, the model parameterizes different lifecycle
+          model. At a high-level, the model parameterizes different lifecycle
           scenarios for growing and utilizing seaweed for potential climate
           benefits, either growth and sinking for carbon removal, or growth and
-          utilization in products. The model is described in detail in the{' '}
+          utilization in products. The model is described in detail in{' '}
           <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link> and the{' '}
-          <Link href='/research/seaweed-farming-explainer'>
+          <Link href='research/seaweed-farming-explainer'>
             explainer article
           </Link>
           . The code for the web app itself can be found on{' '}
-          <Link href='https://github.com/carbonplan/seaweed-farming-web'>
-            GitHub
-          </Link>
-          . Thanks to the full team involved in this effort: Julianne DeAngelo,
-          Steven Davis, Benjamin Saenz, Isabella Arzeno-Soltero, Matthew Long,
-          Christina Frieder, Kristen Davis, Kata Martin, Freya Chay, Jeremy
-          Freeman, Joe Hamman, Lydia Kapsenberg, and Antonius Gagern.
+          <Link href='https://github.com/carbonplan/macroalgae'>GitHub</Link>.
+          Thanks to the full team involved in this effort: [NAMES OF ALL
+          CONTRIBUTORS].
         </Box>
       </Group>
 

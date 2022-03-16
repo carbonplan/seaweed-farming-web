@@ -35,9 +35,7 @@ export const DataDisplay = ({ data }) => {
           colors={colormap.map((d) => `rgb(${d})`)}
           labels={SPECIES.map((s) => s.charAt(0).toUpperCase() + s.slice(1))}
           data={SPECIES.map((s, i) =>
-            s === 'temperate brown'
-              ? (ratios[i] || 0) + (ratios[i + 1] || 0)
-              : ratios[i]
+            s === 'temperate brown' ? ratios[i] + ratios[i + 1] : ratios[i]
           )}
           label={LABEL_MAP[layer]}
         />

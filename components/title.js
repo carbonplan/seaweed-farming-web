@@ -37,7 +37,7 @@ const Title = ({ expanded, setExpanded }) => {
               userSelect: 'none',
             }}
           >
-            Mapping seaweed farming potential
+            Mapping seaweed at scale
           </Box>
           <Box
             sx={{
@@ -61,7 +61,7 @@ const Title = ({ expanded, setExpanded }) => {
             </Link>{' '}
             and{' '}
             <Link
-              href='/research/seaweed-farming-explainer'
+              href='research/seaweed-farming-explainer'
               sx={{ pointerEvents: expanded ? 'none' : 'all' }}
             >
               explainer

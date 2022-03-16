@@ -58,11 +58,11 @@ const Tool = ({ embedded = false }) => {
             >
               <Group spacing={4}>
                 <Box sx={sx.description}>
-                  This is an interactive tool for exploring the potential
-                  climate benefits and costs of growing seaweed. Read the{' '}
+                  This is an interactive tool for exploring the costs of growing
+                  seaweed alongside its potential climate benefits. Read the{' '}
                   <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link>{' '}
                   or our{' '}
-                  <Link href='/research/seaweed-farming-explainer'>
+                  <Link href='research/seaweed-farming-explainer'>
                     explainer article
                   </Link>{' '}
                   for more details about the model.

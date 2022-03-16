@@ -20,7 +20,7 @@ def compute_grid_area(da):
     SQM_PER_HA = 10000
     dϕ = np.radians((da["latitude"][1] - da["latitude"][0]).values)
     dλ = np.radians((da["longitude"][1] - da["longitude"][0]).values)
-    dA = R**2 * np.abs(dϕ * dλ) * np.cos(np.radians(da["latitude"]))
+    dA = R ** 2 * np.abs(dϕ * dλ) * np.cos(np.radians(da["latitude"]))
     areacella = dA * xr.ones_like(da)
 
     return areacella / SQM_PER_HA

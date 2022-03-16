@@ -1,30 +1,32 @@
 {
-  "name": "seaweed-farming-web",
+  "name": "article-template",
   "version": "1.0.0",
-  "description": "Mapping seaweed farming potential",
+  "description": "template for developing a standalone carbonplan research article",
   "main": "index.js",
   "scripts": {
     "dev": "next -p 5002",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "npm run format-js && npm run format-md",
+    "format-js": "prettier --write '*.js' '{components,pages,article}/**/*.js'",
+    "format-md": "prettier --write README.md 'article/**/*.md' --parser mdx"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/carbonplan/seaweed-farming-web.git"
+    "url": "git+https://github.com/carbonplan/article-template.git"
   },
   "author": "carbonplan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/carbonplan/seaweed-farming-web/issues"
+    "url": "https://github.com/carbonplan/article-template/issues"
   },
-  "prettier": "@carbonplan/prettier",
-  "homepage": "https://github.com/carbonplan/seaweed-farming-web#readme",
+  "homepage": "https://github.com/carbonplan/article-template#readme",
   "dependencies": {
     "@carbonplan/colormaps": "^3.0.2",
     "@carbonplan/components": "^11.1.4",
     "@carbonplan/icons": "^1.1.1",
     "@carbonplan/layouts": "^1.2.0",
-    "@carbonplan/maps": "^2.0.1",
+    "@carbonplan/maps": "^2.0.0",
     "@carbonplan/theme": "^7.0.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
@@ -45,7 +47,6 @@
     "zarr-js": "^2.1.3"
   },
   "devDependencies": {
-    "prettier": "^2.2.1",
-    "@carbonplan/prettier": "^1.2.0"
+    "prettier": "2.2.1"
   }
 }

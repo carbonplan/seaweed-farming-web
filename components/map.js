@@ -71,7 +71,6 @@ const Viewer = ({ expanded, children }) => {
       <Map
         zoom={2}
         minZoom={2}
-        maxZoom={8}
         center={[0, 0]}
         debug={false}
         style={{ overflow: 'inherit' }}
@@ -96,7 +95,6 @@ const Viewer = ({ expanded, children }) => {
             backgroundColor={theme.colors.background}
             fontFamily={theme.fonts.mono}
             fontSize={'14px'}
-            minRadius={50}
           />
         )}
         <Raster
@@ -116,7 +114,7 @@ const Viewer = ({ expanded, children }) => {
           selector={{ variable: VARIABLES }}
           fillValue={NAN}
           source={
-            'https://storage.googleapis.com/carbonplan-macroalgae/data/processed/tool/v0.17_pyramid.zarr'
+            'https://storage.googleapis.com/carbonplan-macroalgae/data/processed/tool/v0.15_pyramid.zarr'
           }
           frag={frag}
         />
