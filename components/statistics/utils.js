@@ -171,7 +171,7 @@ export const valuesToMitigationCost = (
   )
 
   return projectCost.map((c, i) => {
-    if (c === NAN || netBenefit[i] === NAN) {
+    if (c === NAN || netBenefit[i] === NAN || netBenefit[i] === 0) {
       return NAN
     }
     const netCost = target === 'products' ? c - parameters.productValue : c
