@@ -1,10 +1,12 @@
 import { useRef } from 'react'
+import { useColorMode } from 'theme-ui'
 
 import { Box } from 'theme-ui'
 import { Column, Link, Row } from '@carbonplan/components'
 
 const Title = ({ expanded, setExpanded }) => {
   const hasExpanded = useRef(false)
+  const [colorMode] = useColorMode()
 
   hasExpanded.current ||= expanded
 
@@ -35,7 +37,9 @@ const Title = ({ expanded, setExpanded }) => {
               lineHeight: 'heading',
               pointerEvents: 'none',
               userSelect: 'none',
-              textShadow: '0px 0px 20px black',
+              textShadow: `0px 0px 20px ${
+                colorMode === 'dark' || !colorMode ? 'black' : 'white'
+              }`,
             }}
           >
             Mapping seaweed farming potential
@@ -51,7 +55,9 @@ const Title = ({ expanded, setExpanded }) => {
               fontSize: [2, 3, 3, 4],
               pointerEvents: 'none',
               userSelect: 'none',
-              textShadow: '0px 0px 20px black',
+              textShadow: `0px 0px 20px ${
+                colorMode === 'dark' || !colorMode ? 'black' : 'white'
+              }`,
             }}
           >
             Read the{' '}
