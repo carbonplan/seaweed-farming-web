@@ -9,6 +9,10 @@
     "watch": "microbundle watch src/index.js -o dst/index.js --no-compress -f modern,es,cjs",
     "format": "prettier --write 'src/*.js'"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carbonplan/seaweed-farming-web.git"
+  },
   "author": "katamartin",
   "license": "MIT",
   "bugs": {
