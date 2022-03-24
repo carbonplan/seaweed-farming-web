@@ -79,14 +79,14 @@ const Viewer = ({ expanded, children }) => {
         <Fill
           color={theme.rawColors.background}
           source={
-            'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
+            'https://storage.googleapis.com/carbonplan-maps/basemaps/land'
           }
           variable={'land'}
         />
         <Line
           color={theme.rawColors.primary}
           source={
-            'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
+            'https://storage.googleapis.com/carbonplan-maps/basemaps/land'
           }
           variable={'land'}
         />
