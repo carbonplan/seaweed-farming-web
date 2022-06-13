@@ -72,7 +72,7 @@ const Viewer = ({ expanded, children }) => {
         zoom={2}
         minZoom={2}
         maxZoom={8}
-        center={[0, 0]}
+        center={[-45, 30]}
         debug={false}
         style={{ overflow: 'inherit' }}
       >
