@@ -72,21 +72,21 @@ const Viewer = ({ expanded, children }) => {
         zoom={2}
         minZoom={2}
         maxZoom={8}
-        center={[0, 0]}
+        center={[-45, 30]}
         debug={false}
         style={{ overflow: 'inherit' }}
       >
         <Fill
           color={theme.rawColors.background}
           source={
-            'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
+            'https://storage.googleapis.com/carbonplan-maps/basemaps/land'
           }
           variable={'land'}
         />
         <Line
           color={theme.rawColors.primary}
           source={
-            'https://storage.googleapis.com/carbonplan-share/maps-demo/land'
+            'https://storage.googleapis.com/carbonplan-maps/basemaps/land'
           }
           variable={'land'}
         />

@@ -1,10 +1,11 @@
 import { Box, Container, Divider } from 'theme-ui'
-import { Column, Row } from '@carbonplan/components'
+import { useBreakpointIndex } from '@theme-ui/match-media'
+import { useState } from 'react'
+import { Column, Row, getScrollbarWidth } from '@carbonplan/components'
 import { Sidebar, SidebarFooter } from '@carbonplan/layouts'
 
 import Statistics from '../components/statistics'
 import { useRegionContext } from './region'
-import { useBreakpointIndex } from '@theme-ui/match-media'
 
 const sx = {
   heading: {
@@ -24,8 +25,17 @@ const sx = {
   },
 }
 
+const useScrollbarClasses = () => {
+  const [customScrollbar] = useState(
+    () => document && getScrollbarWidth(document) > 0
+  )
+
+  return customScrollbar ? 'custom-scrollbar' : null
+}
+
 const ControlPanel = ({ expanded, setExpanded, children, embedded }) => {
   const { setShowRegionPicker } = useRegionContext()
+  const className = useScrollbarClasses()
   const index = useBreakpointIndex({ defaultIndex: 2 })
 
   if (embedded) {
@@ -70,6 +80,7 @@ const ControlPanel = ({ expanded, setExpanded, children, embedded }) => {
   } else if (index < 2) {
     return (
       <Box
+        className={className}
         sx={{
           overflowX: 'hidden',
           overflowY: 'scroll',

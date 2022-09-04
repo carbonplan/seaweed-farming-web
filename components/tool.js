@@ -47,6 +47,12 @@ const Tool = ({ embedded = false }) => {
           width: '100%',
           left: 0,
           overflow: 'clip',
+          // Safari-specific overflow style
+          '@media not all and (min-resolution:.001dpcm)': {
+            '@supports (-webkit-appearance:none) and (stroke-color:transparent)': {
+              overflow: 'hidden',
+            },
+          },
         }}
       >
         <Map expanded={expanded}>
