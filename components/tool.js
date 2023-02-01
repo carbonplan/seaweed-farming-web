@@ -49,9 +49,10 @@ const Tool = ({ embedded = false }) => {
           overflow: 'clip',
           // Safari-specific overflow style
           '@media not all and (min-resolution:.001dpcm)': {
-            '@supports (-webkit-appearance:none) and (stroke-color:transparent)': {
-              overflow: 'hidden',
-            },
+            '@supports (-webkit-appearance:none) and (stroke-color:transparent)':
+              {
+                overflow: 'hidden',
+              },
           },
         }}
       >
@@ -66,7 +67,9 @@ const Tool = ({ embedded = false }) => {
                 <Box sx={sx.description}>
                   This is an interactive tool for exploring the potential
                   climate benefits and costs of growing seaweed. Read the{' '}
-                  <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link>{' '}
+                  <Link href='https://doi.org/10.1038/s41477-022-01305-9'>
+                    paper
+                  </Link>{' '}
                   or our{' '}
                   <Link href='/research/seaweed-farming-explainer'>
                     explainer article

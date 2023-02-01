@@ -27,7 +27,8 @@ const About = ({ sx }) => {
           scenarios for growing and utilizing seaweed for potential climate
           benefits, either growth and sinking for carbon removal, or growth and
           utilization in products. The model is described in detail in the{' '}
-          <Link href='https://doi.org/10.31223/X5PG9V'>preprint</Link> and the{' '}
+          <Link href='https://doi.org/10.1038/s41477-022-01305-9'>paper</Link>{' '}
+          and the{' '}
           <Link href='/research/seaweed-farming-explainer'>
             explainer article
           </Link>

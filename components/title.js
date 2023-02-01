@@ -62,10 +62,10 @@ const Title = ({ expanded, setExpanded }) => {
           >
             Read the{' '}
             <Link
-              href='https://doi.org/10.31223/X5PG9V'
+              href='https://doi.org/10.1038/s41477-022-01305-9'
               sx={{ pointerEvents: expanded ? 'none' : 'all' }}
             >
-              preprint
+              paper
             </Link>{' '}
             and{' '}
             <Link

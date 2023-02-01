@@ -22,7 +22,7 @@ Interactive map tool for exploring the costs of growing seaweed alongside its po
 
 This interactive tool explores the costs of growing seaweed alongside its potential climate benefits over a year-long timescale. It was built by a collaborative team including UC Irvine, NCAR, and CarbonPlan, with funding from ClimateWorks.
 
-Based on user-specified parameters and a target end use, the tool let's users visualize the output of a combined biophysical and technoeconomic model. At a high-level, the model parameterizes different lifecycle scenarios for growing and utilizing seaweed for potential climate benefits, either growth and sinking for carbon removal, or growth and utilization in products. The model is described in detail in [preprint](https://doi.org/10.31223/X5PG9V) and the [explainer article](https://carbonplan.org/research/seaweed-farming-explainer).
+Based on user-specified parameters and a target end use, the tool let's users visualize the output of a combined biophysical and technoeconomic model. At a high-level, the model parameterizes different lifecycle scenarios for growing and utilizing seaweed for potential climate benefits, either growth and sinking for carbon removal, or growth and utilization in products. The model is described in detail in the [paper](https://doi.org/10.1038/s41477-022-01305-9) and the [explainer article](https://carbonplan.org/research/seaweed-farming-explainer).
 
 ## installation
 
@@ -36,15 +36,15 @@ npm install @carbonplan/seaweed-farming-model
 
 There are just three methods:
 
-### <a href="#calculateCost" name="calculateCost">#</a> `calculateCost(target, values, parameters)` [<>](https://github.com/carbonplan/seaweed-farming-web/blob/main/model/src/utils.js "Source")
+### <a href="#calculateCost" name="calculateCost">#</a> `calculateCost(target, values, parameters)` [<>](https://github.com/carbonplan/seaweed-farming-web/blob/main/model/src/utils.js 'Source')
 
 Returns the cost of producing seaweed in units of $ / ton DW seaweed. Values is expected to be an object of the shape `{ seaweed_dw, depth, d2p, nharv, wave_height, d2sink, species }`. Parameters is expected to be an object of the shape `{ capex, harvestCost, lineCost, opex, transportCost, conversionCost }`.
 
-### <a href="#calculateBenefit" name="calculateBenefit">#</a> `calculateBenefit(target, values, parameters)` [<>](https://github.com/carbonplan/seaweed-farming-web/blob/main/model/src/utils.js "Source")
+### <a href="#calculateBenefit" name="calculateBenefit">#</a> `calculateBenefit(target, values, parameters)` [<>](https://github.com/carbonplan/seaweed-farming-web/blob/main/model/src/utils.js 'Source')
 
 Returns the cost of producing seaweed in units of tCO2 / ton DW (when `target='sinking'`) or tCO2e / ton DW (when `target='products'`). Values is expected to be an object of the shape `{ seaweed_dw, d2p, fseq_transport, d2sink, species }`. Parameters is expected to be an object of the shape `{ avoidedEmissions, transportEmissions, conversionEmissions, maintenanceEmissions, removalRate }`.
 
-### <a href="#getSpecies" name="getSpecies">#</a> `getSpecies(speciesIndex)` [<>](https://github.com/carbonplan/seaweed-farming-web/blob/main/model/src/utils.js "Source")
+### <a href="#getSpecies" name="getSpecies">#</a> `getSpecies(speciesIndex)` [<>](https://github.com/carbonplan/seaweed-farming-web/blob/main/model/src/utils.js 'Source')
 
 Given the index of the species in the data, returns the index to use for indexing into `SPECIES`, `SPECIES_EQUIPMENT_COSTS`, and `SPECIES_LINE_DENSITIES`. This helper is required because multiple species map to the `'temperate brown'` seaweed type.
 

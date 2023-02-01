@@ -24,7 +24,7 @@ Interactive map tool for exploring the costs of growing seaweed alongside its po
 
 This interactive tool explores the costs of growing seaweed alongside its potential climate benefits over a year-long timescale. It was built by a collaborative team including UC Irvine, NCAR, and CarbonPlan, with funding from ClimateWorks.
 
-Based on user-specified parameters and a target end use, the tool let's users visualize the output of a combined biophysical and technoeconomic model. At a high-level, the model parameterizes different lifecycle scenarios for growing and utilizing seaweed for potential climate benefits, either growth and sinking for carbon removal, or growth and utilization in products. The model is described in detail in [preprint](https://doi.org/10.31223/X5PG9V) and the [explainer article](https://carbonplan.org/research/seaweed-farming-explainer).
+Based on user-specified parameters and a target end use, the tool let's users visualize the output of a combined biophysical and technoeconomic model. At a high-level, the model parameterizes different lifecycle scenarios for growing and utilizing seaweed for potential climate benefits, either growth and sinking for carbon removal, or growth and utilization in products. The model is described in detail in the [paper](https://doi.org/10.1038/s41477-022-01305-9) and the [explainer article](https://carbonplan.org/research/seaweed-farming-explainer).
 
 ## building the site
 
