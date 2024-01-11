@@ -1,5 +1,5 @@
 ci:
-  autoupdate_schedule: quarterly
+  # autoupdate_schedule: quarterly
   autofix_prs: false
 
 repos:
@@ -48,26 +48,26 @@ repos:
       - id: pretty-format-json
         args: ['--autofix', '--indent=2', '--no-sort-keys']
 
-  - repo: https://github.com/ambv/black
-    rev: 22.1.0
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
     hooks:
       - id: black
         args: ['--line-length', '100', '--skip-string-normalization']
 
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.2
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 'v0.0.260'
     hooks:
-      - id: flake8
+      - id: ruff
+        args: ['--fix']
 
-  - repo: https://github.com/deathbeds/prenotebook
-    rev: f5bdb72a400f1a56fe88109936c83aa12cc349fa
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.7.0
     hooks:
-      - id: prenotebook
-        args:
-          [
-            '--keep-output',
-            '--verify-order',
-            '--line-width',
-            '100',
-            '--keep-execution-count',
-          ]
+      - id: nbqa-ruff
+        args: ['--fix']
+      - id: nbqa-isort
+        args: ['--profile=black']
+        additional_dependencies: [isort==5.6.4]
+      - id: nbqa-black
+      - id: nbqa-pyupgrade
+        args: ['--py37-plus']
